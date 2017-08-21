@@ -3,11 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class DeathLevel : MonoBehaviour
 {
-    private bool isLoadScene;
+    private bool isLose;
 
     private void Awake()
     {
-        isLoadScene = false;
+        isLose = false;
     } 
 
     private void OnCollisionEnter2D(Collision2D coll)
@@ -20,10 +20,10 @@ public class DeathLevel : MonoBehaviour
 
     private void OnLoadScene()
     {
-        if(!isLoadScene)
+        if(!isLose)
         {
-            SceneManager.LoadScene("Game");
-            isLoadScene = true;
+            GameController.Instance.OnLoseMenu();
+            isLose = true;
         }
     }
 }

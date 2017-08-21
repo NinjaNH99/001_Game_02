@@ -8,6 +8,7 @@ public class ButtonController : MonoBehaviour
     public GameObject canvas2;
     public GameObject boostSpeedButton;
     public GameObject pauseMenu;
+    public GameObject loseMenu;
     public GameObject statusBar;
     public GameObject tutorialBar;
 
@@ -48,6 +49,7 @@ public class ButtonController : MonoBehaviour
             tutorialBar.SetActive(false);
         if (pauseMenu.activeSelf)
         {
+            pauseMenu.GetComponent<UpdatePauseMenu>().UpdateGameStatus();
             time = Time.timeScale;
             Time.timeScale = 0f;
         }
@@ -68,15 +70,6 @@ public class ButtonController : MonoBehaviour
     public void OnSoundClick()
     {
 
-    }
-
-    // END
-
-    // Lose Menu
-
-    public void OnLoseMenu()
-    {
-        canvas2.SetActive(!canvas2.activeSelf);
     }
 
     // END

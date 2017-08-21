@@ -32,7 +32,6 @@ public class GameController : MonoSingleton<GameController>
 
     public GameObject scoreText;
     public GameObject amountBallsTextPr;
-    //public GameObject nrBallsBG;
     public Button BoostSpeedButton;
 
     public Color ballColor;
@@ -44,8 +43,13 @@ public class GameController : MonoSingleton<GameController>
     public static int amountBallsLeft;
     public static int amountBalls;
 
+    // Canvas 2
+    public GameObject canvas2;
+    public GameObject loseMenu;
+    public GameObject statusBar;
+
     // Bonus
-    public int bonus_01;
+    public static int bonus_01;
     public GameObject bonus_01UI;
 
     public static float speed;
@@ -56,7 +60,6 @@ public class GameController : MonoSingleton<GameController>
 
     private Vector2 sd;
     private float timeWaitBoostSpeed;
-    //private Image nrBallsBGI;
     private TextMeshProUGUI amountBallsText;
 
     private void Awake()
@@ -77,7 +80,6 @@ public class GameController : MonoSingleton<GameController>
     {
         ballColor = Ball.Instance.GetComponent<SpriteRenderer>().color;
         amountBallsText = amountBallsTextPr.GetComponent<TextMeshProUGUI>();
-        //nrBallsBGI = nrBallsBG.GetComponent<Image>();
         ballCopyColor = ballColor;
         ballCopyColor.a = 0.8f;
         onBoostSpeed = false;
@@ -91,31 +93,33 @@ public class GameController : MonoSingleton<GameController>
 
     private void Update()
     {
-        if (!isBreakingStuff)
-            PoolInput();
-        if (allBallLanded)
+        if(Time.timeScale != 0)
         {
-            score++;
-            onBoostSpeed = false;
-            timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
-            BoostSpeedButton.gameObject.SetActive(false);
-            BlockContainer.Instance.GenerateNewRow();
-            FindObjectOfType<Timer>().scoreTime = score / 20f;
-            allBallLanded = false;
-            UpdateUIText();
-            ShowAmBallsText(amountBalls);
-        }
-        if (onBoostSpeed)
-        {
-            timeWaitBoostSpeed -= Time.deltaTime;
-            if (timeWaitBoostSpeed < 0)
+            if (!isBreakingStuff)
+                PoolInput();
+            if (allBallLanded)
             {
-                BoostSpeedButton.gameObject.SetActive(true);
-                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                score++;
                 onBoostSpeed = false;
+                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                BoostSpeedButton.gameObject.SetActive(false);
+                BlockContainer.Instance.GenerateNewRow();
+                FindObjectOfType<Timer>().scoreTime = score / 20f;
+                allBallLanded = false;
+                UpdateUIText();
+                ShowAmBallsText(amountBalls);
+            }
+            if (onBoostSpeed)
+            {
+                timeWaitBoostSpeed -= Time.deltaTime;
+                if (timeWaitBoostSpeed < 0)
+                {
+                    BoostSpeedButton.gameObject.SetActive(true);
+                    timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                    onBoostSpeed = false;
+                }
             }
         }
-        
     }
 
     private void PoolInput()
@@ -185,17 +189,6 @@ public class GameController : MonoSingleton<GameController>
         updateInputs = true;
         amountBallsLeft = amountBalls;
     }
-    /*/
-    public void NrBallsBG(int nrBallsTot)
-    {
-        float i = amountBalls / nrBallsTot;
-        nrBallsBGI.fillAmount = i;
-        if (i == 0)
-        {
-            i = 1;
-            nrBallsBGI.fillAmount = 1;
-        }
-    }*/
 
     private void ShowAmBallsText(int amountBallsShow)
     {
@@ -206,6 +199,16 @@ public class GameController : MonoSingleton<GameController>
     {
         scoreText.GetComponent<TextMeshProUGUI>().text = score.ToString();
         bonus_01UI.GetComponent<TextMeshProUGUI>().text = bonus_01.ToString();
+    }
+
+    public void OnLoseMenu()
+    {
+        canvas2.SetActive(true);
+        loseMenu.SetActive(true);
+        statusBar.SetActive(false);
+        score--;
+        loseMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
+        Time.timeScale = 0f;
     }
 
     public Color ChangeColor(int hp)
