@@ -1,0 +1,102 @@
+﻿using UnityEngine;
+
+public class CollectBall : MonoSingleton<CollectBall>
+{
+    public GameObject Sprite;
+    public GameObject AddBallUIPr;
+    public GameObject AddBallEFX;
+
+    private bool collected;
+    private bool ballIsLanded;
+    private bool LoseBall;
+    private bool isDestroy;
+    private Rigidbody2D rigid;
+    private Color spriteColor;
+    private GameObject Space2D;
+    private GameObject BackgroundPr;
+
+    private void Start()
+    {
+        collected = false;
+        ballIsLanded = false;
+        LoseBall = false;
+        isDestroy = true;
+        rigid = GetComponent<Rigidbody2D>();
+        BackgroundPr = GameObject.FindGameObjectWithTag(Tags.Background);
+        Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
+        spriteColor = Ball.Instance.GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = spriteColor;
+    }
+
+    private void Update()
+    {
+        if (ballIsLanded)
+        {
+            if (Ball.Instance.firstBallLanded)
+                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, -1.48f, 0), Ball.Instance.transform.position, Time.deltaTime * 4.0f);
+            else
+                gameObject.transform.position = new Vector3(transform.position.x, -1.48f, 0);
+            if (gameObject.transform.position == Ball.Instance.transform.position)
+                Destroy(this.gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+        {
+            if (!collected)
+            {
+                collected = true;
+                GameObject go =  Instantiate(AddBallEFX, gameObject.transform) as GameObject;
+                Destroy(go, 2f);
+                StartFalling();
+                if (isDestroy)
+                {
+                    GameObject goEFX = Instantiate(AddBallUIPr, BackgroundPr.transform) as GameObject;
+                    Destroy(goEFX, 1f);
+                    BlockContainer.Instance.nrBlocksInGame--;
+                    isDestroy = false;
+                }
+                BlockContainer.Instance.NrBlocksInGame();
+                rigid.velocity = new Vector2(0, 0.5f) * 2.0f;
+                spriteColor.a = 0.8f;
+                transform.SetParent(Space2D.transform);
+                GetComponent<SpriteRenderer>().color = spriteColor;
+                Ball.Instance.CollectBall();
+                Destroy(Sprite);
+            }
+        }
+        else if (coll.gameObject.CompareTag(Tags.EndLevel))
+            DeathLevel();
+    }
+
+    private void StartFalling()
+    {
+        rigid.bodyType = RigidbodyType2D.Dynamic;
+        rigid.simulated = true;
+        rigid.gravityScale = 0.5f;
+    }
+
+    public void DeathZone()
+    {
+        if (!collected)
+        {
+            StartFalling();
+            LoseBall = true;
+        }
+    }
+
+    public void DeathLevel()
+    {
+        if(LoseBall)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            ballIsLanded = true;
+            transform.position = new Vector2(transform.position.x, transform.position.y);
+        }
+    }
+}
