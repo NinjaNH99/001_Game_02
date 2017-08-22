@@ -13,6 +13,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     private Vector2 lastColPosR;
     private Vector2 ballCopPos;
     private bool stopBlocked;
+    private bool doNotCheck;
     private Rigidbody2D rigid;
     private Collider2D ballCopyCol;
     private float speed;
@@ -35,6 +36,7 @@ public class BallCopy : MonoSingleton<BallCopy>
         //transform.position = ballPos;
         rectPos = GetComponent<RectTransform>();
         rectPos.position = ballPos;
+        doNotCheck = false;
     }
 
     private void Update()
@@ -75,10 +77,14 @@ public class BallCopy : MonoSingleton<BallCopy>
     {
         if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
         {
+            doNotCheck = false;
             rigid.gravityScale = 0.02f;
         }
         else
+        {
             rigid.gravityScale = 0;
+            doNotCheck = false;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -87,12 +93,11 @@ public class BallCopy : MonoSingleton<BallCopy>
         {
             TouchFloor();
         }
-        if (coll.gameObject.CompareTag(Tags.Square))
+        if (coll.gameObject.CompareTag(Tags.Wall) && !doNotCheck)
         {
-            coll.transform.parent.GetComponent<Block>().ReceiveHit();
-        }
-        if (coll.gameObject.CompareTag(Tags.Wall))
             lastColPosL = gameObject.transform.position;
+            doNotCheck = true;
+        }
         if (coll.gameObject.CompareTag(Tags.WallR))
         {
             lastColPosR = gameObject.transform.position;

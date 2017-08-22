@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224460371974144414}
   - component: {fileID: 114271981320753426}
+  - component: {fileID: 222340532391936128}
   m_Layer: 9
   m_Name: Row
   m_TagString: Untagged
@@ -38,6 +39,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10a6598b96a2ce42be9c6b678da4156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &222340532391936128
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1136011782488332}
 --- !u!224 &224460371974144414
 RectTransform:
   m_ObjectHideFlags: 1
@@ -51,8 +58,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}

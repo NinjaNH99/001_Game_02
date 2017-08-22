@@ -5,6 +5,7 @@ public class Ball : MonoSingleton<Ball>
 {
     public bool firstBallLanded;
     public bool allBallLanded;
+    public Container block;
 
     private Vector2 lastColPosL;
     private Vector2 lastColPosR;
@@ -14,6 +15,7 @@ public class Ball : MonoSingleton<Ball>
     private RectTransform rectPos;
 
     private float currentSpawnY;
+    private bool doNotCheck;
 
     private void Awake()
     {
@@ -27,8 +29,9 @@ public class Ball : MonoSingleton<Ball>
         firstBallLanded = false;
         rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
+        doNotCheck = false;
         //transform.position = new Vector2(0, -1.48f);
-        rectPos.anchoredPosition = new Vector2(0, 0);
+        //rectPos.anchoredPosition = new Vector2(0, 0);
     }
 
     public void SendBallInDirection(Vector2 dir)
@@ -46,17 +49,21 @@ public class Ball : MonoSingleton<Ball>
         rigid.simulated = false;
         // Reload position Y
         //transform.position = new Vector2(transform.position.x, -1.48f);
-        rectPos.anchoredPosition = new Vector2(rectPos.anchoredPosition.x, 0);
+        rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
     }
 
     private void IfIsBlocked()
     {
-        if (Math.Round(lastColPosL.y , 1) == Math.Round(lastColPosR.y , 1))
+        if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
         {
             rigid.gravityScale = 0.02f;
+            doNotCheck = false;
         }
         else
+        {
             rigid.gravityScale = 0;
+            doNotCheck = false;
+        }
     }
 
     public void CollectBall()
@@ -70,12 +77,11 @@ public class Ball : MonoSingleton<Ball>
         {
             TouchFloor();
         }
-        if (coll.gameObject.CompareTag(Tags.Square))
+        if (coll.gameObject.CompareTag(Tags.Wall) && !doNotCheck)
         {
-            coll.transform.parent.GetComponent<Block>().ReceiveHit();
-        }
-        if (coll.gameObject.CompareTag(Tags.Wall))
             lastColPosL = gameObject.transform.position;
+            doNotCheck = true;
+        }
         if (coll.gameObject.CompareTag(Tags.WallR))
         {
             lastColPosR = gameObject.transform.position;

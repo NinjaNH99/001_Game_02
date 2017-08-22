@@ -57,10 +57,10 @@ public class CollectBall : MonoSingleton<CollectBall>
                 {
                     GameObject goEFX = Instantiate(AddBallUIPr, BackgroundPr.transform) as GameObject;
                     Destroy(goEFX, 1f);
-                    BlockContainer.Instance.nrBlocksInGame--;
+                    LevelContainer.Instance.nrBlocksInGame--;
                     isDestroy = false;
                 }
-                BlockContainer.Instance.NrBlocksInGame();
+                LevelContainer.Instance.NrBlocksInGame();
                 rigid.velocity = new Vector2(0, 0.5f) * 2.0f;
                 spriteColor.a = 0.8f;
                 transform.SetParent(Space2D.transform);

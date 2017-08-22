@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
             {
                 i = 1;
                 timer.fillAmount = 1;
-                BlockContainer.Instance.GenerateNewRow();
+                LevelContainer.Instance.GenerateNewRow();
             }
         }
         else

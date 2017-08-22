@@ -106,7 +106,7 @@ public class GameController : MonoSingleton<GameController>
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButton.gameObject.SetActive(false);
-                BlockContainer.Instance.GenerateNewRow();
+                LevelContainer.Instance.GenerateNewRow();
                 FindObjectOfType<Timer>().scoreTime = score / 20f;
                 allBallLanded = false;
                 UpdateUIText();

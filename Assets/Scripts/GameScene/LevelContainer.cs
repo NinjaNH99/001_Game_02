@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class BlockContainer : MonoSingleton<BlockContainer>
+public class LevelContainer : MonoSingleton<LevelContainer>
 {
     private const float DISTANCE_BETWEEN_BLOCKS = 0.35f;
 
     public GameObject rowPrefab;
-    public GameObject blockPrefab;
+    public GameObject containerPrefab;
     public RectTransform rowContainer;
     public GameObject bonus_01;
     private TextMeshProUGUI bonus_01Text;
@@ -49,7 +49,6 @@ public class BlockContainer : MonoSingleton<BlockContainer>
         bonus_01Text.gameObject.SetActive(false);
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
-        //go.transform.SetParent(rowContainer);
         RectTransform goPos = go.GetComponent<RectTransform>();
         //go.transform.localPosition = Vector2.down * currentSpawnY;
         goPos.localPosition = new Vector2(0, -235) * currentSpawnY;
@@ -58,7 +57,7 @@ public class BlockContainer : MonoSingleton<BlockContainer>
 
         desiredPosition = rowContainerStartingPosition + (Vector2.up * currentSpawnY);
 
-        Block[] blockArray = go.GetComponentsInChildren<Block>();
+        Container[] blockArray = go.GetComponentsInChildren<Container>();
 
         int ballSpawnIndex = SpawnBall(blockArray.Length , true);
         int ballSpawnIndex2 = -1;
@@ -121,8 +120,7 @@ public class BlockContainer : MonoSingleton<BlockContainer>
         int nrBlocks = Random.Range(4, 7);
         for (int i = 0; i < nrBlocks; i++)
         {
-            GameObject go = Instantiate(blockPrefab , row.transform) as GameObject;
-            //go.transform.SetParent(row.transform);
+            GameObject go = Instantiate(containerPrefab, row.transform) as GameObject;
             do
             {
                 pos = Random.Range(-3, 4);
