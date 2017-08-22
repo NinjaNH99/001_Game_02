@@ -10,7 +10,6 @@ public class Block : MonoSingleton<Block>
     public int hp;
 
     private TextMeshPro hpText;
-    private Color image;
     private bool isDestroy;
 
     private void Start()
@@ -22,8 +21,7 @@ public class Block : MonoSingleton<Block>
             hp = GameController.score;
         hpText.text = hp.ToString();
         isDestroy = true;
-        image = GetComponent<Image>().color;
-        image = GameController.Instance.ChangeColor(hp);
+        GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
     }
 
     private void ReceiveHit()
@@ -46,8 +44,7 @@ public class Block : MonoSingleton<Block>
             return;
         }
         hpText.text = hp.ToString();
-        image = GameController.Instance.ChangeColor(hp);
-        GetComponent<Image>().color = image;
+        GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
