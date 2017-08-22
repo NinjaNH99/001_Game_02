@@ -8,12 +8,6 @@ ShaderVariantCollection:
   m_Name: NewShaderVariants
   m_Shaders:
     data:
-      first: {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
-      second:
-        variants:
-        - keywords: 
-          passType: 0
-    data:
       first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:
@@ -38,12 +32,16 @@ ShaderVariantCollection:
         - keywords: 
           passType: 0
     data:
+      first: {fileID: 10721, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
       first: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:
         - keywords: ETC1_EXTERNAL_ALPHA
-          passType: 0
-        - keywords: ETC1_EXTERNAL_ALPHA PIXELSNAP_ON
           passType: 0
     data:
       first: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}

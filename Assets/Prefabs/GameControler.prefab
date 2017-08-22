@@ -27,7 +27,7 @@ GameObject:
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4237085924407428
 Transform:
@@ -126,7 +126,9 @@ MonoBehaviour:
   - {r: 0.8901961, g: 0.3019608, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.2627451, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.22745098, b: 0.22745098, a: 0.7921569}
-  bonus_01: 0
+  canvas2: {fileID: 0}
+  loseMenu: {fileID: 0}
+  statusBar: {fileID: 0}
   bonus_01UI: {fileID: 0}
   allBallLanded: 0
 --- !u!114 &114123733791665332
@@ -143,6 +145,7 @@ MonoBehaviour:
   canvas2: {fileID: 0}
   boostSpeedButton: {fileID: 0}
   pauseMenu: {fileID: 0}
+  loseMenu: {fileID: 0}
   statusBar: {fileID: 0}
   tutorialBar: {fileID: 0}
 --- !u!114 &114284788580740968

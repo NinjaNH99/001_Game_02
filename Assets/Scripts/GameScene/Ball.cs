@@ -11,6 +11,7 @@ public class Ball : MonoSingleton<Ball>
     private Vector2 landingPosition;
 
     private Rigidbody2D rigid;
+    private RectTransform rectPos;
 
     private float currentSpawnY;
 
@@ -24,8 +25,10 @@ public class Ball : MonoSingleton<Ball>
     private void Start()
     {
         firstBallLanded = false;
+        rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
-        transform.position = new Vector2(0, -1.48f);  
+        //transform.position = new Vector2(0, -1.48f);
+        rectPos.anchoredPosition = new Vector2(0, 0);
     }
 
     public void SendBallInDirection(Vector2 dir)
@@ -42,7 +45,8 @@ public class Ball : MonoSingleton<Ball>
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         // Reload position Y
-        transform.position = new Vector2(transform.position.x, -1.48f);
+        //transform.position = new Vector2(transform.position.x, -1.48f);
+        rectPos.anchoredPosition = new Vector2(rectPos.anchoredPosition.x, 0);
     }
 
     private void IfIsBlocked()
