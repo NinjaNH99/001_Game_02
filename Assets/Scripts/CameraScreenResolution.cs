@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using TMPro;
 
 public class CameraScreenResolution : MonoBehaviour {
 
@@ -11,7 +11,8 @@ public class CameraScreenResolution : MonoBehaviour {
         // set the desired aspect ratio (the values in this example are
         // hard-coded for 16:9, but you could make them into public
         // variables instead so you can set them at design time)
-        float targetaspect = 1080 / 1920.0f;  // my phone : 1080.0f / 1920.0f
+        float targetaspect = 1080.0f / 1920.0f;  // my phone : 1080.0f / 1920.0f
+
 
         // determine the game window's current aspect ratio
         float windowaspect = (float)Screen.width / (float)Screen.height;
@@ -47,6 +48,8 @@ public class CameraScreenResolution : MonoBehaviour {
 
             camera.rect = rect;
         }
+
+        //windowaspectText.GetComponent<TextMeshProUGUI>().text = Screen.width.ToString() + 'x' + Screen.height.ToString();
     }
 
 }

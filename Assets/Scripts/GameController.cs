@@ -26,7 +26,7 @@ public class GameController : MonoSingleton<GameController>
     private const float BALLSPEED = 4f;
 
     public Transform ballsPreview;
-    public RectTransform ballContainer;
+    public Transform ballContainer;
     public GameObject tutorialContainer;
     public GameObject ballPr;
 
@@ -42,8 +42,6 @@ public class GameController : MonoSingleton<GameController>
     public static int score;
     public static int amountBallsLeft;
     public static int amountBalls;
-
-    public static float ballOrgYPos;
 
     // Canvas 2
     public GameObject canvas2;
@@ -80,7 +78,7 @@ public class GameController : MonoSingleton<GameController>
 
     private void Start()
     {
-        ballColor = Ball.Instance.GetComponent<Image>().color;
+        ballColor = Ball.Instance.GetComponent<SpriteRenderer>().color;
         amountBallsText = amountBallsTextPr.GetComponent<TextMeshProUGUI>();
         ballCopyColor = ballColor;
         ballCopyColor.a = 0.8f;
@@ -91,7 +89,6 @@ public class GameController : MonoSingleton<GameController>
         UpdateUIText();
         ShowAmBallsText(amountBalls);
         amountBallsLeft = amountBalls;
-        ballOrgYPos = Ball.Instance.transform.position.y;
     }
 
     private void Update()
@@ -161,7 +158,7 @@ public class GameController : MonoSingleton<GameController>
             yield return null;
         else
         {
-            Vector2 posIn = Ball.Instance.GetComponent<RectTransform>().position;
+            Vector3 posIn = Ball.Instance.transform.position;
             int AmountBalls = nrBall;
             for (int i = 0; i < nrBall - 1; i++)
             {

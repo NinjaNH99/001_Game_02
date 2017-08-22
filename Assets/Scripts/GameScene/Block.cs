@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class Block : MonoBehaviour
 {
@@ -26,7 +25,7 @@ public class Block : MonoBehaviour
             hp = GameController.score;
         hpText.text = hp.ToString();
         isDestroy = true;
-        squareObject.GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
+        squareObject.GetComponent<SpriteRenderer>().color = GameController.Instance.ChangeColor(hp);
     }
 
     private void LateUpdate()
@@ -80,7 +79,7 @@ public class Block : MonoBehaviour
             return;
         }
         hpText.text = hp.ToString();
-        squareObject.GetComponent<Image>().color = GameController.Instance.ChangeColor(hp); 
+        squareObject.GetComponent<SpriteRenderer>().color = GameController.Instance.ChangeColor(hp); 
     }
 
     public void DestroyBlock()
