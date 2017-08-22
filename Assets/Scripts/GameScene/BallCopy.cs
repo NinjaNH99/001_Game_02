@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BallCopy : MonoSingleton<BallCopy>
 {
@@ -15,6 +16,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     private Rigidbody2D rigid;
     private Collider2D ballCopyCol;
     private float speed;
+    private RectTransform rectPos;
 
     private void Awake()
     {
@@ -24,13 +26,15 @@ public class BallCopy : MonoSingleton<BallCopy>
         speed = GameController.speed;
         ballOr = Ball.Instance;
         lastColPosL = lastColPosR = Vector2.zero;
-        gameObject.GetComponent<SpriteRenderer>().color = GameController.Instance.ballCopyColor;
+        gameObject.GetComponent<Image>().color = GameController.Instance.ballCopyColor;
         ballIsLanded = false;
     }
 
     private void Start()
     {
-        transform.position = ballPos;
+        //transform.position = ballPos;
+        rectPos = GetComponent<RectTransform>();
+        rectPos.position = ballPos;
     }
 
     private void Update()
@@ -38,9 +42,9 @@ public class BallCopy : MonoSingleton<BallCopy>
         if (ballIsLanded)
         {
             if (!ballOr.firstBallLanded)
-                gameObject.transform.position = new Vector2(ballCopPos.x, -1.48f);
+                rectPos.position = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
             else
-                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, -1.48f), ballOr.transform.position, Time.deltaTime * speed);
+                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), ballOr.transform.position, Time.deltaTime * speed);
             if (gameObject.transform.position == ballOr.transform.position)
             {
                 GameController.Instance.IsAllBallLanded(true);

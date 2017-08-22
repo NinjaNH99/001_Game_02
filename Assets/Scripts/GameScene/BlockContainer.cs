@@ -7,7 +7,7 @@ public class BlockContainer : MonoSingleton<BlockContainer>
 
     public GameObject rowPrefab;
     public GameObject blockPrefab;
-    public Transform rowContainer;
+    public RectTransform rowContainer;
     public GameObject bonus_01;
     private TextMeshProUGUI bonus_01Text;
 
@@ -23,7 +23,7 @@ public class BlockContainer : MonoSingleton<BlockContainer>
     private void Awake()
     {
         gameObject.transform.position = new Vector3(0, 1.3f, 0);
-        rowContainerStartingPosition = rowContainer.transform.position;
+        rowContainerStartingPosition = rowContainer.position;
         desiredPosition = rowContainerStartingPosition;
         lastBallSpawn = 1f;
         nrBlocksInGame = 0;
@@ -40,18 +40,20 @@ public class BlockContainer : MonoSingleton<BlockContainer>
     private void Update()
     { 
         if ((Vector2)rowContainer.position != desiredPosition)
-            rowContainer.transform.position = Vector3.MoveTowards(rowContainer.transform.position, desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS), Time.deltaTime);
+            rowContainer.position = Vector3.MoveTowards(rowContainer.position, desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS), Time.deltaTime);
     }
 
     public void GenerateNewRow()
     {
         bool doNotSpawn = false;
         bonus_01Text.gameObject.SetActive(false);
-        GameObject go = Instantiate(rowPrefab) as GameObject;
+        GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
-        go.transform.SetParent(rowContainer);
+        //go.transform.SetParent(rowContainer);
+        RectTransform goPos = go.GetComponent<RectTransform>();
+        //go.transform.localPosition = Vector2.down * currentSpawnY;
+        goPos.localPosition = new Vector2(0, -235) * currentSpawnY;
 
-        go.transform.localPosition = Vector2.down * currentSpawnY;
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
 
         desiredPosition = rowContainerStartingPosition + (Vector2.up * currentSpawnY);
@@ -119,8 +121,8 @@ public class BlockContainer : MonoSingleton<BlockContainer>
         int nrBlocks = Random.Range(4, 7);
         for (int i = 0; i < nrBlocks; i++)
         {
-            GameObject go = Instantiate(blockPrefab) as GameObject;
-            go.transform.SetParent(row.transform);
+            GameObject go = Instantiate(blockPrefab , row.transform) as GameObject;
+            //go.transform.SetParent(row.transform);
             do
             {
                 pos = Random.Range(-3, 4);
