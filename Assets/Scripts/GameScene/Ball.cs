@@ -5,7 +5,7 @@ public class Ball : MonoSingleton<Ball>
 {
     public bool firstBallLanded;
     public bool allBallLanded;
-    public Container block;
+    public GameObject circleAnim;
 
     private Vector2 lastColPosL;
     private Vector2 lastColPosR;
@@ -30,15 +30,14 @@ public class Ball : MonoSingleton<Ball>
         rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
         doNotCheck = false;
-        //transform.position = new Vector2(0, -1.48f);
-        //rectPos.anchoredPosition = new Vector2(0, 0);
     }
 
-    public void SendBallInDirection(Vector2 dir)
+    public void SendBallInDirection(Vector2 dir , float speed)
     {
+        circleAnim.GetComponent<Animator>().SetTrigger("isShoot");
         firstBallLanded = false;
         rigid.simulated = true;
-        rigid.AddForce(dir * GameController.speed, ForceMode2D.Impulse);
+        rigid.AddForce(dir * speed, ForceMode2D.Impulse);
     }
 
     private void TouchFloor()
@@ -48,8 +47,8 @@ public class Ball : MonoSingleton<Ball>
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         // Reload position Y
-        //transform.position = new Vector2(transform.position.x, -1.48f);
         rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
+        circleAnim.GetComponent<Animator>().SetTrigger("isFell");
     }
 
     private void IfIsBlocked()

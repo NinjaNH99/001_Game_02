@@ -54,7 +54,7 @@ public class GameController : MonoSingleton<GameController>
     public static int bonus_01;
     public GameObject bonus_01UI;
 
-    public static float speed;
+    //public static float speed;
     public static bool onBoostSpeed;
     public static bool isBreakingStuff;
     public static bool updateInputs;
@@ -70,7 +70,7 @@ public class GameController : MonoSingleton<GameController>
         score = 1;
         amountBalls = 1;
         bonus_01 = 0;
-        speed = BALLSPEED;
+        //speed = BALLSPEED;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = false;
@@ -147,7 +147,7 @@ public class GameController : MonoSingleton<GameController>
                     updateInputs = false;
                     MobileInputs.Instance.Reset();
                     onBoostSpeed = true;
-                    Ball.Instance.SendBallInDirection(sd.normalized);
+                    Ball.Instance.SendBallInDirection(sd.normalized, BALLSPEED);
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(GenerateNewBall(amountBalls));
                 }
@@ -169,7 +169,9 @@ public class GameController : MonoSingleton<GameController>
                 GameObject go = Instantiate(ballPr, ballContainer) as GameObject;
                 BallCopy ballCopy = go.GetComponent<BallCopy>();
                 ballCopy.ballPos = posIn;
-                ballCopy.SendBallInDirection(sd.normalized);
+                //ballCopy.SendBallInDirection(sd.normalized);
+                ballCopy.dir = sd.normalized;
+                ballCopy.speed = BALLSPEED;
                 AmountBalls--;
                 ShowAmBallsText(AmountBalls);
             }

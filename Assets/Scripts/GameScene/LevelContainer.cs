@@ -49,9 +49,8 @@ public class LevelContainer : MonoSingleton<LevelContainer>
         bonus_01Text.gameObject.SetActive(false);
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
-        RectTransform goPos = go.GetComponent<RectTransform>();
         //go.transform.localPosition = Vector2.down * currentSpawnY;
-        goPos.localPosition = new Vector2(0, -235) * currentSpawnY;
+        go.GetComponent<RectTransform>().localPosition = new Vector2(0, -235) * currentSpawnY;
 
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
 

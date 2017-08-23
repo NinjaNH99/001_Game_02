@@ -4,19 +4,20 @@ using UnityEngine.UI;
 
 public class BallCopy : MonoSingleton<BallCopy>
 {
-    public GameObject ballCopyPr;
     public Vector2 ballPos;
     public bool ballIsLanded;
+    public Vector2 dir;
+    public float speed;
 
     private Ball ballOr;
     private Vector2 lastColPosL;
     private Vector2 lastColPosR;
     private Vector2 ballCopPos;
+    private Vector2 statePos;
     private bool stopBlocked;
     private bool doNotCheck;
     private Rigidbody2D rigid;
     private Collider2D ballCopyCol;
-    private float speed;
     private RectTransform rectPos;
 
     private void Awake()
@@ -24,7 +25,7 @@ public class BallCopy : MonoSingleton<BallCopy>
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0f;
         rigid.simulated = true;
-        speed = GameController.speed;
+        //speed = GameController.speed;
         ballOr = Ball.Instance;
         lastColPosL = lastColPosR = Vector2.zero;
         gameObject.GetComponent<Image>().color = GameController.Instance.ballCopyColor;
@@ -33,10 +34,10 @@ public class BallCopy : MonoSingleton<BallCopy>
 
     private void Start()
     {
-        //transform.position = ballPos;
         rectPos = GetComponent<RectTransform>();
         rectPos.position = ballPos;
         doNotCheck = false;
+        SendBallInDirection();
     }
 
     private void Update()
@@ -44,18 +45,20 @@ public class BallCopy : MonoSingleton<BallCopy>
         if (ballIsLanded)
         {
             if (!ballOr.firstBallLanded)
-                rectPos.position = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
+                rectPos.position = statePos;
             else
-                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), ballOr.transform.position, Time.deltaTime * speed);
-            if (gameObject.transform.position == ballOr.transform.position)
             {
-                GameController.Instance.IsAllBallLanded(true);
-                Destroy(gameObject);
+                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), ballOr.transform.position, Time.deltaTime * speed);
+                if (gameObject.transform.position == ballOr.transform.position)
+                {
+                    GameController.Instance.IsAllBallLanded(true);
+                    Destroy(gameObject);
+                }
             }
         }
     }
 
-    public void SendBallInDirection(Vector2 dir)
+    private void SendBallInDirection()
     {
         rigid.AddForce(dir * speed, ForceMode2D.Impulse);
     }
@@ -65,6 +68,7 @@ public class BallCopy : MonoSingleton<BallCopy>
         ballCopPos = gameObject.transform.position;
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
+        statePos = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
         ballIsLanded = true;
     }
 
