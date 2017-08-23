@@ -9,12 +9,12 @@ public class Block : MonoSingleton<Block>
     public RectTransform containerPos;
     public int hp;
 
-    private TextMeshPro hpText;
+    private TextMeshProUGUI hpText;
     private bool isDestroy;
 
     private void Start()
     {
-        hpText = goHpText.GetComponent<TextMeshPro>();
+        hpText = goHpText.GetComponent<TextMeshProUGUI>();
         if (GameController.score % Random.Range(2, 4) == 0 && Random.Range(0f, 1f) > 0.3f)
             hp = GameController.score * 2;
         else
