@@ -3,7 +3,7 @@ using TMPro;
 
 public class LevelContainer : MonoSingleton<LevelContainer>
 {
-    private const float DISTANCE_BETWEEN_BLOCKS = 0.35f;
+    private const float DISTANCE_BETWEEN_BLOCKS = 0.85f; // 0.35
 
     public GameObject rowPrefab;
     public GameObject containerPrefab;
@@ -22,8 +22,9 @@ public class LevelContainer : MonoSingleton<LevelContainer>
 
     private void Awake()
     {
-        gameObject.transform.position = new Vector3(0, 1.3f, 0);
-        rowContainerStartingPosition = rowContainer.position;
+        //gameObject.transform.position = new Vector3(0, 1.3f, 0);
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200);
+        rowContainerStartingPosition = rowContainer.anchoredPosition;
         desiredPosition = rowContainerStartingPosition;
         lastBallSpawn = 1f;
         nrBlocksInGame = 0;
@@ -39,8 +40,8 @@ public class LevelContainer : MonoSingleton<LevelContainer>
 
     private void Update()
     { 
-        if ((Vector2)rowContainer.position != desiredPosition)
-            rowContainer.position = Vector3.MoveTowards(rowContainer.position, desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS), Time.deltaTime);
+        if ((Vector2)rowContainer.anchoredPosition != desiredPosition)
+            rowContainer.position = Vector3.MoveTowards(rowContainer.anchoredPosition, desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS), Time.deltaTime);
     }
 
     public void GenerateNewRow()
@@ -50,7 +51,8 @@ public class LevelContainer : MonoSingleton<LevelContainer>
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
         //go.transform.localPosition = Vector2.down * currentSpawnY;
-        go.GetComponent<RectTransform>().localPosition = new Vector2(0, -235) * currentSpawnY;
+        //go.GetComponent<RectTransform>().localPosition = new Vector2(0, -235) * currentSpawnY;
+        go.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -85) * currentSpawnY;
 
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
 
