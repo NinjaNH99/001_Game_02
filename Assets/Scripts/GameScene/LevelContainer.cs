@@ -3,7 +3,8 @@ using TMPro;
 
 public class LevelContainer : MonoSingleton<LevelContainer>
 {
-    private const float DISTANCE_BETWEEN_BLOCKS = 85.0f; // 0.35
+    private const float DISTANCE_BETWEEN_BLOCKS = 83.0f; // 0.35
+    private const float ANIMPOSY_SPEED = 250.0f;
 
     public GameObject rowPrefab;
     public GameObject containerPrefab;
@@ -44,9 +45,9 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     {
         if (animPosY)
         {
-            if ((Vector2)rowContainer.anchoredPosition != desiredPosition)
-                rowContainer.anchoredPosition = Vector3.MoveTowards(rowContainer.anchoredPosition, desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS), Time.deltaTime * 200);
-            if ((Vector2)rowContainer.anchoredPosition == desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS))
+            if (rowContainer.anchoredPosition != desiredPosition)
+                rowContainer.anchoredPosition = Vector2.MoveTowards(rowContainer.anchoredPosition, desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS), Time.deltaTime * ANIMPOSY_SPEED);
+            if (rowContainer.anchoredPosition == desiredPosition + new Vector2(0, DISTANCE_BETWEEN_BLOCKS))
                 animPosY = false;
         }
     }
@@ -58,8 +59,7 @@ public class LevelContainer : MonoSingleton<LevelContainer>
         bonus_01Text.gameObject.SetActive(false);
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
-        //go.transform.localPosition = Vector2.down * currentSpawnY;
-        //go.GetComponent<RectTransform>().localPosition = new Vector2(0, -235) * currentSpawnY;
+
         go.GetComponent<RectTransform>().localPosition = Vector2.down * currentSpawnY;
 
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
