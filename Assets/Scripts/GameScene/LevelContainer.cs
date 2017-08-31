@@ -148,7 +148,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
                 }
             } while (!posIsClean);
             posArray[i] = pos;
-            Debug.Log(pos);
             //go.transform.position = new Vector2(pos * 0.35f, row.transform.position.y);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(pos * DISTANCE_BETWEEN_BLOCKS, row.GetComponent<RectTransform>().anchoredPosition.y);
         }

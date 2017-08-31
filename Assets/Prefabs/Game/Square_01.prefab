@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224201750973740252}
-  - component: {fileID: 50324573307642152}
   - component: {fileID: 58501396845640550}
+  - component: {fileID: 50674147852118744}
   - component: {fileID: 250551401645116798}
   - component: {fileID: 222644865793478466}
   - component: {fileID: 114317091715340372}
@@ -64,7 +64,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &50324573307642152
+--- !u!50 &50674147852118744
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1

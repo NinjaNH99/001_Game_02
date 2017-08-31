@@ -23,7 +23,7 @@ public class GameController : MonoSingleton<GameController>
     private const float DEADZONE = 60.0f;
     private const float MAXIMUM_PULL = 200.0f;
     private const float TIMEWAITBOOSTSPEED = 2f;
-    private const float BALLSPEED = 4f;
+    public const float BALLSPEED = 4f;
 
     public Transform ballsPreview;
     public RectTransform ballContainer;
@@ -104,10 +104,10 @@ public class GameController : MonoSingleton<GameController>
             {
                 score++;
                 onBoostSpeed = false;
-                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 10f);
                 BoostSpeedButton.gameObject.SetActive(false);
                 LevelContainer.Instance.GenerateNewRow();
-                FindObjectOfType<Timer>().scoreTime = score / 20f;
+                FindObjectOfType<Timer>().scoreTime = score / 20f;      // 20f
                 allBallLanded = false;
                 UpdateUIText();
                 ShowAmBallsText(amountBalls);
@@ -147,7 +147,7 @@ public class GameController : MonoSingleton<GameController>
                     updateInputs = false;
                     MobileInputs.Instance.Reset();
                     onBoostSpeed = true;
-                    Ball.Instance.SendBallInDirection(sd.normalized, BALLSPEED);
+                    Ball.Instance.SendBallInDirection(sd.normalized);
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(GenerateNewBall(amountBalls));
                 }

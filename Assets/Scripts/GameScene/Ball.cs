@@ -6,6 +6,7 @@ public class Ball : MonoSingleton<Ball>
     public bool firstBallLanded;
     public bool allBallLanded;
     public GameObject circleAnim;
+    public float speed;
 
     private Vector2 lastColPosL;
     private Vector2 lastColPosR;
@@ -22,6 +23,7 @@ public class Ball : MonoSingleton<Ball>
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0f;
         rigid.simulated = true;
+        speed = GameController.BALLSPEED;
     }
 
     private void Start()
@@ -30,14 +32,15 @@ public class Ball : MonoSingleton<Ball>
         rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
         doNotCheck = false;
+        //Debug.Log("Ball " + rigid.velocity.magnitude);
     }
 
-    public void SendBallInDirection(Vector2 dir , float speed)
+    public void SendBallInDirection(Vector2 dir)
     {
-        circleAnim.GetComponent<Animator>().SetTrigger("isShoot");
         firstBallLanded = false;
         rigid.simulated = true;
-        rigid.AddForce(dir * speed, ForceMode2D.Impulse);
+        rigid.AddRelativeForce(dir * speed, ForceMode2D.Impulse);
+        circleAnim.GetComponent<Animator>().SetTrigger("isShoot");
     }
 
     private void TouchFloor()
@@ -65,6 +68,12 @@ public class Ball : MonoSingleton<Ball>
         }
     }
 
+    private void ResetSpeed()
+    {
+        rigid.velocity = rigid.velocity.normalized * speed;
+        //Debug.Log("Copy :" + rigid.velocity.magnitude);
+    }
+
     public void CollectBall()
     {
         GameController.amountBalls++;
@@ -86,6 +95,12 @@ public class Ball : MonoSingleton<Ball>
             lastColPosR = gameObject.transform.position;
             IfIsBlocked();
         }
+        ResetSpeed();
+    }
+
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        ResetSpeed();
     }
 
 }

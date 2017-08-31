@@ -38,6 +38,7 @@ public class BallCopy : MonoSingleton<BallCopy>
         rectPos.position = ballPos;
         doNotCheck = false;
         SendBallInDirection();
+        //Debug.Log("Copy :" + rigid.velocity.magnitude);
     }
 
     private void Update()
@@ -60,7 +61,7 @@ public class BallCopy : MonoSingleton<BallCopy>
 
     private void SendBallInDirection()
     {
-        rigid.AddForce(dir * speed, ForceMode2D.Impulse);
+        rigid.AddRelativeForce(dir * speed, ForceMode2D.Impulse);
     }
 
     private void TouchFloor()
@@ -91,6 +92,12 @@ public class BallCopy : MonoSingleton<BallCopy>
         }
     }
 
+    private void ResetSpeed()
+    {
+        rigid.velocity = rigid.velocity.normalized * speed;
+        //Debug.Log("Copy :" + rigid.velocity.magnitude);
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.Floor))
@@ -106,6 +113,15 @@ public class BallCopy : MonoSingleton<BallCopy>
         {
             lastColPosR = gameObject.transform.position;
             IfIsBlocked();
+        }
+        ResetSpeed();
+    }
+
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.CompareTag(Tags.Square_01))
+        {
+            ResetSpeed();
         }
     }
 

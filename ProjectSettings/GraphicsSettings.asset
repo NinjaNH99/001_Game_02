@@ -59,6 +59,7 @@ GraphicsSettings:
       useHDR: 0
       useDetailNormalMap: 0
       useCascadedShadowMaps: 0
+      enableLPPV: 0
       useDitherMaskForAlphaBlendedShadows: 0
     m_Automatic: 1
   - serializedVersion: 4
@@ -74,6 +75,7 @@ GraphicsSettings:
       useHDR: 0
       useDetailNormalMap: 0
       useCascadedShadowMaps: 0
+      enableLPPV: 0
       useDitherMaskForAlphaBlendedShadows: 0
     m_Automatic: 1
   - serializedVersion: 4
@@ -89,6 +91,7 @@ GraphicsSettings:
       useHDR: 0
       useDetailNormalMap: 0
       useCascadedShadowMaps: 0
+      enableLPPV: 0
       useDitherMaskForAlphaBlendedShadows: 0
     m_Automatic: 1
   m_LightmapStripping: 1

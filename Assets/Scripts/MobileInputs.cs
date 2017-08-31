@@ -40,7 +40,7 @@ public class MobileInputs : MonoSingleton<MobileInputs>
             }
             #endregion
 
-            #region Mobiles Inputs
+            #region Mobile Inputs
             if (Input.touches.Length != 0)
             {
                 if (Input.touches[0].phase == TouchPhase.Began)
