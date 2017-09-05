@@ -16,14 +16,13 @@ public class Ball : MonoSingleton<Ball>
     private RectTransform rectPos;
 
     private float currentSpawnY;
-    private bool doNotCheck;
+    private bool doNotCheckL, doNotCheckR;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0f;
         rigid.simulated = true;
-        speed = GameController.BALLSPEED;
     }
 
     private void Start()
@@ -31,7 +30,7 @@ public class Ball : MonoSingleton<Ball>
         firstBallLanded = false;
         rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
-        doNotCheck = false;
+        doNotCheckL = doNotCheckR = false;
         //Debug.Log("Ball " + rigid.velocity.magnitude);
     }
 
@@ -39,6 +38,7 @@ public class Ball : MonoSingleton<Ball>
     {
         firstBallLanded = false;
         rigid.simulated = true;
+        rigid.gravityScale = 0;
         rigid.AddRelativeForce(dir * speed, ForceMode2D.Impulse);
         circleAnim.GetComponent<Animator>().SetTrigger("isShoot");
     }
@@ -46,7 +46,7 @@ public class Ball : MonoSingleton<Ball>
     private void TouchFloor()
     {
         firstBallLanded = true;
-        GameController.Instance.IsAllBallLanded(true);
+        GameController.Instance.IsAllBallLanded(false);
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         // Reload position Y
@@ -54,18 +54,37 @@ public class Ball : MonoSingleton<Ball>
         circleAnim.GetComponent<Animator>().SetTrigger("isFell");
     }
 
-    private void IfIsBlocked()
+    private void IfIsBlocked(bool left, bool right)
     {
-        if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
+        if (left && !doNotCheckL)
         {
+            lastColPosL = gameObject.transform.position;
+            doNotCheckL = true;
+        }
+        else if (right && !doNotCheckR)
+        {
+            lastColPosR = gameObject.transform.position;
+            doNotCheckR = true;
+        }
+        if (doNotCheckL && doNotCheckR)
+        {
+            if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
+            {
+                rigid.gravityScale = 0.02f;
+            }
+            else
+            {
+                rigid.gravityScale = 0;
+            }
+            doNotCheckL = doNotCheckR = false;
+        }
+
+    }
+
+    private void StartFall()
+    {
+        if (TimerGravity.Instance.startFall)
             rigid.gravityScale = 0.02f;
-            doNotCheck = false;
-        }
-        else
-        {
-            rigid.gravityScale = 0;
-            doNotCheck = false;
-        }
     }
 
     private void ResetSpeed()
@@ -85,17 +104,16 @@ public class Ball : MonoSingleton<Ball>
         {
             TouchFloor();
         }
-        if (coll.gameObject.CompareTag(Tags.Wall) && !doNotCheck)
+        if (coll.gameObject.CompareTag(Tags.Wall))
         {
-            lastColPosL = gameObject.transform.position;
-            doNotCheck = true;
+            IfIsBlocked(true, false);
         }
         if (coll.gameObject.CompareTag(Tags.WallR))
         {
-            lastColPosR = gameObject.transform.position;
-            IfIsBlocked();
+            IfIsBlocked(false, true);
         }
         ResetSpeed();
+        StartFall();
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

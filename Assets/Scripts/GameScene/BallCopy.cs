@@ -15,7 +15,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     private Vector2 ballCopPos;
     private Vector2 statePos;
     private bool stopBlocked;
-    private bool doNotCheck;
+    private bool doNotCheckL, doNotCheckR;
     private Rigidbody2D rigid;
     private Collider2D ballCopyCol;
     private RectTransform rectPos;
@@ -36,7 +36,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     {
         rectPos = GetComponent<RectTransform>();
         rectPos.position = ballPos;
-        doNotCheck = false;
+        doNotCheckL = doNotCheckR = false;
         SendBallInDirection();
         //Debug.Log("Copy :" + rigid.velocity.magnitude);
     }
@@ -52,7 +52,7 @@ public class BallCopy : MonoSingleton<BallCopy>
                 gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), ballOr.transform.position, Time.deltaTime * speed);
                 if (gameObject.transform.position == ballOr.transform.position)
                 {
-                    GameController.Instance.IsAllBallLanded(true);
+                    GameController.Instance.IsAllBallLanded(false);
                     Destroy(gameObject);
                 }
             }
@@ -78,18 +78,37 @@ public class BallCopy : MonoSingleton<BallCopy>
         GameController.amountBalls++;
     }
 
-    private void IfIsBlocked()
+    private void IfIsBlocked(bool left, bool right)
     {
-        if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
+        if (left && !doNotCheckL)
         {
-            doNotCheck = false;
+            lastColPosL = gameObject.transform.position;
+            doNotCheckL = true;
+        }
+        else if (right && !doNotCheckR)
+        {
+            lastColPosR = gameObject.transform.position;
+            doNotCheckR = true;
+        }
+        if (doNotCheckL && doNotCheckR)
+        {
+            if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
+            {
+                rigid.gravityScale = 0.02f;
+            }
+            else
+            {
+                rigid.gravityScale = 0;
+            }
+            doNotCheckL = doNotCheckR = false;
+        }
+
+    }
+
+    private void StartFall()
+    {
+        if (TimerGravity.Instance.startFall)
             rigid.gravityScale = 0.02f;
-        }
-        else
-        {
-            rigid.gravityScale = 0;
-            doNotCheck = false;
-        }
     }
 
     private void ResetSpeed()
@@ -104,16 +123,16 @@ public class BallCopy : MonoSingleton<BallCopy>
         {
             TouchFloor();
         }
-        if (coll.gameObject.CompareTag(Tags.Wall) && !doNotCheck)
+        
+        if (coll.gameObject.CompareTag(Tags.Wall))
         {
-            lastColPosL = gameObject.transform.position;
-            doNotCheck = true;
+            IfIsBlocked(true, false);
         }
         if (coll.gameObject.CompareTag(Tags.WallR))
         {
-            lastColPosR = gameObject.transform.position;
-            IfIsBlocked();
+            IfIsBlocked(false, true);
         }
+        StartFall();
         ResetSpeed();
     }
 

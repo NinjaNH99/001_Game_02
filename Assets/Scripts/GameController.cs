@@ -29,7 +29,6 @@ public class GameController : MonoSingleton<GameController>
     public RectTransform ballContainer;
     public GameObject tutorialContainer;
     public GameObject ballPr;
-
     public GameObject scoreText;
     public GameObject amountBallsTextPr;
     public Button BoostSpeedButton;
@@ -58,6 +57,7 @@ public class GameController : MonoSingleton<GameController>
     public static bool onBoostSpeed;
     public static bool isBreakingStuff;
     public static bool updateInputs;
+    public static bool startTimerGravity;
     public bool allBallLanded;
 
     private Vector2 sd;
@@ -92,6 +92,7 @@ public class GameController : MonoSingleton<GameController>
         ShowAmBallsText(amountBalls);
         amountBallsLeft = amountBalls;
         ballOrgYPos = Ball.Instance.transform.position.y;
+        startTimerGravity = false;
     }
 
     private void Update()
@@ -107,10 +108,10 @@ public class GameController : MonoSingleton<GameController>
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 10f);
                 BoostSpeedButton.gameObject.SetActive(false);
                 LevelContainer.Instance.GenerateNewRow();
-                FindObjectOfType<Timer>().scoreTime = score / 20f;      // 20f
                 allBallLanded = false;
                 UpdateUIText();
                 ShowAmBallsText(amountBalls);
+                TimerGravity.Instance.nrBalls = amountBalls / 10f;
             }
             if (onBoostSpeed)
             {
@@ -147,9 +148,11 @@ public class GameController : MonoSingleton<GameController>
                     updateInputs = false;
                     MobileInputs.Instance.Reset();
                     onBoostSpeed = true;
+                    Ball.Instance.speed = BALLSPEED;
                     Ball.Instance.SendBallInDirection(sd.normalized);
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(GenerateNewBall(amountBalls));
+                    startTimerGravity = true;
                 }
             }
         }
@@ -178,12 +181,22 @@ public class GameController : MonoSingleton<GameController>
         }
     }
 
-    public void IsAllBallLanded(bool checkBall)
+    public void IsAllBallLanded(bool checkByTimer)
     {
-        if(checkBall)
+        if (checkByTimer)
+        {
+            if (amountBallsLeft <= 0)
+            {
+                startTimerGravity = false;
+            }
+        }
+        else
+        {
             amountBallsLeft--;
-        if (amountBallsLeft <= 0 && FindObjectOfType<Timer>().i == 1)
-            AllBallLanded();
+            TimerGravity.Instance.checkTime = true;
+            if (amountBallsLeft <= 0 && FindObjectOfType<TimerGravity>().i == 1)
+                AllBallLanded();
+        }
     }
 
     private void AllBallLanded()
