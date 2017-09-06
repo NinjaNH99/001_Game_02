@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TimerGravity : MonoSingleton<TimerGravity>
 {
-    private const float TIMESPEED = 8.5f;
+    private const float TIMESPEED = 10.0f;
 
     public float nrBalls;
     public bool startFall;
@@ -26,31 +26,28 @@ public class TimerGravity : MonoSingleton<TimerGravity>
     {
         if (GameController.startTimerGravity)
         {
-            //checkTime = true;
+            checkTime = true;
             i -= Time.deltaTime / (TIMESPEED + nrBalls);
             timer.fillAmount = i;
             if (i < -0.03f)
             {
                 i = 0;
                 timer.fillAmount = 0;
-                GameController.startTimerGravity = false;
-                //LevelContainer.Instance.GenerateNewRow();
                 startFall = true;
             }
-            GameController.Instance.IsAllBallLanded(true);
         }
-        else if(checkTime)
+        else if (!GameController.startTimerGravity && checkTime)
         {
-            i += Time.deltaTime / 2.5f;
+            i += Time.deltaTime / 2.0f;
             timer.fillAmount = i;
             if (i > 1)
             {
                 i = 1;
-                GameController.Instance.IsAllBallLanded(false);
                 startFall = false;
                 checkTime = false;
+                GameController.Instance.IsAllBallLanded();
                 return;
-            } 
+            }
         }
     }
 

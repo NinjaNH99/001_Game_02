@@ -55,6 +55,7 @@ public class CollectBall : MonoSingleton<CollectBall>
                 StartFalling();
                 if (isDestroy)
                 {
+                    GameController.Instance.AddBallUI++;
                     GameObject goEFX = Instantiate(AddBallUIPr, BackgroundPr.transform) as GameObject;
                     Destroy(goEFX, 1f);
                     LevelContainer.Instance.nrBlocksInGame--;

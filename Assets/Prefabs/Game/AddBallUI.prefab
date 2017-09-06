@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222001326645817512}
   - component: {fileID: 114046908270835782}
   - component: {fileID: 95291627179015066}
+  - component: {fileID: 114293814449415272}
   m_Layer: 5
   m_Name: AddBallUI
   m_TagString: AddBallUI
@@ -159,6 +160,17 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114293814449415272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1875178886244132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25fcea8d50aa71b4cbfaab5247e275df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222001326645817512
 CanvasRenderer:
   m_ObjectHideFlags: 1

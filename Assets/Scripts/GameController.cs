@@ -52,6 +52,7 @@ public class GameController : MonoSingleton<GameController>
     // Bonus
     public static int bonus_01;
     public GameObject bonus_01UI;
+    public int AddBallUI;
 
     //public static float speed;
     public static bool onBoostSpeed;
@@ -76,6 +77,7 @@ public class GameController : MonoSingleton<GameController>
         isBreakingStuff = false;
         allBallLanded = false;
         updateInputs = true;
+        AddBallUI = 0;
     }
 
     private void Start()
@@ -181,20 +183,14 @@ public class GameController : MonoSingleton<GameController>
         }
     }
 
-    public void IsAllBallLanded(bool checkByTimer)
+    public void IsAllBallLanded()
     {
-        if (checkByTimer)
+        amountBallsLeft--;
+        if (amountBallsLeft <= 0)
         {
-            if (amountBallsLeft <= 0)
-            {
-                startTimerGravity = false;
-            }
-        }
-        else
-        {
-            amountBallsLeft--;
-            TimerGravity.Instance.checkTime = true;
-            if (amountBallsLeft <= 0 && FindObjectOfType<TimerGravity>().i == 1)
+            startTimerGravity = false;
+            //TimerGravity.Instance.checkTime = true;
+            if (TimerGravity.Instance.i == 1)
                 AllBallLanded();
         }
     }
@@ -206,6 +202,7 @@ public class GameController : MonoSingleton<GameController>
         allBallLanded = true;
         updateInputs = true;
         amountBallsLeft = amountBalls;
+        AddBallUI = 0;
     }
 
     private void ShowAmBallsText(int amountBallsShow)

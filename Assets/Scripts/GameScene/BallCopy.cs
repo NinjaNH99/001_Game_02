@@ -52,7 +52,7 @@ public class BallCopy : MonoSingleton<BallCopy>
                 gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), ballOr.transform.position, Time.deltaTime * speed);
                 if (gameObject.transform.position == ballOr.transform.position)
                 {
-                    GameController.Instance.IsAllBallLanded(false);
+                    GameController.Instance.IsAllBallLanded();
                     Destroy(gameObject);
                 }
             }

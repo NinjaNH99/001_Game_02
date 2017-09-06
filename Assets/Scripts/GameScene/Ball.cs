@@ -46,7 +46,7 @@ public class Ball : MonoSingleton<Ball>
     private void TouchFloor()
     {
         firstBallLanded = true;
-        GameController.Instance.IsAllBallLanded(false);
+        GameController.Instance.IsAllBallLanded();
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         // Reload position Y
