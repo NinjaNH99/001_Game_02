@@ -13,7 +13,6 @@ public class Container : MonoSingleton<Container>
         {
             Destroy(gameObject);
         }
-        
     }
 
     public void SpawnSquare_01()

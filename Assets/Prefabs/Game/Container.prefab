@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 222117869151246530}
   - component: {fileID: 114762467360766386}
   - component: {fileID: 114653433359883384}
+  - component: {fileID: 95652791435224546}
   m_Layer: 9
   m_Name: Block
   m_TagString: Square
@@ -105,10 +106,27 @@ BoxCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &95652791435224546
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1956732571081940}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f84f4d1ebbd9bc240a61cdc57d7100be, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114602960451582810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,7 +336,7 @@ RectTransform:
   m_GameObject: {fileID: 1956732571081940}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 72, y: 72, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224316639731156416}
   m_Father: {fileID: 224674293577261668}

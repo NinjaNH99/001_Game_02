@@ -6,7 +6,7 @@ public class BallCopy : MonoSingleton<BallCopy>
 {
     public Vector2 ballPos;
     public bool ballIsLanded;
-    public Vector2 dir;
+    //public Vector2 dir;
     public float speed;
 
     private Ball ballOr;
@@ -37,7 +37,7 @@ public class BallCopy : MonoSingleton<BallCopy>
         rectPos = GetComponent<RectTransform>();
         rectPos.position = ballPos;
         doNotCheckL = doNotCheckR = false;
-        SendBallInDirection();
+        //SendBallInDirection();
         //Debug.Log("Copy :" + rigid.velocity.magnitude);
     }
 
@@ -59,9 +59,9 @@ public class BallCopy : MonoSingleton<BallCopy>
         }
     }
 
-    private void SendBallInDirection()
+    public void SendBallInDirection(Vector2 dir)
     {
-        rigid.AddRelativeForce(dir * speed, ForceMode2D.Impulse);
+        rigid.AddForce(dir * speed, ForceMode2D.Impulse);
     }
 
     private void TouchFloor()
@@ -108,7 +108,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     private void StartFall()
     {
         if (TimerGravity.Instance.startFall)
-            rigid.gravityScale = 0.02f;
+            rigid.gravityScale = 0.04f;
     }
 
     private void ResetSpeed()

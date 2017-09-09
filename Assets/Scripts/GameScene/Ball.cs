@@ -39,7 +39,7 @@ public class Ball : MonoSingleton<Ball>
         firstBallLanded = false;
         rigid.simulated = true;
         rigid.gravityScale = 0;
-        rigid.AddRelativeForce(dir * speed, ForceMode2D.Impulse);
+        rigid.AddForce(dir * speed, ForceMode2D.Impulse);
         circleAnim.GetComponent<Animator>().SetTrigger("isShoot");
     }
 
@@ -84,7 +84,7 @@ public class Ball : MonoSingleton<Ball>
     private void StartFall()
     {
         if (TimerGravity.Instance.startFall)
-            rigid.gravityScale = 0.02f;
+            rigid.gravityScale = 0.04f;
     }
 
     private void ResetSpeed()

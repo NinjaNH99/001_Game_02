@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyRow : MonoBehaviour {
+public class DestroyRow : MonoSingleton<DestroyRow>
+{
+    public int nrBlock2HP;
+
+    private void Awake()
+    {
+        nrBlock2HP = Random.Range(0, 4);
+    }
 
     public void Update()
     {

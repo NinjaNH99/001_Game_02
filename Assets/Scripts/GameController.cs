@@ -25,6 +25,7 @@ public class GameController : MonoSingleton<GameController>
     private const float TIMEWAITBOOSTSPEED = 2f;
     public const float BALLSPEED = 4f;
 
+    public Transform Canvas1;
     public Transform ballsPreview;
     public RectTransform ballContainer;
     public GameObject tutorialContainer;
@@ -64,6 +65,8 @@ public class GameController : MonoSingleton<GameController>
     private Vector2 sd;
     private float timeWaitBoostSpeed;
     private TextMeshProUGUI amountBallsText;
+    private bool boostSpeed_Exit;
+    private float iBSB = 1f;
 
     private void Awake()
     {
@@ -95,6 +98,7 @@ public class GameController : MonoSingleton<GameController>
         amountBallsLeft = amountBalls;
         ballOrgYPos = Ball.Instance.transform.position.y;
         startTimerGravity = false;
+        boostSpeed_Exit = false;
     }
 
     private void Update()
@@ -108,7 +112,7 @@ public class GameController : MonoSingleton<GameController>
                 score++;
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 10f);
-                BoostSpeedButton.gameObject.SetActive(false);
+                BoostSpeedButtonAnim(true);
                 LevelContainer.Instance.GenerateNewRow();
                 allBallLanded = false;
                 UpdateUIText();
@@ -120,9 +124,19 @@ public class GameController : MonoSingleton<GameController>
                 timeWaitBoostSpeed -= Time.deltaTime;
                 if (timeWaitBoostSpeed < 0)
                 {
-                    BoostSpeedButton.gameObject.SetActive(true);
+                    BoostSpeedButtonAnim(false);
                     timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                     onBoostSpeed = false;
+                }
+            }
+            if (boostSpeed_Exit)
+            {
+                iBSB -= Time.deltaTime;
+                if (iBSB <= 0)
+                {
+                    BoostSpeedButton.gameObject.SetActive(false);
+                    iBSB = 1f;
+                    boostSpeed_Exit = false;
                 }
             }
         }
@@ -175,8 +189,9 @@ public class GameController : MonoSingleton<GameController>
                 BallCopy ballCopy = go.GetComponent<BallCopy>();
                 ballCopy.ballPos = posIn;
                 //ballCopy.SendBallInDirection(sd.normalized);
-                ballCopy.dir = sd.normalized;
+                //ballCopy.dir = sd.normalized;
                 ballCopy.speed = BALLSPEED;
+                ballCopy.SendBallInDirection(sd.normalized);
                 AmountBalls--;
                 ShowAmBallsText(AmountBalls);
             }
@@ -189,7 +204,6 @@ public class GameController : MonoSingleton<GameController>
         if (amountBallsLeft <= 0)
         {
             startTimerGravity = false;
-            //TimerGravity.Instance.checkTime = true;
             if (TimerGravity.Instance.i == 1)
                 AllBallLanded();
         }
@@ -234,5 +248,18 @@ public class GameController : MonoSingleton<GameController>
         else
             colorID = hp / 5;
         return blockColor[colorID];                  
+    }
+
+    private void BoostSpeedButtonAnim(bool exit)
+    {
+        if (!exit)
+        {
+            BoostSpeedButton.gameObject.SetActive(true);
+        }
+        else if(BoostSpeedButton.gameObject.activeSelf)
+        {
+            BoostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Exit");
+            boostSpeed_Exit = true;
+        }
     }
 }

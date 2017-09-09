@@ -53,13 +53,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354763894fc27aa4ea6b3a1efa420147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Canvas1: {fileID: 0}
   ballsPreview: {fileID: 0}
   ballContainer: {fileID: 0}
   tutorialContainer: {fileID: 0}
   ballPr: {fileID: 1502800115187544, guid: 111d7c2748d716d4e8a6ef4e13296bf0, type: 2}
   scoreText: {fileID: 0}
   amountBallsTextPr: {fileID: 0}
-  BoostSpeedButton: {fileID: 0}
+  BoostSpeedButton: {fileID: 114983513202396266, guid: b108fa7704a0b704188111997d43e012,
+    type: 2}
   ballColor: {r: 0.05882353, g: 0.61960787, b: 0.8980392, a: 1}
   ballCopyColor: {r: 0.05882353, g: 0.61960787, b: 0.8980392, a: 1}
   blockColor:
@@ -130,6 +132,7 @@ MonoBehaviour:
   loseMenu: {fileID: 0}
   statusBar: {fileID: 0}
   bonus_01UI: {fileID: 0}
+  AddBallUI: 0
   allBallLanded: 0
 --- !u!114 &114123733791665332
 MonoBehaviour:
