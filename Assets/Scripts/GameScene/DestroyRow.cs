@@ -8,7 +8,7 @@ public class DestroyRow : MonoSingleton<DestroyRow>
 
     private void Awake()
     {
-        nrBlock2HP = Random.Range(0, 4);
+        nrBlock2HP = Random.Range(0, 3);
     }
 
     public void Update()

@@ -7,7 +7,7 @@ public class ButtonController : MonoBehaviour
     private const string FACEBOOK_URL = "https://www.facebook.com";
 
     public GameObject canvas2;
-    public GameObject boostSpeedButton;
+    public Button boostSpeedButton;
     public GameObject pauseMenu;
     public GameObject loseMenu;
     public GameObject statusBar;
@@ -78,7 +78,8 @@ public class ButtonController : MonoBehaviour
     public void OnBoostSpeed()
     {
         Time.timeScale = 2f + (GameController.amountBalls / 80f);
-        boostSpeedButton.SetActive(false);
+        boostSpeedButton.interactable = false;
+        boostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Exit");
     }
 
 }

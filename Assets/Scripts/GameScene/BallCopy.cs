@@ -138,10 +138,7 @@ public class BallCopy : MonoSingleton<BallCopy>
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Square_01))
-        {
-            ResetSpeed();
-        }
+        ResetSpeed();
     }
 
 }

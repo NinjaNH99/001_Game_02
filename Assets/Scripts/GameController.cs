@@ -65,8 +65,6 @@ public class GameController : MonoSingleton<GameController>
     private Vector2 sd;
     private float timeWaitBoostSpeed;
     private TextMeshProUGUI amountBallsText;
-    private bool boostSpeed_Exit;
-    private float iBSB = 1f;
 
     private void Awake()
     {
@@ -74,7 +72,6 @@ public class GameController : MonoSingleton<GameController>
         score = 1;
         amountBalls = 1;
         bonus_01 = 0;
-        //speed = BALLSPEED;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = false;
@@ -91,14 +88,13 @@ public class GameController : MonoSingleton<GameController>
         ballCopyColor.a = 0.8f;
         onBoostSpeed = false;
         ballsPreview.parent.gameObject.SetActive(false);
-        BoostSpeedButton.gameObject.SetActive(false);
+        BoostSpeedButton.interactable = false;
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
         UpdateUIText();
         ShowAmBallsText(amountBalls);
         amountBallsLeft = amountBalls;
         ballOrgYPos = Ball.Instance.transform.position.y;
         startTimerGravity = false;
-        boostSpeed_Exit = false;
     }
 
     private void Update()
@@ -127,16 +123,6 @@ public class GameController : MonoSingleton<GameController>
                     BoostSpeedButtonAnim(false);
                     timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                     onBoostSpeed = false;
-                }
-            }
-            if (boostSpeed_Exit)
-            {
-                iBSB -= Time.deltaTime;
-                if (iBSB <= 0)
-                {
-                    BoostSpeedButton.gameObject.SetActive(false);
-                    iBSB = 1f;
-                    boostSpeed_Exit = false;
                 }
             }
         }
@@ -188,8 +174,6 @@ public class GameController : MonoSingleton<GameController>
                 GameObject go = Instantiate(ballPr, ballContainer) as GameObject;
                 BallCopy ballCopy = go.GetComponent<BallCopy>();
                 ballCopy.ballPos = posIn;
-                //ballCopy.SendBallInDirection(sd.normalized);
-                //ballCopy.dir = sd.normalized;
                 ballCopy.speed = BALLSPEED;
                 ballCopy.SendBallInDirection(sd.normalized);
                 AmountBalls--;
@@ -254,12 +238,13 @@ public class GameController : MonoSingleton<GameController>
     {
         if (!exit)
         {
-            BoostSpeedButton.gameObject.SetActive(true);
+            BoostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Intro");
+            BoostSpeedButton.interactable = true;
         }
-        else if(BoostSpeedButton.gameObject.activeSelf)
+        else if(BoostSpeedButton.interactable)
         {
             BoostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Exit");
-            boostSpeed_Exit = true;
+            BoostSpeedButton.interactable = false;
         }
     }
 }
