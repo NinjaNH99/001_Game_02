@@ -45,6 +45,7 @@ public class Block : MonoSingleton<Block>
             if (isDestroy)
             {
                 LevelContainer.Instance.nrBlocksInGame--;
+                GetComponentInParent<DestroyRow>().ForDestroyfSquare_01();
                 LevelContainer.Instance.NrBlocksInGame();
                 isDestroy = false;
             }

@@ -39,7 +39,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10a6598b96a2ce42be9c6b678da4156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  square_01: {fileID: 1354571465258654, guid: d1b771b1dbf4a384fbbed019c14a18c1, type: 2}
   nrBlock2HP: 0
+  nrObjects: 0
 --- !u!222 &222340532391936128
 CanvasRenderer:
   m_ObjectHideFlags: 1
