@@ -9,8 +9,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     public GameObject rowPrefab;
     public GameObject containerPrefab;
     public RectTransform rowContainer;
-    public GameObject bonus_01;
-    private TextMeshProUGUI bonus_01Text;
 
     private float currentSpawnY;
     private Vector2 rowContainerStartingPosition;
@@ -25,7 +23,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     private void Awake()
     {
         animPosY = true;
-        //gameObject.transform.position = new Vector3(0, 1.3f, 0);
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200.0f);
         rowContainerStartingPosition = rowContainer.anchoredPosition;
         desiredPosition = rowContainerStartingPosition;
@@ -36,7 +33,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     private void Start()
     {
         e = 0;
-        bonus_01Text = bonus_01.GetComponent<TextMeshProUGUI>();
         GenerateNewRow();
         NrBlocksInGame();
     }
@@ -56,7 +52,7 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     {
         animPosY = true;
         bool doNotSpawn = false;
-        bonus_01Text.gameObject.SetActive(false);
+        //bonus_01Text.gameObject.SetActive(false);
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
 
@@ -148,7 +144,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
                 }
             } while (!posIsClean);
             posArray[i] = pos;
-            //go.transform.position = new Vector2(pos * 0.35f, row.transform.position.y);
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(pos * DISTANCE_BETWEEN_BLOCKS, row.GetComponent<RectTransform>().anchoredPosition.y);
         }
         nrBlocksInGame += nrBlocks;
@@ -158,6 +153,9 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     public void NrBlocksInGame()
     {
         if (nrBlocksInGame == 0)
-            bonus_01Text.gameObject.SetActive(true);
+        {
+            Bonus.bonus_02++;
+            Bonus.Instance.AddBonus_02();
+        }
     }
 }

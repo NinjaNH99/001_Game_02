@@ -15,10 +15,6 @@ public class Block : MonoSingleton<Block>
     private void Start()
     {
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        /*if (GameController.score % Random.Range(2, 4) == 0 && Random.Range(0f, 1f) > 0.3f)
-            hp = GameController.score * 2;
-        else
-            hp = GameController.score;*/
         if (GetComponentInParent<DestroyRow>().nrBlock2HP > 0)
         {
             hp = GameController.score * 2;
@@ -45,7 +41,6 @@ public class Block : MonoSingleton<Block>
             if (isDestroy)
             {
                 LevelContainer.Instance.nrBlocksInGame--;
-                GetComponentInParent<DestroyRow>().ForDestroyfSquare_01();
                 LevelContainer.Instance.NrBlocksInGame();
                 isDestroy = false;
             }

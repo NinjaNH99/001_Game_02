@@ -51,8 +51,13 @@ public class GameController : MonoSingleton<GameController>
     public GameObject statusBar;
 
     // Bonus
+    /*
     public static int bonus_01;
     public GameObject bonus_01UI;
+
+    public static int bonus_02;
+    public GameObject bonus_02UI;
+    */
     public int AddBallUI;
 
     //public static float speed;
@@ -70,8 +75,7 @@ public class GameController : MonoSingleton<GameController>
     {
         Time.timeScale = 1;
         score = 1;
-        amountBalls = 1;
-        bonus_01 = 0;
+        amountBalls = 10;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = false;
@@ -211,7 +215,7 @@ public class GameController : MonoSingleton<GameController>
     public void UpdateUIText()
     {
         scoreText.GetComponent<TextMeshProUGUI>().text = score.ToString();
-        bonus_01UI.GetComponent<TextMeshProUGUI>().text = bonus_01.ToString();
+        Bonus.Instance.UpdateUIText();
     }
 
     public void OnLoseMenu()
@@ -247,4 +251,5 @@ public class GameController : MonoSingleton<GameController>
             BoostSpeedButton.interactable = false;
         }
     }
+
 }

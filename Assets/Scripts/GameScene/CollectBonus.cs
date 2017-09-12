@@ -17,12 +17,11 @@ public class CollectBonus : MonoBehaviour
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
         {
-            GameController.bonus_01++;
+            Bonus.bonus_01++;
             isCollected = true;
             if (!isDestroy)
             {
                 LevelContainer.Instance.nrBlocksInGame--;
-                GetComponentInParent<DestroyRow>().ForDestroyfSquare_01();
                 GameController.Instance.UpdateUIText();
                 isDestroy = true;
             }

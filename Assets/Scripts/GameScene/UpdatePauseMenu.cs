@@ -10,7 +10,7 @@ public class UpdatePauseMenu : MonoBehaviour {
 	public void UpdateGameStatus()
     { 
         score.GetComponent<TextMeshProUGUI>().text = GameController.score.ToString();
-        bonus.GetComponent<TextMeshProUGUI>().text = GameController.bonus_01.ToString();
+        bonus.GetComponent<TextMeshProUGUI>().text = Bonus.bonus_01.ToString();
     }
 	
 }

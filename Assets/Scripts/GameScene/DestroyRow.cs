@@ -7,7 +7,8 @@ public class DestroyRow : MonoSingleton<DestroyRow>
     public GameObject square_01;
 
     public int nrBlock2HP;
-    private int nrObjects;
+
+    private bool isSquare_01;
 
     private void Awake()
     {
@@ -16,27 +17,24 @@ public class DestroyRow : MonoSingleton<DestroyRow>
 
     private void Start()
     {
-        nrObjects = GetComponentsInChildren<Container>().Length;
-        if (GetComponentsInChildren<Square_01>() == null)
-            nrObjects--;
-        Debug.Log(nrObjects);
+        isSquare_01 = false;
+        if (GetComponentInChildren<Square_01>() != null)
+            isSquare_01 = true;
     }
 
     public void LateUpdate()
     {
+        if(isSquare_01)
+        {
+            if (transform.childCount == 1)
+            {
+                GetComponentInChildren<Square_01>().DeathZone();
+                isSquare_01 = false;
+            }
+        }
         if(transform.childCount == 0)
         {
             Destroy(gameObject);
-        }
-    }
-
-    public void ForDestroyfSquare_01()
-    {
-        if (GetComponentsInChildren<Square_01>() == null)
-        {
-            nrObjects--;
-            if (nrObjects <= 0)
-                square_01.GetComponent<Square_01>().DeathZone();
         }
     }
 
