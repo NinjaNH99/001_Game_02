@@ -46,12 +46,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Bonus.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />
      <Compile Include="Assets\Scripts\CameraScreenResolution.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GameScene\AddBallUI.cs" />
      <Compile Include="Assets\Scripts\GameScene\Ball.cs" />
      <Compile Include="Assets\Scripts\GameScene\BallCopy.cs" />
+     <Compile Include="Assets\Scripts\GameScene\Ball_Bonus_02.cs" />
      <Compile Include="Assets\Scripts\GameScene\Block.cs" />
      <Compile Include="Assets\Scripts\GameScene\CollectBall.cs" />
      <Compile Include="Assets\Scripts\GameScene\CollectBonus.cs" />
@@ -81,6 +83,9 @@
      <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+ <Reference Include="Facebook.Unity.Settings">
+ <HintPath>C:/Users/vasia/Documents/Unity Projects/Game_02-Unity/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

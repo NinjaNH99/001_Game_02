@@ -7,9 +7,11 @@ public class Bonus : MonoSingleton<Bonus>
     public GameObject bonus_01UI;
     public int AddBallUI;
 
+    // Bonus 02
     public static int bonus_02;
-    public GameObject bonus_02Obj;
     public GameObject bonus_02_text;
+    public GameObject bonus_02UI;
+    public bool isReadyForLaunch;
 
     private bool firstBonus_02;
 
@@ -19,6 +21,7 @@ public class Bonus : MonoSingleton<Bonus>
         bonus_02 = 0;
         AddBallUI = 0;
         firstBonus_02 = true;
+        isReadyForLaunch = false;
     }
 
     public void UpdateUIText()
@@ -31,7 +34,7 @@ public class Bonus : MonoSingleton<Bonus>
     {
         if (firstBonus_02)
         {
-            bonus_02Obj.GetComponent<Animator>().SetTrigger("IsBonus_02");
+            bonus_02UI.GetComponent<Animator>().SetTrigger("IsBonus_02");
             firstBonus_02 = false;
         }
         UpdateUIText();
@@ -39,14 +42,14 @@ public class Bonus : MonoSingleton<Bonus>
 
     public void Remove_02()
     {
-        bonus_02Obj.GetComponent<Animator>().SetTrigger("RmBonus_02");
         bonus_02--;
-        if (bonus_02 < 0)
+        if (bonus_02 < 1)
         {
             bonus_02 = 0;
             firstBonus_02 = true;
+            bonus_02UI.GetComponent<Animator>().SetTrigger("RmBonus_02");
         }
+        isReadyForLaunch = true;
         UpdateUIText();
     }
-
 }

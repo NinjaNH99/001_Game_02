@@ -16,6 +16,7 @@ TagManager:
   - EndLevel
   - Background
   - AddBallUI
+  - Bonus_02
   layers:
   - Default
   - TransparentFX

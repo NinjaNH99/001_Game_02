@@ -27,6 +27,7 @@ public class GameController : MonoSingleton<GameController>
 
     public Transform Canvas1;
     public Transform ballsPreview;
+    public Transform Space2D;
     public RectTransform ballContainer;
     public GameObject tutorialContainer;
     public GameObject ballPr;
@@ -59,6 +60,7 @@ public class GameController : MonoSingleton<GameController>
     public GameObject bonus_02UI;
     */
     public int AddBallUI;
+    public GameObject bonus_02Pr;
 
     //public static float speed;
     public static bool onBoostSpeed;
@@ -156,6 +158,11 @@ public class GameController : MonoSingleton<GameController>
                     onBoostSpeed = true;
                     Ball.Instance.speed = BALLSPEED;
                     Ball.Instance.SendBallInDirection(sd.normalized);
+                    if(Bonus.bonus_02 > 0 && Bonus.Instance.isReadyForLaunch)
+                    {
+                        GameObject ball_02 = Instantiate(bonus_02Pr, Space2D) as GameObject;
+                        ball_02.GetComponent<Ball_Bonus_02>().SendBallInDirection(sd.normalized, BALLSPEED);
+                    }
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(GenerateNewBall(amountBalls));
                     startTimerGravity = true;
