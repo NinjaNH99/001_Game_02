@@ -25,49 +25,27 @@ public class GameController : MonoSingleton<GameController>
     private const float TIMEWAITBOOSTSPEED = 2f;
     public const float BALLSPEED = 4f;
 
-    public Transform Canvas1;
-    public Transform ballsPreview;
-    public Transform Space2D;
+    public Transform Canvas1, ballsPreview, Space2D;
     public RectTransform ballContainer;
-    public GameObject tutorialContainer;
-    public GameObject ballPr;
-    public GameObject scoreText;
-    public GameObject amountBallsTextPr;
+    public GameObject tutorialContainer, ballPr, scoreText, amountBallsTextPr;
     public Button BoostSpeedButton;
+
+    // Canvas 2
+    public GameObject canvas2, loseMenu, statusBar, bonus_02Pr;
 
     public Color ballColor;
     public Color ballCopyColor;
-
     public Color[] blockColor;
 
-    public static int score;
-    public static int amountBallsLeft;
-    public static int amountBalls;
-
+    [HideInInspector]
+    public static int score, amountBallsLeft, amountBalls;
     public static float ballOrgYPos;
 
-    // Canvas 2
-    public GameObject canvas2;
-    public GameObject loseMenu;
-    public GameObject statusBar;
-
-    // Bonus
-    /*
-    public static int bonus_01;
-    public GameObject bonus_01UI;
-
-    public static int bonus_02;
-    public GameObject bonus_02UI;
-    */
+    [HideInInspector]
     public int AddBallUI;
-    public GameObject bonus_02Pr;
 
-    //public static float speed;
-    public static bool onBoostSpeed;
-    public static bool isBreakingStuff;
-    public static bool updateInputs;
-    public static bool startTimerGravity;
-    public bool allBallLanded;
+    [HideInInspector]
+    public static bool onBoostSpeed, isBreakingStuff, updateInputs, startTimerGravity, allBallLanded, bonus_02IsReady;
 
     private Vector2 sd;
     private float timeWaitBoostSpeed;
@@ -75,13 +53,11 @@ public class GameController : MonoSingleton<GameController>
 
     private void Awake()
     {
-        Time.timeScale = 1;
-        score = 1;
+        Time.timeScale = score = 1;
         amountBalls = 10;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
-        isBreakingStuff = false;
-        allBallLanded = false;
+        isBreakingStuff = allBallLanded = false;
         updateInputs = true;
         AddBallUI = 0;
     }
@@ -92,15 +68,13 @@ public class GameController : MonoSingleton<GameController>
         amountBallsText = amountBallsTextPr.GetComponent<TextMeshProUGUI>();
         ballCopyColor = ballColor;
         ballCopyColor.a = 0.8f;
-        onBoostSpeed = false;
         ballsPreview.parent.gameObject.SetActive(false);
-        BoostSpeedButton.interactable = false;
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
         UpdateUIText();
         ShowAmBallsText(amountBalls);
         amountBallsLeft = amountBalls;
         ballOrgYPos = Ball.Instance.transform.position.y;
-        startTimerGravity = false;
+        startTimerGravity = bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
     }
 
     private void Update()
@@ -152,44 +126,56 @@ public class GameController : MonoSingleton<GameController>
                 if (MobileInputs.Instance.release)
                 {
                     tutorialContainer.SetActive(false);
-                    isBreakingStuff = true;
+                    isBreakingStuff = onBoostSpeed = true;
                     updateInputs = false;
                     MobileInputs.Instance.Reset();
-                    onBoostSpeed = true;
-                    Ball.Instance.speed = BALLSPEED;
-                    Ball.Instance.SendBallInDirection(sd.normalized);
-                    if(Bonus.bonus_02 > 0 && Bonus.Instance.isReadyForLaunch)
+                    if(bonus_02IsReady)
                     {
-                        GameObject ball_02 = Instantiate(bonus_02Pr, Space2D) as GameObject;
-                        ball_02.GetComponent<Ball_Bonus_02>().SendBallInDirection(sd.normalized, BALLSPEED);
+                        StartCoroutine(GenerateNewBall(amountBalls, false, sd.normalized));
                     }
                     ballsPreview.parent.gameObject.SetActive(false);
-                    StartCoroutine(GenerateNewBall(amountBalls));
+                    StartCoroutine(GenerateNewBall(amountBalls, true, sd.normalized));
                     startTimerGravity = true;
+                    Bonus.Instance.ActivateButton(false);
                 }
             }
         }
     }
 
-    private IEnumerator GenerateNewBall(int nrBall)
+    private IEnumerator GenerateNewBall(int nrBall, bool ballCopySP,  Vector2 sd)
     {
         if (nrBall == 1)
             yield return null;
-        else
+        else if(ballCopySP)
         {
             Vector2 posIn = Ball.Instance.GetComponent<RectTransform>().position;
             int AmountBalls = nrBall;
+            
             for (int i = 0; i < nrBall - 1; i++)
             {
                 yield return new WaitForSeconds(0.1f);
+
                 GameObject go = Instantiate(ballPr, ballContainer) as GameObject;
                 BallCopy ballCopy = go.GetComponent<BallCopy>();
                 ballCopy.ballPos = posIn;
                 ballCopy.speed = BALLSPEED;
-                ballCopy.SendBallInDirection(sd.normalized);
+                ballCopy.SendBallInDirection(sd);
                 AmountBalls--;
                 ShowAmBallsText(AmountBalls);
             }
+            yield return new WaitForSeconds(0.1f);
+            Ball.Instance.speed = BALLSPEED;
+            Ball.Instance.SendBallInDirection(sd);
+        }
+        else if(!ballCopySP)
+        {
+            Vector2 posIn = Ball.Instance.GetComponent<RectTransform>().position;
+
+            GameObject goBonus_02 = Instantiate(bonus_02Pr, Space2D) as GameObject;
+            Ball_Bonus_02 ball_02 = goBonus_02.GetComponent<Ball_Bonus_02>();
+            ball_02.ballPos = posIn;
+            ball_02.SendBallInDirection(sd, BALLSPEED);
+            bonus_02IsReady = false;
         }
     }
 
@@ -208,10 +194,10 @@ public class GameController : MonoSingleton<GameController>
     {
         Time.timeScale = 1f;
         isBreakingStuff = false;
-        allBallLanded = true;
-        updateInputs = true;
+        allBallLanded = updateInputs = true;
         amountBallsLeft = amountBalls;
         AddBallUI = 0;
+        Bonus.Instance.ActivateButton(true);
     }
 
     private void ShowAmBallsText(int amountBallsShow)

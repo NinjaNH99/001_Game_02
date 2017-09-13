@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\GameScene\AddBallUI.cs" />
     <Compile Include="Assets\Scripts\GameScene\Ball.cs" />
     <Compile Include="Assets\Scripts\GameScene\BallCopy.cs" />
+    <Compile Include="Assets\Scripts\GameScene\Ball_Bonus_02.cs" />
     <Compile Include="Assets\Scripts\GameScene\Block.cs" />
     <Compile Include="Assets\Scripts\GameScene\CollectBall.cs" />
     <Compile Include="Assets\Scripts\GameScene\CollectBonus.cs" />

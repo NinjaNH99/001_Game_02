@@ -1591,9 +1591,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d95919c4b84aa84a9cd90666cbeed2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  circleAnim: {fileID: 1585230862888174}
   firstBallLanded: 0
   allBallLanded: 0
-  circleAnim: {fileID: 1585230862888174}
   speed: 0
 --- !u!114 &114246854887208024
 MonoBehaviour:
@@ -4231,7 +4231,7 @@ RectTransform:
   - {fileID: 224890648793024812}
   - {fileID: 224411838022975610}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -4485,8 +4485,8 @@ RectTransform:
   - {fileID: 224930419314200874}
   - {fileID: 224413897699835966}
   - {fileID: 224118993095277114}
-  - {fileID: 224390123307647404}
   - {fileID: 224754057852213172}
+  - {fileID: 224390123307647404}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4619,7 +4619,7 @@ RectTransform:
   - {fileID: 224060734262241488}
   - {fileID: 224492670173711262}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 222967504031661662}
   - component: {fileID: 114863635557670698}
   - component: {fileID: 114831963359696036}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Ball_Bonus_02
-  m_TagString: Bonus_02
+  m_TagString: ballCopy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65,7 +65,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 11
+  m_Radius: 12
 --- !u!114 &114831963359696036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,6 +77,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b30ef9fa5f794cba506f31caf421f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballPos: {x: 0, y: 0}
+  rigid: {fileID: 50631606909117336}
+  rectPos: {fileID: 224672913782253674}
 --- !u!114 &114863635557670698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 751c535c2a8ef044583e1f6ba4c2bf13, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

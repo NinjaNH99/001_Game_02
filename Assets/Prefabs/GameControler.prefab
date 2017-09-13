@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114284788580740968}
   - component: {fileID: 114123733791665332}
   - component: {fileID: 114025012858723618}
+  - component: {fileID: 114156191751693776}
   m_Layer: 0
   m_Name: GameControler
   m_TagString: GameController
@@ -55,13 +56,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Canvas1: {fileID: 0}
   ballsPreview: {fileID: 0}
+  Space2D: {fileID: 0}
   ballContainer: {fileID: 0}
   tutorialContainer: {fileID: 0}
   ballPr: {fileID: 1502800115187544, guid: 111d7c2748d716d4e8a6ef4e13296bf0, type: 2}
   scoreText: {fileID: 0}
   amountBallsTextPr: {fileID: 0}
-  BoostSpeedButton: {fileID: 114983513202396266, guid: b108fa7704a0b704188111997d43e012,
-    type: 2}
+  BoostSpeedButton: {fileID: 0}
+  canvas2: {fileID: 0}
+  loseMenu: {fileID: 0}
+  statusBar: {fileID: 0}
+  bonus_02Pr: {fileID: 1151160829602452, guid: 96191fea3a883fd41bc4434c3a4a9572, type: 2}
   ballColor: {r: 0.05882353, g: 0.61960787, b: 0.8980392, a: 1}
   ballCopyColor: {r: 0.05882353, g: 0.61960787, b: 0.8980392, a: 1}
   blockColor:
@@ -128,12 +133,7 @@ MonoBehaviour:
   - {r: 0.8901961, g: 0.3019608, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.2627451, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.22745098, b: 0.22745098, a: 0.7921569}
-  canvas2: {fileID: 0}
-  loseMenu: {fileID: 0}
-  statusBar: {fileID: 0}
-  bonus_01UI: {fileID: 0}
   AddBallUI: 0
-  allBallLanded: 0
 --- !u!114 &114123733791665332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,6 +151,21 @@ MonoBehaviour:
   loseMenu: {fileID: 0}
   statusBar: {fileID: 0}
   tutorialBar: {fileID: 0}
+--- !u!114 &114156191751693776
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044803221326956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f20586d53bbac47836caaeb14f71f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonus_01UI: {fileID: 0}
+  bonus_02_text: {fileID: 0}
+  bonus_02UI: {fileID: 0}
+  isReadyForLaunch: 0
 --- !u!114 &114284788580740968
 MonoBehaviour:
   m_ObjectHideFlags: 1

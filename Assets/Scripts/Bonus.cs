@@ -1,27 +1,32 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Bonus : MonoSingleton<Bonus>
 {
-    public static int bonus_01;
     public GameObject bonus_01UI;
-    public int AddBallUI;
 
-    // Bonus 02
-    public static int bonus_02;
+    // Bonus 02 
     public GameObject bonus_02_text;
     public GameObject bonus_02UI;
+    public Button bonus_02Button;
+
+    [HideInInspector]
     public bool isReadyForLaunch;
+    [HideInInspector]
+    public static int AddBallUI, bonus_01, bonus_02;
 
     private bool firstBonus_02;
+    private bool ballIsReady;
 
     private void Awake()
     {
         bonus_01 = 0;
         bonus_02 = 0;
         AddBallUI = 0;
-        firstBonus_02 = true;
+        firstBonus_02 = ballIsReady = true;
         isReadyForLaunch = false;
+        ActivateButton(false);
     }
 
     public void UpdateUIText()
@@ -42,14 +47,29 @@ public class Bonus : MonoSingleton<Bonus>
 
     public void Remove_02()
     {
-        bonus_02--;
-        if (bonus_02 < 1)
+        if (bonus_02 > 0 && ballIsReady)
         {
-            bonus_02 = 0;
-            firstBonus_02 = true;
-            bonus_02UI.GetComponent<Animator>().SetTrigger("RmBonus_02");
+            bonus_02--;
+            if (bonus_02 < 1)
+            {
+                bonus_02 = 0;
+                firstBonus_02 = true;
+                bonus_02UI.GetComponent<Animator>().SetTrigger("RmBonus_02");
+            }
+            GameController.bonus_02IsReady = true;
+            UpdateUIText();
+            ballIsReady = false;
         }
-        isReadyForLaunch = true;
-        UpdateUIText();
+    }
+
+    public void ActivateButton(bool activ)
+    {
+        if (activ)
+        {
+            bonus_02Button.interactable = true;
+            ballIsReady = true;
+        }
+        else
+            bonus_02Button.interactable = false;
     }
 }

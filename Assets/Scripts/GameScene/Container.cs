@@ -51,4 +51,9 @@ public class Container : MonoSingleton<Container>
         }
     }
 
+    public void RunBonus_02()
+    {
+        Debug.Log("Destroy square");
+    }
+
 }

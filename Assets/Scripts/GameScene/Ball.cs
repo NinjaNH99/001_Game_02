@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class Ball : MonoSingleton<Ball>
 {
-    public bool firstBallLanded;
-    public bool allBallLanded;
     public GameObject circleAnim;
+
+    [HideInInspector]
+    public bool firstBallLanded, allBallLanded;
+    [HideInInspector]
     public float speed;
 
     private Vector2 lastColPosL;
