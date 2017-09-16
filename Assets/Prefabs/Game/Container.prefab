@@ -256,6 +256,7 @@ MonoBehaviour:
     type: 2}
   ballObject: {fileID: 1026833481244974, guid: 99ae38fa4bfe6ae478fccff28d78bcee, type: 2}
   bonus_01: {fileID: 1737820970755062, guid: 1896eba866fd5c449820acf41d885459, type: 2}
+  posIn: 0
 --- !u!114 &114653433359883384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -271,6 +272,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224674293577261668}
   hp: 0
+  posInBlock: 0
 --- !u!114 &114762467360766386
 MonoBehaviour:
   m_ObjectHideFlags: 1

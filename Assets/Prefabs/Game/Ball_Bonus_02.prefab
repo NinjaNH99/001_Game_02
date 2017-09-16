@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b30ef9fa5f794cba506f31caf421f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
+  DestroyEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
   ballPos: {x: 0, y: 0}
   rigid: {fileID: 50631606909117336}
   rectPos: {fileID: 224672913782253674}

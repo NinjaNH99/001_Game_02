@@ -52,13 +52,13 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     {
         animPosY = true;
         bool doNotSpawn = false;
+
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
 
         go.GetComponent<RectTransform>().localPosition = Vector2.down * currentSpawnY;
 
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
-
         desiredPosition = rowContainerStartingPosition + Vector2.up * currentSpawnY;
 
         Container[] blockArray = go.GetComponentsInChildren<Container>();
@@ -143,6 +143,7 @@ public class LevelContainer : MonoSingleton<LevelContainer>
             } while (!posIsClean);
             posArray[i] = pos;
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(pos * DISTANCE_BETWEEN_BLOCKS, row.GetComponent<RectTransform>().anchoredPosition.y);
+            go.GetComponent<Container>().posIn = pos;
         }
         nrBlocksInGame += nrBlocks;
         return row;

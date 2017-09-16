@@ -9,11 +9,6 @@ public class Container : MonoSingleton<Container>
 
     public int posIn;
 
-    private void Start()
-    {
-        GetComponentInChildren<Block>().posInBlock = posIn;
-    }
-
     private void LateUpdate()
     {   
         if (transform.childCount == 0)
@@ -60,7 +55,8 @@ public class Container : MonoSingleton<Container>
 
     public void RunBonus_02()
     {
-        Debug.Log("Destroy square");
+        GetComponentInParent<Row>().CheckNrBlock();
+        GetComponentInParent<Row>().UplayBonus_02(posIn);
     }
 
 }

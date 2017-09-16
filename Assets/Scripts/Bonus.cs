@@ -22,11 +22,11 @@ public class Bonus : MonoSingleton<Bonus>
     private void Awake()
     {
         bonus_01 = 0;
-        bonus_02 = 0;
+        bonus_02 = 5;
         AddBallUI = 0;
         firstBonus_02 = ballIsReady = true;
         isReadyForLaunch = false;
-        ActivateButton(false);
+        //ActivateButton(false);
     }
 
     public void UpdateUIText()

@@ -9,8 +9,6 @@ public class Block : MonoSingleton<Block>
     public RectTransform containerPos;
     public int hp;
 
-    public int posInBlock;
-
     private TextMeshProUGUI hpText;
     private bool isDestroy;
 
@@ -26,7 +24,7 @@ public class Block : MonoSingleton<Block>
             hp = GameController.score;
         hpText.text = hp.ToString();
         isDestroy = true;
-        GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
+        GetComponent<Image>().color = GameController.Instance.ChangeColor(hp); 
     }
 
     private void ReceiveHit()
@@ -86,7 +84,7 @@ public class Block : MonoSingleton<Block>
             ReceiveHit();
         if (coll.gameObject.CompareTag(Tags.Bonus_02))
         {
-            
+            GetComponentInParent<Container>().RunBonus_02();
             ReciveHitByBonus(0);
         }
     }

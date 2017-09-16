@@ -38,6 +38,7 @@ public class GameController : MonoSingleton<GameController>
     public Color ballCopyColor;
     public Color[] blockColor;
 
+
     [HideInInspector]
     public static int score, amountBallsLeft, amountBalls;
     public static float ballOrgYPos;
@@ -46,7 +47,8 @@ public class GameController : MonoSingleton<GameController>
     public int AddBallUI;
 
     [HideInInspector]
-    public static bool onBoostSpeed, isBreakingStuff, updateInputs, startTimerGravity, allBallLanded, bonus_02IsReady;
+    public static bool onBoostSpeed, isBreakingStuff, updateInputs, startTimerGravity, allBallLanded, bonus_02IsReady, firstBallLanded;
+    public Vector2 targetPosLanded;
 
     private Vector2 sd;
     private float timeWaitBoostSpeed;
@@ -55,10 +57,10 @@ public class GameController : MonoSingleton<GameController>
     private void Awake()
     {
         Time.timeScale = score = 1;
-        amountBalls = 10;
+        amountBalls = 2;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
-        isBreakingStuff = allBallLanded = false;
+        isBreakingStuff = allBallLanded = firstBallLanded = false;
         updateInputs = true;
         AddBallUI = 0;
     }
@@ -146,12 +148,14 @@ public class GameController : MonoSingleton<GameController>
     private IEnumerator GenerateNewBall(int nrBall, bool ballCopySP,  Vector2 sd)
     {
         if (nrBall == 1)
+        {
             yield return null;
-        else if(ballCopySP)
+        }
+        else if (ballCopySP)
         {
             Vector2 posIn = Ball.Instance.GetComponent<RectTransform>().position;
             int AmountBalls = nrBall;
-            
+
             for (int i = 0; i < nrBall - 1; i++)
             {
                 yield return new WaitForSeconds(0.1f);
@@ -168,7 +172,7 @@ public class GameController : MonoSingleton<GameController>
             Ball.Instance.speed = BALLSPEED;
             Ball.Instance.SendBallInDirection(sd);
         }
-        else if(!ballCopySP)
+        else if (!ballCopySP)
         {
             Vector2 posIn = Ball.Instance.GetComponent<RectTransform>().position;
 
@@ -194,7 +198,7 @@ public class GameController : MonoSingleton<GameController>
     private void AllBallLanded()
     {
         Time.timeScale = 1f;
-        isBreakingStuff = false;
+        isBreakingStuff = firstBallLanded = false;
         allBallLanded = updateInputs = true;
         amountBallsLeft = amountBalls;
         AddBallUI = 0;

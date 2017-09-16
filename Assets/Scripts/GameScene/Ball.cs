@@ -33,7 +33,6 @@ public class Ball : MonoSingleton<Ball>
         rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
         doNotCheckL = doNotCheckR = false;
-        //Debug.Log("Ball " + rigid.velocity.magnitude);
     }
 
     public void SendBallInDirection(Vector2 dir)

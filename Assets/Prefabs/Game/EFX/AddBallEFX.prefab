@@ -737,8 +737,8 @@ ParticleSystem:
     m_BurstCount: 1
     m_Bursts:
     - time: 0
-      minCount: 35
-      maxCount: 35
+      minCount: 30
+      maxCount: 30
       cycleCount: 1
       repeatInterval: 0.01
   SizeModule:
