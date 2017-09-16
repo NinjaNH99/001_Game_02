@@ -52,7 +52,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     {
         animPosY = true;
         bool doNotSpawn = false;
-        //bonus_01Text.gameObject.SetActive(false);
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
 
@@ -60,7 +59,6 @@ public class LevelContainer : MonoSingleton<LevelContainer>
 
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
 
-        //desiredPosition = rowContainerStartingPosition + (Vector2.up * currentSpawnY);
         desiredPosition = rowContainerStartingPosition + Vector2.up * currentSpawnY;
 
         Container[] blockArray = go.GetComponentsInChildren<Container>();

@@ -24689,9 +24689,19 @@ Only usable on Android, Windows Phone or Windows Tablets.</para>
         <para>iPad Pro 9.7", first generation.</para>
       </summary>
     </member>
+    <member name="F:UnityEngine.iOS.DeviceGeneration.iPadPro10Inch2Gen">
+      <summary>
+        <para>iPad Pro 10.5", second generation 10" iPad.</para>
+      </summary>
+    </member>
     <member name="F:UnityEngine.iOS.DeviceGeneration.iPadPro1Gen">
       <summary>
-        <para>iPad Pro, first generation.</para>
+        <para>iPad Pro 12.9", first generation.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.iOS.DeviceGeneration.iPadPro2Gen">
+      <summary>
+        <para>iPad Pro 12.9", second generation.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.iOS.DeviceGeneration.iPadUnknown">
@@ -45679,6 +45689,11 @@ Updating a probe's cubemap is a costly operation. Unity needs to render the enti
         <para>Volume extent of a 3D render texture.</para>
       </summary>
     </member>
+    <member name="P:UnityEngine.RenderTexture.vrUsage">
+      <summary>
+        <para>If this RenderTexture is a VR eye texture used in stereoscopic rendering, this property decides what special rendering occurs, if any.</para>
+      </summary>
+    </member>
     <member name="P:UnityEngine.RenderTexture.width">
       <summary>
         <para>The width of the render texture in pixels.</para>
@@ -45756,6 +45771,7 @@ Updating a probe's cubemap is a costly operation. Unity needs to render the enti
       <param name="format">Render texture format.</param>
       <param name="readWrite">Color space conversion mode.</param>
       <param name="antiAliasing">Anti-aliasing (1,2,4,8).</param>
+      <param name="vrUsage"></param>
     </member>
     <member name="M:UnityEngine.RenderTexture.IsCreated">
       <summary>
@@ -56718,6 +56734,26 @@ This function calls &lt;a href=" https:msdn.microsoft.comen-uslibrarywindowsdesk
       </summary>
       <param name="oldState">The previous state of the world tracking systems.</param>
       <param name="newState">The new state of the world tracking systems.</param>
+    </member>
+    <member name="T:UnityEngine.VRTextureUsage">
+      <summary>
+        <para>This enum describes how the RenderTexture is used as a VR eye texture. Instead of using the values of this enum manually, use the value returned by GetDefaultVREyeTextureDesc or other VR functions returning a RenderTextureDesc.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VRTextureUsage.None">
+      <summary>
+        <para>The RenderTexture is not a VR eye texture. No special rendering behavior will occur.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VRTextureUsage.OneEye">
+      <summary>
+        <para>This texture corresponds to a single eye on a stereoscopic display.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VRTextureUsage.TwoEyes">
+      <summary>
+        <para>This texture corresponds to two eyes on a stereoscopic display. This will be taken into account when using Graphics.Blit and other rendering functions.</para>
+      </summary>
     </member>
     <member name="T:UnityEngine.WaitForEndOfFrame">
       <summary>

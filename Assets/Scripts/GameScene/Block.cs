@@ -9,16 +9,18 @@ public class Block : MonoSingleton<Block>
     public RectTransform containerPos;
     public int hp;
 
+    public int posInBlock;
+
     private TextMeshProUGUI hpText;
     private bool isDestroy;
 
     private void Start()
     {
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        if (GetComponentInParent<DestroyRow>().nrBlock2HP > 0)
+        if (GetComponentInParent<Row>().nrBlock2HP > 0)
         {
             hp = GameController.score * 2;
-            GetComponentInParent<DestroyRow>().nrBlock2HP--;
+            GetComponentInParent<Row>().nrBlock2HP--;
         }
         else
             hp = GameController.score;
@@ -35,6 +37,9 @@ public class Block : MonoSingleton<Block>
             hpText.text = "1";
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
             gameObject.SetActive(false);
+
+            //Debug.Log(posInBlock);
+
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
             GetComponent<BoxCollider2D>().isTrigger = true;
@@ -50,9 +55,39 @@ public class Block : MonoSingleton<Block>
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
     }
 
+    public void ReciveHitByBonus(int nr)
+    {
+        switch(nr)
+        {
+            case -1:
+                {
+                    hp /= 2;
+                    ReceiveHit();
+                    break;
+                }
+            case 0:
+                {
+                    hp = 1;
+                    ReceiveHit();
+                    break;
+                }
+            case 1:
+                {
+                    hp /= 2;
+                    ReceiveHit();
+                    break;
+                }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
             ReceiveHit();
+        if (coll.gameObject.CompareTag(Tags.Bonus_02))
+        {
+            
+            ReciveHitByBonus(0);
+        }
     }
 }

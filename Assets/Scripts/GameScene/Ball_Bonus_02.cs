@@ -11,10 +11,8 @@ public class Ball_Bonus_02 : MonoSingleton<Ball_Bonus_02>
 
     private void Start()
     {
-        //rigid.GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0f;
         rigid.simulated = true;
-        //rectPos = GetComponent<RectTransform>();
         rectPos.position = ballPos;
     }
 

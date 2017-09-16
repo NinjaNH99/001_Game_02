@@ -1,4 +1,4 @@
-5.6.3f1:3.3.0.2
+5.6.3p2:3.3.0.2
 Android
 E:/UserProgramms/Editor/Data/Managed/UnityEngine.dll
 E:/UserProgramms/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll

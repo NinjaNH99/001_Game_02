@@ -16,7 +16,7 @@
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
-    <UnityVersion>5.6.3f1</UnityVersion>
+    <UnityVersion>5.6.3p2</UnityVersion>
     <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
@@ -98,8 +98,8 @@
     <Compile Include="Assets\Scripts\GameScene\Container.cs" />
     <Compile Include="Assets\Scripts\GameScene\DeathLevel.cs" />
     <Compile Include="Assets\Scripts\GameScene\DeathZone.cs" />
-    <Compile Include="Assets\Scripts\GameScene\DestroyRow.cs" />
     <Compile Include="Assets\Scripts\GameScene\LevelContainer.cs" />
+    <Compile Include="Assets\Scripts\GameScene\Row.cs" />
     <Compile Include="Assets\Scripts\GameScene\Square_01.cs" />
     <Compile Include="Assets\Scripts\GameScene\TimerGravity.cs" />
     <Compile Include="Assets\Scripts\GameScene\UpdateLoseMenu.cs" />

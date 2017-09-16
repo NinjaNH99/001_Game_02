@@ -16,6 +16,7 @@ public class Tags
     public const string EndLevel = "EndLevel";
     public const string Background = "Background";
     public const string Space2D = "2DSpace";
+    public const string Bonus_02 = "Bonus_02";
 }
 
 public class GameController : MonoSingleton<GameController>

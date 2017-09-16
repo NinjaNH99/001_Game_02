@@ -7,6 +7,13 @@ public class Container : MonoSingleton<Container>
     public GameObject ballObject;
     public GameObject bonus_01;
 
+    public int posIn;
+
+    private void Start()
+    {
+        GetComponentInChildren<Block>().posInBlock = posIn;
+    }
+
     private void LateUpdate()
     {   
         if (transform.childCount == 0)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyRow : MonoSingleton<DestroyRow>
+public class Row : MonoSingleton<Row>
 {
     public GameObject square_01;
 
