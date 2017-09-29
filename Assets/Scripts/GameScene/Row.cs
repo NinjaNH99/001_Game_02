@@ -14,6 +14,8 @@ public class Row : MonoSingleton<Row>
     private void Awake()
     {
         nrBlock2HP = Random.Range(0, 3);
+        if (Random.Range(0f, 1f) > 0.6)
+            nrBlock2HP = 3;
     }
 
     private void Start()
@@ -48,7 +50,7 @@ public class Row : MonoSingleton<Row>
             {
                 if (container[i].GetComponentInChildren<Container>().posIn == (index - 1))
                     if (container[i].GetComponentInChildren<Block>() != null)
-                        container[i].GetComponentInChildren<Block>().ReciveHitByBonus(-1);
+                        container[i].GetComponentInChildren<Block>().ReciveHitByBonus(1);
 
                 if (container[i].GetComponentInChildren<Container>().posIn == (index + 1))
                     if (container[i].GetComponentInChildren<Block>() != null)

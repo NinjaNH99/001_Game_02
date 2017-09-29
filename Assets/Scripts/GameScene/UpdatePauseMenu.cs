@@ -7,7 +7,7 @@ public class UpdatePauseMenu : MonoBehaviour {
 	public GameObject bonus;
 	public GameObject bestScore;
 
-	public void UpdateGameStatus()
+    public void UpdateGameStatus()
     { 
         score.GetComponent<TextMeshProUGUI>().text = GameController.score.ToString();
         bonus.GetComponent<TextMeshProUGUI>().text = Bonus.bonus_01.ToString();

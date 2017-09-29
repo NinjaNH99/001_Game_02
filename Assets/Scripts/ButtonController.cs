@@ -53,9 +53,13 @@ public class ButtonController : MonoBehaviour
             pauseMenu.GetComponent<UpdatePauseMenu>().UpdateGameStatus();
             time = Time.timeScale;
             Time.timeScale = 0f;
+            pauseMenu.GetComponent<Animator>().SetTrigger("PanelON");
         }
         else
+        {
+            pauseMenu.GetComponent<Animator>().SetTrigger("PanelOFF");
             Time.timeScale = time;
+        }
     }
 
     public void OnRestartClick()

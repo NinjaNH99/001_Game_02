@@ -229,10 +229,10 @@ public class GameController : MonoSingleton<GameController>
     public Color ChangeColor(int hp)
     {
         int colorID = 0;
-        if (hp / 5 > blockColor.Length)
+        if (hp / 3 > blockColor.Length)
             colorID = blockColor.Length;
         else
-            colorID = hp / 5;
+            colorID = hp / 3;
         return blockColor[colorID];                  
     }
 

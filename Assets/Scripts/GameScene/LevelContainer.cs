@@ -52,7 +52,7 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     {
         animPosY = true;
         bool doNotSpawn = false;
-
+        Time.timeScale = 1f;
         GameObject go = Instantiate(rowPrefab, rowContainer) as GameObject;
         go = GenerateRowBlocks(go);
 

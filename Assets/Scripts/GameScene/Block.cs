@@ -57,21 +57,16 @@ public class Block : MonoSingleton<Block>
     {
         switch(nr)
         {
-            case -1:
+            case 1:
                 {
                     hp /= 2;
+                    hp++;
                     ReceiveHit();
                     break;
                 }
             case 0:
                 {
                     hp = 1;
-                    ReceiveHit();
-                    break;
-                }
-            case 1:
-                {
-                    hp /= 2;
                     ReceiveHit();
                     break;
                 }
