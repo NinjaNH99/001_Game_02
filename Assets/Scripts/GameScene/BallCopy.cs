@@ -8,14 +8,11 @@ public class BallCopy : MonoSingleton<BallCopy>
     public bool ballIsLanded;
     //public Vector2 dir;
     public float speed;
+    public static bool startFall;
 
     private Ball ballOr;
-    private Vector2 lastColPosL;
-    private Vector2 lastColPosR;
-    private Vector2 ballCopPos;
-    private Vector2 statePos;
-    private bool stopBlocked;
-    private bool doNotCheckL, doNotCheckR;
+    private Vector2 lastColPosL, lastColPosR, ballCopPos, statePos, BallDir;
+    private bool doNotCheckL, doNotCheckR, stopBlocked;
     private Rigidbody2D rigid;
     private Collider2D ballCopyCol;
     private RectTransform rectPos;
@@ -23,13 +20,13 @@ public class BallCopy : MonoSingleton<BallCopy>
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        rigid.gravityScale = 0f;
         rigid.simulated = true;
-        //speed = GameController.speed;
+        rigid.gravityScale = 0;
         ballOr = Ball.Instance;
         lastColPosL = lastColPosR = Vector2.zero;
         gameObject.GetComponent<Image>().color = GameController.Instance.ballCopyColor;
         ballIsLanded = false;
+        startFall = false;
     }
 
     private void Start()
@@ -37,8 +34,6 @@ public class BallCopy : MonoSingleton<BallCopy>
         rectPos = GetComponent<RectTransform>();
         rectPos.position = ballPos;
         doNotCheckL = doNotCheckR = false;
-        //SendBallInDirection();
-        //Debug.Log("Copy :" + rigid.velocity.magnitude);
     }
 
     private void Update()
@@ -62,6 +57,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     public void SendBallInDirection(Vector2 dir)
     {
         rigid.AddForce(dir * speed, ForceMode2D.Impulse);
+        BallDir = dir;
     }
 
     private void TouchFloor()
@@ -77,7 +73,7 @@ public class BallCopy : MonoSingleton<BallCopy>
     {
         GameController.amountBalls++;
     }
-
+    /*
     private void IfIsBlocked(bool left, bool right)
     {
         if (left && !doNotCheckL)
@@ -94,27 +90,39 @@ public class BallCopy : MonoSingleton<BallCopy>
         {
             if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
             {
-                rigid.gravityScale = 0.02f;
+                rigid.gravityScale = 0.04f;
             }
             else
             {
-                rigid.gravityScale = 0;
+                rigid.gravityScale = 0.002f;
             }
             doNotCheckL = doNotCheckR = false;
         }
 
     }
-
+    */
     private void StartFall()
     {
-        if (TimerGravity.Instance.startFall)
+        if (rectPos.position.x > 0)
+        {
+            rigid.AddForce(new Vector2(-0.1f, 0) * speed, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigid.AddForce(new Vector2(0.1f, 0) * speed, ForceMode2D.Impulse);
+        }
+        ResetSpeed();
+
+        if (startFall)
+        {
             rigid.gravityScale = 0.04f;
+            startFall = false;
+        }
     }
 
     private void ResetSpeed()
     {
         rigid.velocity = rigid.velocity.normalized * speed;
-        //Debug.Log("Copy :" + rigid.velocity.magnitude);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -124,15 +132,26 @@ public class BallCopy : MonoSingleton<BallCopy>
             TouchFloor();
         }
         
+
+        if(coll.gameObject.CompareTag(Tags.WallT))
+        {
+            StartFall();
+            Debug.Log("+");
+        }
         if (coll.gameObject.CompareTag(Tags.Wall))
         {
-            IfIsBlocked(true, false);
+            //IfIsBlocked(true, false);
+            //rigid.AddForce(Vector2.Reflect(rigid.velocity, coll.contacts[0].normal) * speed, ForceMode2D.Impulse);
+            rigid.AddForce(new Vector2(0, -0.01f) * speed, ForceMode2D.Impulse);
         }
         if (coll.gameObject.CompareTag(Tags.WallR))
         {
-            IfIsBlocked(false, true);
+            //rigid.AddForce(Vector2.Reflect(rigid.velocity , coll.contacts[0].normal) * speed, ForceMode2D.Impulse);
+            //IfIsBlocked(false, true);
+            rigid.AddForce(new Vector2(-0, -0.01f) * speed, ForceMode2D.Impulse);
         }
-        StartFall();
+
+        //StartFall();
         ResetSpeed();
     }
 

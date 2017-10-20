@@ -6,7 +6,6 @@ public class TimerGravity : MonoSingleton<TimerGravity>
     private const float TIMESPEED = 10.0f;
 
     public float nrBalls;
-    public bool startFall;
     public bool checkTime;
     [Range(0f, 1f)]
     public float i;
@@ -18,7 +17,6 @@ public class TimerGravity : MonoSingleton<TimerGravity>
         timer = GetComponent<Image>();
         nrBalls = 0f;
         i = 1;
-        startFall = false;
         checkTime = false;
     }
 
@@ -33,7 +31,8 @@ public class TimerGravity : MonoSingleton<TimerGravity>
             {
                 i = 0;
                 timer.fillAmount = 0;
-                startFall = true;
+                Ball.Instance.startFall = true;
+                BallCopy.startFall = true;
             }
         }
         else if (!GameController.startTimerGravity && checkTime)
@@ -43,7 +42,8 @@ public class TimerGravity : MonoSingleton<TimerGravity>
             if (i > 1)
             {
                 i = 1;
-                startFall = false;
+                Ball.Instance.startFall = false;
+                BallCopy.startFall = false;
                 checkTime = false;
                 GameController.Instance.IsAllBallLanded();
                 return;

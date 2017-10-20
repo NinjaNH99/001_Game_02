@@ -46,20 +46,23 @@ public class ButtonController : MonoBehaviour
         canvas2.SetActive(!canvas2.activeSelf);
         pauseMenu.SetActive(!pauseMenu.activeSelf);
         statusBar.SetActive(!statusBar.activeSelf);
-        if(!tutorialBar.activeSelf)
+        if (!tutorialBar.activeSelf)
             tutorialBar.SetActive(false);
-        if (pauseMenu.activeSelf)
-        {
-            pauseMenu.GetComponent<UpdatePauseMenu>().UpdateGameStatus();
-            time = Time.timeScale;
-            Time.timeScale = 0f;
-            pauseMenu.GetComponent<Animator>().SetTrigger("PanelON");
-        }
-        else
-        {
-            pauseMenu.GetComponent<Animator>().SetTrigger("PanelOFF");
-            Time.timeScale = time;
-        }
+        pauseMenu.GetComponent<UpdatePauseMenu>().UpdateGameStatus();
+        time = Time.timeScale;
+        Time.timeScale = 0f;
+        pauseMenu.GetComponent<Animator>().SetTrigger("PanelON");
+    }
+
+    public void OffPauseMenu()
+    {
+        if (!tutorialBar.activeSelf)
+            tutorialBar.SetActive(false);
+        pauseMenu.GetComponent<Animator>().SetTrigger("PanelOFF");
+        Time.timeScale = time;
+        canvas2.SetActive(!canvas2.activeSelf);
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
+        statusBar.SetActive(!statusBar.activeSelf);
     }
 
     public void OnRestartClick()

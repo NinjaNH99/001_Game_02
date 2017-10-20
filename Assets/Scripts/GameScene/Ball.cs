@@ -6,13 +6,11 @@ public class Ball : MonoSingleton<Ball>
     public GameObject circleAnim;
 
     [HideInInspector]
-    public bool firstBallLanded, allBallLanded;
+    public bool firstBallLanded, allBallLanded, startFall;
     [HideInInspector]
     public float speed;
 
-    private Vector2 lastColPosL;
-    private Vector2 lastColPosR;
-    private Vector2 landingPosition;
+    private Vector2 lastColPosL, lastColPosR, landingPosition, BallDir;
 
     private Rigidbody2D rigid;
     private RectTransform rectPos;
@@ -23,7 +21,7 @@ public class Ball : MonoSingleton<Ball>
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        rigid.gravityScale = 0f;
+        rigid.gravityScale = 0;
         rigid.simulated = true;
     }
 
@@ -32,7 +30,7 @@ public class Ball : MonoSingleton<Ball>
         firstBallLanded = false;
         rectPos = GetComponent<RectTransform>();
         lastColPosL = lastColPosR = Vector2.zero;
-        doNotCheckL = doNotCheckR = false;
+        doNotCheckL = doNotCheckR = startFall = false;
     }
 
     public void SendBallInDirection(Vector2 dir)
@@ -42,6 +40,7 @@ public class Ball : MonoSingleton<Ball>
         rigid.gravityScale = 0;
         rigid.AddForce(dir * speed, ForceMode2D.Impulse);
         circleAnim.GetComponent<Animator>().SetTrigger("isShoot");
+        BallDir = dir;
     }
 
     private void TouchFloor()
@@ -53,8 +52,9 @@ public class Ball : MonoSingleton<Ball>
         // Reload position Y
         rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
         circleAnim.GetComponent<Animator>().SetTrigger("isFell");
+        ResetSpeed();
     }
-
+    /*
     private void IfIsBlocked(bool left, bool right)
     {
         if (left && !doNotCheckL)
@@ -75,17 +75,30 @@ public class Ball : MonoSingleton<Ball>
             }
             else
             {
-                rigid.gravityScale = 0;
+                rigid.gravityScale = 0.002f;
             }
             doNotCheckL = doNotCheckR = false;
         }
 
-    }
+    }*/
 
     private void StartFall()
     {
-        if (TimerGravity.Instance.startFall)
+        if (rectPos.position.x > 0)
+        {
+            rigid.AddForce(new Vector2(-0.1f, 0) * speed, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigid.AddForce(new Vector2(0.1f, 0) * speed, ForceMode2D.Impulse);
+        }
+        ResetSpeed();
+
+        if (startFall)
+        {
             rigid.gravityScale = 0.04f;
+            startFall = false;
+        }
     }
 
     private void ResetSpeed()
@@ -105,16 +118,28 @@ public class Ball : MonoSingleton<Ball>
         {
             TouchFloor();
         }
+
+        if (coll.gameObject.CompareTag(Tags.WallT))
+        {
+            StartFall();
+            Debug.Log("+");
+        }
         if (coll.gameObject.CompareTag(Tags.Wall))
         {
-            IfIsBlocked(true, false);
+            //IfIsBlocked(true, false);
+            //rigid.AddForce(Vector2.Reflect(rigid.velocity.normalized, coll.contacts[0].normal) * speed, ForceMode2D.Impulse);
+            rigid.AddForce(new Vector2(0, -0.01f) * speed, ForceMode2D.Impulse);
         }
         if (coll.gameObject.CompareTag(Tags.WallR))
         {
-            IfIsBlocked(false, true);
+            //rigid.AddForce(Vector2.Reflect(rigid.velocity.normalized, coll.contacts[0].normal) * speed, ForceMode2D.Impulse);
+            //rigid.velocity = Vector2.Reflect(rigid.velocity.normalized, coll.contacts[0].normal);
+            //IfIsBlocked(false, true);
+            rigid.AddForce(new Vector2(-0, -0.01f) * speed, ForceMode2D.Impulse);
         }
+
         ResetSpeed();
-        StartFall();
+        //StartFall();
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

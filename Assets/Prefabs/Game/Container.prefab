@@ -74,7 +74,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1956732571081940}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -272,7 +272,6 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224674293577261668}
   hp: 0
-  posInBlock: 0
 --- !u!114 &114762467360766386
 MonoBehaviour:
   m_ObjectHideFlags: 1

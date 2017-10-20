@@ -11,6 +11,7 @@ public class Tags
     public const string Bonus = "Bonus";
     public const string Wall = "Wall";
     public const string WallR = "WallR";
+    public const string WallT = "WallT";
     public const string Player = "Player";
     public const string ballCopy = "ballCopy";
     public const string EndLevel = "EndLevel";
@@ -23,7 +24,7 @@ public class GameController : MonoSingleton<GameController>
 {
     private const float DEADZONE = 60.0f;
     private const float MAXIMUM_PULL = 200.0f;
-    private const float TIMEWAITBOOSTSPEED = 2f;
+    private const float TIMEWAITBOOSTSPEED = 3.2f;
     public const float BALLSPEED = 4f;
 
     public Transform Canvas1, ballsPreview, Space2D;
@@ -56,6 +57,8 @@ public class GameController : MonoSingleton<GameController>
 
     private void Awake()
     {
+        //Application.targetFrameRate = 60;
+
         Time.timeScale = score = 1;
         amountBalls = 2;
         sd = MobileInputs.Instance.swipeDelta;
@@ -90,7 +93,7 @@ public class GameController : MonoSingleton<GameController>
             {
                 score++;
                 onBoostSpeed = false;
-                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 10f);
+                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
                 LevelContainer.Instance.GenerateNewRow();
                 allBallLanded = false;
@@ -104,7 +107,7 @@ public class GameController : MonoSingleton<GameController>
                 if (timeWaitBoostSpeed < 0)
                 {
                     BoostSpeedButtonAnim(false);
-                    timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                    timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 10f);
                     onBoostSpeed = false;
                 }
             }
@@ -223,14 +226,15 @@ public class GameController : MonoSingleton<GameController>
         statusBar.SetActive(false);
         score--;
         loseMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
+        loseMenu.GetComponent<Animator>().SetTrigger("PanelON");
         Time.timeScale = 0f;
     }
 
     public Color ChangeColor(int hp)
     {
         int colorID = 0;
-        if (hp / 3 > blockColor.Length)
-            colorID = blockColor.Length;
+        if (hp / 3 > blockColor.Length - 1)
+            colorID = blockColor.Length - 1;
         else
             colorID = hp / 3;
         return blockColor[colorID];                  

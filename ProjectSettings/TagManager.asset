@@ -17,6 +17,7 @@ TagManager:
   - Background
   - AddBallUI
   - Bonus_02
+  - WallT
   layers:
   - Default
   - TransparentFX
