@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class Tags
 {
@@ -42,6 +43,7 @@ public class GameController : MonoSingleton<GameController>
 
     [HideInInspector]
     public static int score, amountBallsLeft, amountBalls;
+    [HideInInspector]
     public static float ballOrgYPos;
 
     [HideInInspector]
@@ -55,12 +57,16 @@ public class GameController : MonoSingleton<GameController>
     private float timeWaitBoostSpeed;
     private TextMeshProUGUI amountBallsText;
 
+    //For the new method of spawning the ball
+    private List<GameObject> BallsList;
+    private int nrBallINeed;
+
     private void Awake()
     {
         //Application.targetFrameRate = 60;
 
         Time.timeScale = score = 1;
-        amountBalls = 2;
+        amountBalls = 1;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;
@@ -70,6 +76,9 @@ public class GameController : MonoSingleton<GameController>
 
     private void Start()
     {
+        BallsList = new List<GameObject>();
+        nrBallINeed = amountBalls - 1;
+        GenerateBalls(nrBallINeed);
         ballColor = Ball.Instance.GetComponent<Image>().color;
         amountBallsText = amountBallsTextPr.GetComponent<TextMeshProUGUI>();
         ballCopyColor = ballColor;
@@ -100,6 +109,7 @@ public class GameController : MonoSingleton<GameController>
                 UpdateUIText();
                 ShowAmBallsText(amountBalls);
                 TimerGravity.Instance.nrBalls = amountBalls / 10f;
+                GenerateBalls(nrBallINeed);
             }
             if (onBoostSpeed)
             {
@@ -137,10 +147,11 @@ public class GameController : MonoSingleton<GameController>
                     MobileInputs.Instance.Reset();
                     if(bonus_02IsReady)
                     {
-                        StartCoroutine(GenerateNewBall(amountBalls, false, sd.normalized));
+                        //StartCoroutine(GenerateBalls(amountBalls, false, sd.normalized));
                     }
                     ballsPreview.parent.gameObject.SetActive(false);
-                    StartCoroutine(GenerateNewBall(amountBalls, true, sd.normalized));
+                    StartCoroutine(FireBalls(amountBalls, sd.normalized));
+                    //StartCoroutine(GenerateBalls(amountBalls, true, sd.normalized));
                     startTimerGravity = true;
                     Bonus.Instance.ActivateButton(false);
                 }
@@ -148,7 +159,45 @@ public class GameController : MonoSingleton<GameController>
         }
     }
 
-    private IEnumerator GenerateNewBall(int nrBall, bool ballCopySP,  Vector2 sd)
+
+    private void GenerateBalls(int nrBallINeed)
+    {
+        Vector2 posIn = BallOrg.Instance.GetComponent<RectTransform>().position;
+        for (int i = 0; i < nrBallINeed; i++)
+        {
+            GameObject go = Instantiate(ballPr, ballContainer) as GameObject;
+            go.GetComponent<BallCopy>().ballPos = posIn;
+            go.SetActive(false);
+            BallsList.Add(go);
+        }
+        //Debug.Log("Is - " + BallsList.Count);
+        nrBallINeed = 0;
+    }
+
+    private IEnumerator FireBalls(int nrBall, Vector2 sd)
+    {
+        int AmountBalls = BallsList.Count + 1;
+
+        Vector2 posIn = BallOrg.Instance.GetComponent<RectTransform>().position;
+        Debug.Log("posIn :  " + posIn);
+        for (int i = 0; i < BallsList.Count - 1; i++)
+        {
+            yield return new WaitForSeconds(0.1f);   
+            BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
+            ballCopy.ballPos = posIn;
+            ballCopy.speed = BALLSPEED;
+            BallsList[i].SetActive(true);
+            ballCopy.SendBallInDirection(sd);
+            AmountBalls--;
+            ShowAmBallsText(AmountBalls);
+        }
+        yield return new WaitForSeconds(0.1f);
+        BallsList[BallsList.Count].GetComponent<Ball>().speed = BALLSPEED;
+        BallsList[BallsList.Count].GetComponent<BallOrg>().SendBallInDirection(sd);
+    }
+
+    /*
+    private IEnumerator GenerateBalls(int nrBall, bool ballCopySP,  Vector2 sd)
     {
         if (nrBall == 1)
         {
@@ -185,7 +234,7 @@ public class GameController : MonoSingleton<GameController>
             ball_02.SendBallInDirection(sd, BALLSPEED);
             bonus_02IsReady = false;
         }
-    }
+    }*/
 
     public void IsAllBallLanded()
     {
@@ -204,6 +253,7 @@ public class GameController : MonoSingleton<GameController>
         isBreakingStuff = firstBallLanded = false;
         allBallLanded = updateInputs = true;
         amountBallsLeft = amountBalls;
+        nrBallINeed = AddBallUI;
         AddBallUI = 0;
         Bonus.Instance.ActivateButton(true);
     }

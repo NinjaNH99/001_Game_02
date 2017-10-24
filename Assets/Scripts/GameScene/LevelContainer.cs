@@ -3,7 +3,7 @@ using TMPro;
 
 public class LevelContainer : MonoSingleton<LevelContainer>
 {
-    private const float DISTANCE_BETWEEN_BLOCKS = 83.0f; // 0.35
+    private const float DISTANCE_BETWEEN_BLOCKS = 84.0f; // 83.0
     private const float ANIMPOSY_SPEED = 250.0f;
 
     public GameObject rowPrefab;

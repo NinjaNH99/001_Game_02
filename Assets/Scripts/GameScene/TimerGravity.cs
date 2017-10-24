@@ -32,18 +32,18 @@ public class TimerGravity : MonoSingleton<TimerGravity>
                 i = 0;
                 timer.fillAmount = 0;
                 Ball.Instance.startFall = true;
-                BallCopy.startFall = true;
+                Ball.Instance.startFall = true;
             }
         }
         else if (!GameController.startTimerGravity && checkTime)
         {
-            i += Time.deltaTime / 2.0f;
+            i += Time.deltaTime / 1.5f;
             timer.fillAmount = i;
             if (i > 1)
             {
                 i = 1;
                 Ball.Instance.startFall = false;
-                BallCopy.startFall = false;
+                Ball.Instance.startFall = false;
                 checkTime = false;
                 GameController.Instance.IsAllBallLanded();
                 return;

@@ -2,162 +2,93 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BallCopy : MonoSingleton<BallCopy>
+public class BallCopy : Ball
 {
-    public Vector2 ballPos;
+    public GameController ballOr;
+    [HideInInspector]
     public bool ballIsLanded;
-    //public Vector2 dir;
-    public float speed;
-    public static bool startFall;
+    public Vector2 ballPos;
 
-    private Ball ballOr;
-    private Vector2 lastColPosL, lastColPosR, ballCopPos, statePos, BallDir;
-    private bool doNotCheckL, doNotCheckR, stopBlocked;
-    private Rigidbody2D rigid;
+    private RectTransform statePos;
+    private Vector2 ballCopPos;
     private Collider2D ballCopyCol;
-    private RectTransform rectPos;
 
-    private void Awake()
+    protected override void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
-        rigid.simulated = true;
-        rigid.gravityScale = 0;
-        ballOr = Ball.Instance;
-        lastColPosL = lastColPosR = Vector2.zero;
+        base.Awake();
         gameObject.GetComponent<Image>().color = GameController.Instance.ballCopyColor;
         ballIsLanded = false;
-        startFall = false;
     }
 
-    private void Start()
+    protected override void Start()
     {
-        rectPos = GetComponent<RectTransform>();
+        base.Start();
+        //rectPos = this.gameObject.GetComponent<RectTransform>();
         rectPos.position = ballPos;
-        doNotCheckL = doNotCheckR = false;
+        Debug.Log("ballCopPosStart :  " + ballPos);
     }
 
     private void Update()
     {
         if (ballIsLanded)
         {
-            if (!ballOr.firstBallLanded)
-                rectPos.position = statePos;
-            else
+            //if (!Instance.firstBallLanded)
+                //rectPos.position = statePos;
+            if(Instance.firstBallLanded)
             {
-                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), ballOr.transform.position, Time.deltaTime * speed);
-                if (gameObject.transform.position == ballOr.transform.position)
+                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), BallOrg.ballPosFolled, Time.deltaTime * speed);
+                if ((Vector2)gameObject.transform.position == BallOrg.ballPosFolled)
                 {
                     GameController.Instance.IsAllBallLanded();
-                    Destroy(gameObject);
+                    //Destroy(gameObject);
+                    ResetSpeed();
+                    ballIsLanded = false;
+                    //Debug.Log("ballCopPosInCycle :  " + ballPos);
+                    //rectPos.position = ballPos;
+                    gameObject.SetActive(false);
                 }
             }
         }
     }
 
-    public void SendBallInDirection(Vector2 dir)
+    public override void SendBallInDirection(Vector2 dir)
     {
-        rigid.AddForce(dir * speed, ForceMode2D.Impulse);
-        BallDir = dir;
+        base.SendBallInDirection(dir);
     }
 
-    private void TouchFloor()
+    protected override void TouchFloor()
     {
-        ballCopPos = gameObject.transform.position;
-        rigid.velocity = Vector2.zero;
-        rigid.simulated = false;
-        statePos = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
+        base.TouchFloor();
+        //ballCopPos = gameObject.transform.position;
         ballIsLanded = true;
-    }
-
-    public void CollectBall()
-    {
-        GameController.amountBalls++;
-    }
-    /*
-    private void IfIsBlocked(bool left, bool right)
-    {
-        if (left && !doNotCheckL)
-        {
-            lastColPosL = gameObject.transform.position;
-            doNotCheckL = true;
-        }
-        else if (right && !doNotCheckR)
-        {
-            lastColPosR = gameObject.transform.position;
-            doNotCheckR = true;
-        }
-        if (doNotCheckL && doNotCheckR)
-        {
-            if (Math.Round(lastColPosL.y, 1) == Math.Round(lastColPosR.y, 1))
-            {
-                rigid.gravityScale = 0.04f;
-            }
-            else
-            {
-                rigid.gravityScale = 0.002f;
-            }
-            doNotCheckL = doNotCheckR = false;
-        }
-
-    }
-    */
-    private void StartFall()
-    {
-        if (rectPos.position.x > 0)
-        {
-            rigid.AddForce(new Vector2(-0.1f, 0) * speed, ForceMode2D.Impulse);
-        }
-        else
-        {
-            rigid.AddForce(new Vector2(0.1f, 0) * speed, ForceMode2D.Impulse);
-        }
-        ResetSpeed();
-
-        if (startFall)
-        {
-            rigid.gravityScale = 0.04f;
-            startFall = false;
-        }
-    }
-
-    private void ResetSpeed()
-    {
-        rigid.velocity = rigid.velocity.normalized * speed;
-    }
-
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (coll.gameObject.CompareTag(Tags.Floor))
-        {
-            TouchFloor();
-        }
-        
-
-        if(coll.gameObject.CompareTag(Tags.WallT))
-        {
-            StartFall();
-            Debug.Log("+");
-        }
-        if (coll.gameObject.CompareTag(Tags.Wall))
-        {
-            //IfIsBlocked(true, false);
-            //rigid.AddForce(Vector2.Reflect(rigid.velocity, coll.contacts[0].normal) * speed, ForceMode2D.Impulse);
-            rigid.AddForce(new Vector2(0, -0.01f) * speed, ForceMode2D.Impulse);
-        }
-        if (coll.gameObject.CompareTag(Tags.WallR))
-        {
-            //rigid.AddForce(Vector2.Reflect(rigid.velocity , coll.contacts[0].normal) * speed, ForceMode2D.Impulse);
-            //IfIsBlocked(false, true);
-            rigid.AddForce(new Vector2(-0, -0.01f) * speed, ForceMode2D.Impulse);
-        }
-
-        //StartFall();
+        //rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
+        //statePos.position = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
         ResetSpeed();
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    public override void CollectBall()
     {
-        ResetSpeed();
+        base.CollectBall();
+    }
+
+    protected override void StartFall()
+    {
+        base.StartFall();
+    }
+
+    protected override void ResetSpeed()
+    {
+        base.ResetSpeed();
+    }
+
+    protected override void OnCollisionEnter2D(Collision2D coll)
+    {
+        base.OnCollisionEnter2D(coll);
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D coll)
+    {
+        base.OnTriggerEnter2D(coll);
     }
 
 }

@@ -12,6 +12,11 @@ public class Block : MonoSingleton<Block>
     private TextMeshProUGUI hpText;
     private bool isDestroy;
 
+    private void Awake()
+    {
+        GetComponent<RectTransform>().localScale = new Vector2(75, 75);
+    }
+
     private void Start()
     {
         hpText = goHpText.GetComponent<TextMeshProUGUI>();

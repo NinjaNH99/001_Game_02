@@ -25,7 +25,7 @@ public class CollectBall : MonoSingleton<CollectBall>
         rigid = GetComponent<Rigidbody2D>();
         BackgroundPr = GameObject.FindGameObjectWithTag(Tags.Background);
         Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
-        spriteColor = Ball.Instance.GetComponent<Image>().color;
+        spriteColor = BallOrg.Instance.GetComponent<Image>().color;
         GetComponent<Image>().color = spriteColor;
     }
 
@@ -34,11 +34,11 @@ public class CollectBall : MonoSingleton<CollectBall>
         if (ballIsLanded)
         {
             if (Ball.Instance.firstBallLanded)
-                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, GameController.ballOrgYPos, 0), Ball.Instance.transform.position, Time.deltaTime * 4.0f);
+                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, GameController.ballOrgYPos, 0), BallOrg.Instance.transform.position, Time.deltaTime * 4.0f);
             else
                 gameObject.transform.position = new Vector3(transform.position.x, GameController.ballOrgYPos, 0);
                 //rectPos.anchoredPosition = new Vector2(rectPos.anchoredPosition.x, 155);
-            if (gameObject.transform.position == Ball.Instance.transform.position)
+            if (gameObject.transform.position == BallOrg.Instance.transform.position)
                 Destroy(this.gameObject);
         }
     }
