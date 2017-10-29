@@ -10,7 +10,7 @@ public class BallCopy : Ball
     public Vector2 ballPos;
 
     private RectTransform statePos;
-    private Vector2 ballCopPos;
+    //private Vector2 ballCopPos;
     private Collider2D ballCopyCol;
 
     protected override void Awake()
@@ -23,9 +23,12 @@ public class BallCopy : Ball
     protected override void Start()
     {
         base.Start();
-        //rectPos = this.gameObject.GetComponent<RectTransform>();
         rectPos.position = ballPos;
-        Debug.Log("ballCopPosStart :  " + ballPos);
+    }
+
+    private void OnEnable()
+    {
+        Start();
     }
 
     private void Update()
@@ -33,7 +36,7 @@ public class BallCopy : Ball
         if (ballIsLanded)
         {
             //if (!Instance.firstBallLanded)
-                //rectPos.position = statePos;
+              //  rectPos.position = statePos.position;
             if(Instance.firstBallLanded)
             {
                 gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), BallOrg.ballPosFolled, Time.deltaTime * speed);
@@ -59,10 +62,10 @@ public class BallCopy : Ball
     protected override void TouchFloor()
     {
         base.TouchFloor();
-        //ballCopPos = gameObject.transform.position;
-        ballIsLanded = true;
-        //rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
+        //ballCopPos = this.gameObject.transform.position;
+        rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
         //statePos.position = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
+        ballIsLanded = true;
         ResetSpeed();
     }
 

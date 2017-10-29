@@ -24,9 +24,11 @@ public abstract class Ball : MonoSingleton<Ball>
 
     protected virtual void Start()
     {
+        Awake();
         firstBallLanded = false;
         startFall = false;
         rectPos = GetComponent<RectTransform>();
+        ResetSpeed();
     }
 
     public virtual void SendBallInDirection(Vector2 dir)
@@ -40,6 +42,7 @@ public abstract class Ball : MonoSingleton<Ball>
     {
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
+        rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
         ResetSpeed();
     }
 

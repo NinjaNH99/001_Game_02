@@ -30,7 +30,7 @@ public class GameController : MonoSingleton<GameController>
 
     public Transform Canvas1, ballsPreview, Space2D;
     public RectTransform ballContainer;
-    public GameObject tutorialContainer, ballPr, scoreText, amountBallsTextPr;
+    public GameObject tutorialContainer, ballCopyPr, ballOr , scoreText, amountBallsTextPr;
     public Button BoostSpeedButton;
 
     // Canvas 2
@@ -77,6 +77,7 @@ public class GameController : MonoSingleton<GameController>
     private void Start()
     {
         BallsList = new List<GameObject>();
+        BallsList.Add(ballOr);
         nrBallINeed = amountBalls - 1;
         GenerateBalls(nrBallINeed);
         ballColor = Ball.Instance.GetComponent<Image>().color;
@@ -88,7 +89,7 @@ public class GameController : MonoSingleton<GameController>
         UpdateUIText();
         ShowAmBallsText(amountBalls);
         amountBallsLeft = amountBalls;
-        ballOrgYPos = Ball.Instance.transform.position.y;
+        ballOrgYPos = ballOr.transform.position.y;
         startTimerGravity = bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
     }
 
@@ -150,7 +151,7 @@ public class GameController : MonoSingleton<GameController>
                         //StartCoroutine(GenerateBalls(amountBalls, false, sd.normalized));
                     }
                     ballsPreview.parent.gameObject.SetActive(false);
-                    StartCoroutine(FireBalls(amountBalls, sd.normalized));
+                    StartCoroutine(FireBalls(sd.normalized));
                     //StartCoroutine(GenerateBalls(amountBalls, true, sd.normalized));
                     startTimerGravity = true;
                     Bonus.Instance.ActivateButton(false);
@@ -162,11 +163,11 @@ public class GameController : MonoSingleton<GameController>
 
     private void GenerateBalls(int nrBallINeed)
     {
-        Vector2 posIn = BallOrg.Instance.GetComponent<RectTransform>().position;
+        //Vector2 posIn = BallOrg.Instance.GetComponent<RectTransform>().position;
         for (int i = 0; i < nrBallINeed; i++)
         {
-            GameObject go = Instantiate(ballPr, ballContainer) as GameObject;
-            go.GetComponent<BallCopy>().ballPos = posIn;
+            GameObject go = Instantiate(ballCopyPr, ballContainer) as GameObject;
+            //go.GetComponent<BallCopy>().ballPos = posIn;
             go.SetActive(false);
             BallsList.Add(go);
         }
@@ -174,15 +175,14 @@ public class GameController : MonoSingleton<GameController>
         nrBallINeed = 0;
     }
 
-    private IEnumerator FireBalls(int nrBall, Vector2 sd)
+    private IEnumerator FireBalls(Vector2 sd)
     {
-        int AmountBalls = BallsList.Count + 1;
+        int AmountBalls = BallsList.Count - 1;
 
-        Vector2 posIn = BallOrg.Instance.GetComponent<RectTransform>().position;
-        Debug.Log("posIn :  " + posIn);
-        for (int i = 0; i < BallsList.Count - 1; i++)
+        Vector2 posIn = ballOr.GetComponent<RectTransform>().position;
+        //Debug.Log("posIn :  " + posIn);
+        for (int i = 1; i < BallsList.Count; i++)
         {
-            yield return new WaitForSeconds(0.1f);   
             BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
             ballCopy.ballPos = posIn;
             ballCopy.speed = BALLSPEED;
@@ -190,10 +190,12 @@ public class GameController : MonoSingleton<GameController>
             ballCopy.SendBallInDirection(sd);
             AmountBalls--;
             ShowAmBallsText(AmountBalls);
+            yield return new WaitForSeconds(0.1f);
         }
+        BallsList[0].GetComponent<BallOrg>().speed = BALLSPEED;
+        BallsList[0].GetComponent<BallOrg>().SendBallInDirection(sd);
+        ShowAmBallsText(AmountBalls);
         yield return new WaitForSeconds(0.1f);
-        BallsList[BallsList.Count].GetComponent<Ball>().speed = BALLSPEED;
-        BallsList[BallsList.Count].GetComponent<BallOrg>().SendBallInDirection(sd);
     }
 
     /*

@@ -28,7 +28,6 @@ public class BallOrg : Ball
         base.TouchFloor();
         Instance.firstBallLanded = true;
         GameController.Instance.IsAllBallLanded();
-        rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
         circleAnim.GetComponent<Animator>().SetTrigger("isFell");
         ballPosFolled = rectPos.position;
         ResetSpeed();

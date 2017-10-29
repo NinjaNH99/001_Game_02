@@ -59,7 +59,8 @@ MonoBehaviour:
   Space2D: {fileID: 0}
   ballContainer: {fileID: 0}
   tutorialContainer: {fileID: 0}
-  ballPr: {fileID: 1502800115187544, guid: 111d7c2748d716d4e8a6ef4e13296bf0, type: 2}
+  ballCopyPr: {fileID: 1502800115187544, guid: 111d7c2748d716d4e8a6ef4e13296bf0, type: 2}
+  ballOr: {fileID: 0}
   scoreText: {fileID: 0}
   amountBallsTextPr: {fileID: 0}
   BoostSpeedButton: {fileID: 0}
@@ -134,6 +135,7 @@ MonoBehaviour:
   - {r: 0.8901961, g: 0.2627451, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.22745098, b: 0.22745098, a: 0.7921569}
   AddBallUI: 0
+  targetPosLanded: {x: 0, y: 0}
 --- !u!114 &114123733791665332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,6 +167,7 @@ MonoBehaviour:
   bonus_01UI: {fileID: 0}
   bonus_02_text: {fileID: 0}
   bonus_02UI: {fileID: 0}
+  bonus_02Button: {fileID: 0}
   isReadyForLaunch: 0
 --- !u!114 &114284788580740968
 MonoBehaviour:
