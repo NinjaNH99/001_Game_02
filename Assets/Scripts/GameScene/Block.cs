@@ -10,6 +10,7 @@ public class Block : MonoSingleton<Block>
     public int hp;
 
     private TextMeshProUGUI hpText;
+    private Animator anim;
     private bool isDestroy;
 
     private void Awake()
@@ -29,11 +30,13 @@ public class Block : MonoSingleton<Block>
             hp = GameController.score;
         hpText.text = hp.ToString();
         isDestroy = true;
-        GetComponent<Image>().color = GameController.Instance.ChangeColor(hp); 
+        GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
+        anim = GetComponent<Animator>();
     }
 
     private void ReceiveHit()
     {
+        anim.SetTrigger("Hit");
         hp--;
         if (hp <= 0)
         {

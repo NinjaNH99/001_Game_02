@@ -14,12 +14,14 @@ public abstract class Ball : MonoSingleton<Ball>
     protected Rigidbody2D rigid;
     protected RectTransform rectPos;
     protected float currentSpawnY;
+    protected int checkPosX;
 
     protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0;
         rigid.simulated = true;
+        checkPosX = 5;
     }
 
     protected virtual void Start()
@@ -43,24 +45,31 @@ public abstract class Ball : MonoSingleton<Ball>
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
+        checkPosX = 5;
         ResetSpeed();
     }
 
     protected virtual void StartFall()
     {
-        if (rectPos.position.x > 0)
+        checkPosX--;
+        if (checkPosX <= 0)
         {
-            rigid.AddForce(new Vector2(-0.1f, 0) * speed, ForceMode2D.Impulse);
+            if (rectPos.position.x > 0)
+            {
+                rigid.AddForce(new Vector2(-0.1f, -0.1f) * speed, ForceMode2D.Impulse);
+                checkPosX = 5;
+            }
+            else
+            {
+                rigid.AddForce(new Vector2(0.1f, -0.1f) * speed, ForceMode2D.Impulse);
+                checkPosX = 5;
+            }
+            ResetSpeed();
         }
-        else
-        {
-            rigid.AddForce(new Vector2(0.1f, 0) * speed, ForceMode2D.Impulse);
-        }
-        ResetSpeed();
 
         if (startFall)
         {
-            rigid.gravityScale = 0.04f;
+            rigid.gravityScale = 0.07f;
             startFall = false;
         }
     }

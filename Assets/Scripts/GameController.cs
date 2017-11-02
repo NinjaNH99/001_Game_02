@@ -25,7 +25,7 @@ public class GameController : MonoSingleton<GameController>
 {
     private const float DEADZONE = 60.0f;
     private const float MAXIMUM_PULL = 200.0f;
-    private const float TIMEWAITBOOSTSPEED = 3.2f;
+    private const float TIMEWAITBOOSTSPEED = 1.5f;
     public const float BALLSPEED = 4f;
 
     public Transform Canvas1, ballsPreview, Space2D;
@@ -79,7 +79,7 @@ public class GameController : MonoSingleton<GameController>
         BallsList = new List<GameObject>();
         BallsList.Add(ballOr);
         nrBallINeed = amountBalls - 1;
-        GenerateBalls(nrBallINeed);
+        GenerateBalls(nrBallINeed, false);
         ballColor = Ball.Instance.GetComponent<Image>().color;
         amountBallsText = amountBallsTextPr.GetComponent<TextMeshProUGUI>();
         ballCopyColor = ballColor;
@@ -110,7 +110,7 @@ public class GameController : MonoSingleton<GameController>
                 UpdateUIText();
                 ShowAmBallsText(amountBalls);
                 TimerGravity.Instance.nrBalls = amountBalls / 10f;
-                GenerateBalls(nrBallINeed);
+                GenerateBalls(nrBallINeed, false);
             }
             if (onBoostSpeed)
             {
@@ -149,10 +149,11 @@ public class GameController : MonoSingleton<GameController>
                     if(bonus_02IsReady)
                     {
                         //StartCoroutine(GenerateBalls(amountBalls, false, sd.normalized));
+                        //StartCoroutine(FireBalls(sd.normalized, true));
+                        GenerateBalls(1, true);
                     }
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(FireBalls(sd.normalized));
-                    //StartCoroutine(GenerateBalls(amountBalls, true, sd.normalized));
                     startTimerGravity = true;
                     Bonus.Instance.ActivateButton(false);
                 }
@@ -161,17 +162,27 @@ public class GameController : MonoSingleton<GameController>
     }
 
 
-    private void GenerateBalls(int nrBallINeed)
+    private void GenerateBalls(int nrBallINeed, bool isBonBall)
     {
-        //Vector2 posIn = BallOrg.Instance.GetComponent<RectTransform>().position;
-        for (int i = 0; i < nrBallINeed; i++)
+        if (!isBonBall)
         {
-            GameObject go = Instantiate(ballCopyPr, ballContainer) as GameObject;
-            //go.GetComponent<BallCopy>().ballPos = posIn;
-            go.SetActive(false);
-            BallsList.Add(go);
+            for (int i = 0; i < nrBallINeed; i++)
+            {
+                GameObject go = Instantiate(ballCopyPr, ballContainer) as GameObject;
+                go.SetActive(false);
+                BallsList.Add(go);
+            }
         }
-        //Debug.Log("Is - " + BallsList.Count);
+        else
+        {
+            for (int i = 0; i < nrBallINeed; i++)
+            {
+                GameObject go = Instantiate(bonus_02Pr, Space2D) as GameObject;
+                go.SetActive(false);
+                BallsList.Add(go);
+            }
+            bonus_02IsReady = false;
+        }
         nrBallINeed = 0;
     }
 
@@ -180,17 +191,29 @@ public class GameController : MonoSingleton<GameController>
         int AmountBalls = BallsList.Count - 1;
 
         Vector2 posIn = ballOr.GetComponent<RectTransform>().position;
-        //Debug.Log("posIn :  " + posIn);
-        for (int i = 1; i < BallsList.Count; i++)
+        for (int i = BallsList.Count - 1; i > 0; i--)
         {
-            BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
-            ballCopy.ballPos = posIn;
-            ballCopy.speed = BALLSPEED;
-            BallsList[i].SetActive(true);
-            ballCopy.SendBallInDirection(sd);
-            AmountBalls--;
+            if (BallsList[i].GetComponent<BallCopy>())
+            {
+                BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
+                ballCopy.ballPos = posIn;
+                ballCopy.speed = BALLSPEED;
+                BallsList[i].SetActive(true);
+                ballCopy.SendBallInDirection(sd);
+                AmountBalls--;
+                yield return new WaitForSeconds(0.1f);
+            }
+            else
+            {
+                Ball_Bonus_02 ballCopy = BallsList[i].GetComponent<Ball_Bonus_02>();
+                ballCopy.ballPos = posIn;
+                ballCopy.speed = BALLSPEED;
+                BallsList[i].SetActive(true);
+                ballCopy.SendBallInDirection(sd);
+                BallsList.RemoveAt(i);
+                yield return new WaitForSeconds(0.1f);
+            }
             ShowAmBallsText(AmountBalls);
-            yield return new WaitForSeconds(0.1f);
         }
         BallsList[0].GetComponent<BallOrg>().speed = BALLSPEED;
         BallsList[0].GetComponent<BallOrg>().SendBallInDirection(sd);
