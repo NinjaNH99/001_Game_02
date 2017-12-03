@@ -69,7 +69,7 @@ public abstract class Ball : MonoSingleton<Ball>
 
         if (startFall)
         {
-            rigid.gravityScale = 0.07f;
+            rigid.gravityScale = 0.1f;
             startFall = false;
         }
     }
@@ -90,16 +90,17 @@ public abstract class Ball : MonoSingleton<Ball>
         {
             TouchFloor();
         }
-
+        /*
         if (coll.gameObject.CompareTag(Tags.WallT))
         {
             StartFall();
-        }
+        }*/
         if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR))
         {
             rigid.AddForce(new Vector2(0, -0.005f) * speed, ForceMode2D.Impulse);
         }
 
+        StartFall();
         ResetSpeed();
     }
 
