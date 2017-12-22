@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_02-Unity", "Game_02-Unity.csproj", "{F88F7B20-43D9-21A4-5854-E26D5209C3BA}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_02-Unity", "Assembly-CSharp.csproj", "{7A7866B8-DC10-9BF6-1BB3-E9668DE569DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F88F7B20-43D9-21A4-5854-E26D5209C3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F88F7B20-43D9-21A4-5854-E26D5209C3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F88F7B20-43D9-21A4-5854-E26D5209C3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F88F7B20-43D9-21A4-5854-E26D5209C3BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A7866B8-DC10-9BF6-1BB3-E9668DE569DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A7866B8-DC10-9BF6-1BB3-E9668DE569DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A7866B8-DC10-9BF6-1BB3-E9668DE569DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A7866B8-DC10-9BF6-1BB3-E9668DE569DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal

@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224543319777139344}
   - component: {fileID: 114726044688290878}
+  - component: {fileID: 114420213120766956}
   m_Layer: 0
   m_Name: Square_01
   m_TagString: Square_01
@@ -144,6 +145,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114420213120766956
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1354571465258654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 4
+  visualIndex: 0
 --- !u!114 &114726044688290878
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,13 +21,13 @@ public class Block : MonoSingleton<Block>
     private void Start()
     {
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        if (GetComponentInParent<Row>().nrBlock2HP > 0)
+        /*if (GetComponentInParent<Row>().nrBlock2HP > 0)
         {
             hp = GameController.score * 2;
             GetComponentInParent<Row>().nrBlock2HP--;
         }
         else
-            hp = GameController.score;
+            hp = GameController.score;*/
         hpText.text = hp.ToString();
         isDestroy = true;
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
@@ -87,7 +87,7 @@ public class Block : MonoSingleton<Block>
             ReceiveHit();
         if (coll.gameObject.CompareTag(Tags.Bonus_02))
         {
-            GetComponentInParent<Container>().RunBonus_02();
+            //GetComponentInParent<Container>().RunBonus_02();
             ReciveHitByBonus(0);
         }
     }

@@ -77,19 +77,19 @@ public class LevelContainer : MonoSingleton<LevelContainer>
         {
             if (ballSpawnIndex == i || (ballSpawnIndex2 == i && ballSpawnIndex != ballSpawnIndex2))
             {
-                blockArray[i].SpawnBall();
+                //blockArray[i].SpawnBall();
             }
             else if (ballSpawnIndex != i && !doNotSpawn)
             {
                 if (GameController.score % Random.Range(4, 6) == 0)
                 {
-                    blockArray[i].SpawnSquare_01();
+                    //blockArray[i].SpawnSquare_01();
                     doNotSpawn = true;
                 }
             }
             else if (GameController.score % 2 == 0)
             {
-                blockArray[i].SpawnBonus();
+                //blockArray[i].SpawnBonus();
                 break;
             }
         }
@@ -143,7 +143,7 @@ public class LevelContainer : MonoSingleton<LevelContainer>
             } while (!posIsClean);
             posArray[i] = pos;
             go.GetComponent<RectTransform>().anchoredPosition = new Vector2(pos * DISTANCE_BETWEEN_BLOCKS, row.GetComponent<RectTransform>().anchoredPosition.y);
-            go.GetComponent<Container>().posIn = pos;
+            //go.GetComponent<Container>().posIn = pos;
         }
         nrBlocksInGame += nrBlocks;
         return row;

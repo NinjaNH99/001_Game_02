@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114745503704864978}
   - component: {fileID: 222757325165759040}
   - component: {fileID: 114067398815233528}
+  - component: {fileID: 114884534715684810}
   m_Layer: 9
   m_Name: Bonus_01
   m_TagString: Bonus
@@ -114,6 +115,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff216f9b55999ea4f9610b8835e34eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114884534715684810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737820970755062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockType: 3
+  visualIndex: 0
 --- !u!222 &222757325165759040
 CanvasRenderer:
   m_ObjectHideFlags: 1

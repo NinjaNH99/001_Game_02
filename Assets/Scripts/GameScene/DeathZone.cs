@@ -6,7 +6,7 @@ public class DeathZone : MonoBehaviour
     {
         if (coll.gameObject.CompareTag(Tags.Square))
         {
-            coll.transform.parent.GetComponent<Container>().EndLevel(coll.gameObject);
+            //coll.transform.parent.GetComponent<Container>().EndLevel(coll.gameObject);
             GameController.isBreakingStuff = true;
         }
         else if (!coll.gameObject.CompareTag(Tags.Square_01))
