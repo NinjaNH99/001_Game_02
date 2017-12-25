@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class LevelContainer : MonoSingleton<LevelContainer>
+public class LevelContainer : MonoBehaviour
 {
     private const float DISTANCE_BETWEEN_BLOCKS = 84.0f; // 83.0
     private const float ANIMPOSY_SPEED = 250.0f;
@@ -23,7 +23,7 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     private void Awake()
     {
         animPosY = true;
-        GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200.0f);
+        //GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200.0f);
         rowContainerStartingPosition = rowContainer.anchoredPosition;
         desiredPosition = rowContainerStartingPosition;
         lastBallSpawn = 1f;
@@ -33,11 +33,11 @@ public class LevelContainer : MonoSingleton<LevelContainer>
     private void Start()
     {
         e = 0;
-        GenerateNewRow();
-        NrBlocksInGame();
+        //GenerateNewRow();
+        //NrBlocksInGame();
     }
 
-    private void Update()
+    private void Update1()
     {
         if (animPosY)
         {

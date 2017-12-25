@@ -28,6 +28,7 @@ public class Block : MonoSingleton<Block>
         }
         else
             hp = GameController.score;*/
+        hp = 1;
         hpText.text = hp.ToString();
         isDestroy = true;
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
@@ -51,8 +52,8 @@ public class Block : MonoSingleton<Block>
             GetComponent<BoxCollider2D>().isTrigger = true;
             if (isDestroy)
             {
-                LevelContainer.Instance.nrBlocksInGame--;
-                LevelContainer.Instance.NrBlocksInGame();
+                //LevelContainer.Instance.nrBlocksInGame--;
+                //LevelContainer.Instance.NrBlocksInGame();
                 isDestroy = false;
             }
             return;

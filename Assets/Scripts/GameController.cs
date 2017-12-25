@@ -105,7 +105,8 @@ public class GameController : MonoSingleton<GameController>
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
-                LevelContainer.Instance.GenerateNewRow();
+                //LevelContainer.Instance.GenerateNewRow();
+                LevelManager.Instance.GenerateRow();
                 allBallLanded = false;
                 UpdateUIText();
                 ShowAmBallsText(amountBalls);

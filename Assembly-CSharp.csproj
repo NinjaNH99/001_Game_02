@@ -56,10 +56,10 @@
      <Compile Include="Assets\Scripts\GameScene\BallOrg.cs" />
      <Compile Include="Assets\Scripts\GameScene\Ball_Bonus_02.cs" />
      <Compile Include="Assets\Scripts\GameScene\Block.cs" />
+     <Compile Include="Assets\Scripts\GameScene\BlockType.cs" />
      <Compile Include="Assets\Scripts\GameScene\CollectBall.cs" />
      <Compile Include="Assets\Scripts\GameScene\CollectBonus.cs" />
      <Compile Include="Assets\Scripts\GameScene\Container.cs" />
-     <Compile Include="Assets\Scripts\GameScene\ContainerSpawner.cs" />
      <Compile Include="Assets\Scripts\GameScene\DeathLevel.cs" />
      <Compile Include="Assets\Scripts\GameScene\DeathZone.cs" />
      <Compile Include="Assets\Scripts\GameScene\LevelContainer.cs" />

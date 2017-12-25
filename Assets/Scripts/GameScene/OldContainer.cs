@@ -21,7 +21,7 @@ public class OldContainer : MonoSingleton<OldContainer>
     {
         DestroyBlock();
         Instantiate(square_01Object, gameObject.transform);
-        LevelContainer.Instance.nrBlocksInGame--;
+        //LevelContainer.Instance.nrBlocksInGame--;
     }
 
     public void SpawnBall()
