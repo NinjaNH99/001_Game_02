@@ -3,13 +3,11 @@
 public class Container : Row
 {
     public int visualIndex;
-    public bool goNext;
 
-    private BlockType[] blockTypes;
+    private BlockType[] blockTypes = new BlockType[5];
 
     private void Awake()
     {
-        goNext = false;
         blockTypes = GetComponentsInChildren<BlockType>();
     }
 
@@ -24,7 +22,6 @@ public class Container : Row
                         if (blockTypes[i].Bltype == BlType.square_01)
                         {
                             blockTypes[i].Option(true);
-                            goNext = true;
                         }
                         else
                             blockTypes[i].Option(false);
@@ -38,7 +35,6 @@ public class Container : Row
                         if (blockTypes[i].Bltype == BlType.ball)
                         {
                             blockTypes[i].Option(true);
-                            goNext = true;
                         }
                         else
                             blockTypes[i].Option(false);
@@ -52,7 +48,6 @@ public class Container : Row
                         if (blockTypes[i].Bltype == BlType.bonus)
                         {
                             blockTypes[i].Option(true);
-                            goNext = true;
                         }
                         else
                             blockTypes[i].Option(false);
@@ -66,23 +61,31 @@ public class Container : Row
                         if (blockTypes[i].Bltype == BlType.square)
                         {
                             blockTypes[i].Option(true);
-                            goNext = true;
                         }
                         else
                             blockTypes[i].Option(false);
                     }
                     break;
                 }
-            default:
+            case 5:
                 {
                     this.gameObject.SetActive(false);
+                    break;
+                }
+            default:
+                {
                     break;
                 }
         }
     }
 
-    private void DeSpawnBlock()
+    public void DeSpawnBlock()
     {
-
+        blockTypes = GetComponentsInChildren<BlockType>();
+        if (blockTypes.Length == 0)
+        {
+            Debug.Log("Container is NULL");
+            this.gameObject.SetActive(false);
+        }
     }
 }

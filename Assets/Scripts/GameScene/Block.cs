@@ -28,7 +28,7 @@ public class Block : MonoSingleton<Block>
         }
         else
             hp = GameController.score;*/
-        hp = 1;
+        hp = GameController.score;
         hpText.text = hp.ToString();
         isDestroy = true;
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
