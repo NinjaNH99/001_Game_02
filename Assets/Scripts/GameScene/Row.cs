@@ -15,9 +15,9 @@ public class Row : MonoBehaviour
         rowID = GameController.score;
         int rand = Random.Range(0, 100);
         if (rand >= 60)
-            SPMAX = 2;
+            SPMAX = 3;
         else if (rand >= 20)
-            SPMAX = 1;
+            SPMAX = 2;
 
         containers = GetComponentsInChildren<Container>();
     }
@@ -33,10 +33,10 @@ public class Row : MonoBehaviour
     private void Spawn()
     {
         int kBL = 0, kSQ1 = 0;
-        int rand;
+        
         for (int i = 0; i < containers.Length; i++)
         {
-            rand = Random.Range(0, 100);
+            int rand = Random.Range(0, 101);
 
             if (rand >= 70 && BLMAX > 0 && kBL <= 1)
             {
@@ -66,6 +66,7 @@ public class Row : MonoBehaviour
             else
                 containers[i].SpawnType(4);
         }
+
     }
 
     public bool DeSpawn()
@@ -76,7 +77,6 @@ public class Row : MonoBehaviour
             containers[i].DeSpawnBlock();
         if (containers.Length == 0)
         {
-            Debug.Log("Row is NULL");
             r = false;
             Destroy(this.gameObject, 0.5f);
         }

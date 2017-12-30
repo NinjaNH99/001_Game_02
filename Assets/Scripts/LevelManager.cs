@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class LevelManager : MonoSingleton<LevelManager>
 {
     private const float DISTANCE_BETWEEN_BLOCKS = 84.0f; // 83.0
     private const float ANIMPOSY_SPEED = 250.0f;
+    private const int RESETDATA = 4;
 
     public GameObject rowPrefab;
     // List of rows
@@ -41,8 +41,8 @@ public class LevelManager : MonoSingleton<LevelManager>
             rows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
-            CheckRowsNull();
         }
+        CheckRowsNull();
     }
 
     private void CheckRowsNull()
@@ -65,7 +65,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LSQ1MAX <= 0)
         {
             resSQ1Max++;
-            if(resSQ1Max >= 3)
+            if(resSQ1Max >= RESETDATA)
             {
                 LSQ1MAX = 3;
                 resSQ1Max = 0;
@@ -74,7 +74,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LBLMAX <= 0)
         {
             resBLMAX++;
-            if (resSQ1Max >= 3)
+            if (resSQ1Max >= RESETDATA - 1)
             {
                 LBLMAX = 3;
                 resBLMAX = 0;
@@ -83,7 +83,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LBNMAX <= 0)
         {
             resBNMAX++;
-            if (resBNMAX >= 3)
+            if (resBNMAX >= RESETDATA)
             {
                 LBNMAX = 1;
                 resBNMAX = 0;
