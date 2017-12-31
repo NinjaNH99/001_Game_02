@@ -52,6 +52,7 @@ public class Block : MonoSingleton<Block>
             GetComponent<BoxCollider2D>().isTrigger = true;
             if (isDestroy)
             {
+                GetComponentInParent<Row>().CheckNrConts();
                 //LevelContainer.Instance.nrBlocksInGame--;
                 //LevelContainer.Instance.NrBlocksInGame();
                 isDestroy = false;

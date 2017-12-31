@@ -21,6 +21,7 @@ public class CollectBonus : MonoBehaviour
             isCollected = true;
             if (!isDestroy)
             {
+                GetComponentInParent<Row>().CheckNrConts();
                 //LevelContainer.Instance.nrBlocksInGame--;
                 GameController.Instance.UpdateUIText();
                 isDestroy = true;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Container : Row
+public class Container : MonoBehaviour
 {
     public int visualIndex;
 
@@ -11,81 +11,39 @@ public class Container : Row
         blockTypes = GetComponentsInChildren<BlockType>();
     }
 
-    public void SpawnType(int type)
+    public void SpawnType(BlType type)
     {
-        switch (type)
+        for (int i = 0; i < blockTypes.Length; i++)
         {
-            case 1:
-                {
-                    for (int i = 0; i < blockTypes.Length; i++)
-                    {
-                        if (blockTypes[i].Bltype == BlType.square_01)
-                        {
-                            blockTypes[i].Option(true);
-                        }
-                        else
-                            blockTypes[i].Option(false);
-                    }
-                    break;
-                }
-            case 2:
-                {
-                    for (int i = 0; i < blockTypes.Length; i++)
-                    {
-                        if (blockTypes[i].Bltype == BlType.ball)
-                        {
-                            blockTypes[i].Option(true);
-                        }
-                        else
-                            blockTypes[i].Option(false);
-                    }
-                    break;
-                }
-            case 3:
-                {
-                    for (int i = 0; i < blockTypes.Length; i++)
-                    {
-                        if (blockTypes[i].Bltype == BlType.bonus)
-                        {
-                            blockTypes[i].Option(true);
-                        }
-                        else
-                            blockTypes[i].Option(false);
-                    }
-                    break;
-                }
-            case 4:
-                {
-                    for (int i = 0; i < blockTypes.Length; i++)
-                    {
-                        if (blockTypes[i].Bltype == BlType.square)
-                        {
-                            blockTypes[i].Option(true);
-                        }
-                        else
-                            blockTypes[i].Option(false);
-                    }
-                    break;
-                }
-            case 5:
-                {
-                    this.gameObject.SetActive(false);
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
+            if (blockTypes[i].Bltype == type && type != BlType.space)
+            {
+                blockTypes[i].Option(true);
+                GetComponentInParent<Row>().nrBlock++;
+            }
+            else
+                blockTypes[i].Option(false);
         }
+        DeSpawnBlock();
     }
 
     public void DeSpawnBlock()
     {
         blockTypes = GetComponentsInChildren<BlockType>();
-        if (blockTypes.Length == 0)
+        if (blockTypes.Length <= 0)
         {
-            Debug.Log("Container is NULL");
             this.gameObject.SetActive(false);
+        }
+    }
+
+    public void EndLevel(GameObject obj)
+    {
+        if (obj.tag == Tags.Square)
+        {
+            obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
+        else if (obj.tag == Tags.Square_01)
+        {
+            Destroy(obj);
         }
     }
 }

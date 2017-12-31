@@ -8,6 +8,7 @@ public enum BlType
     ball = 2,
     bonus = 3,
     square_01 = 4,
+    space = 5
 }
 
 public class BlockType : MonoBehaviour

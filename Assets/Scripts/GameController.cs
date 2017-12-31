@@ -21,6 +21,22 @@ public class Tags
     public const string Bonus_02 = "Bonus_02";
 }
 
+//  Fisher-Yates algorithm 
+static class RandomExtensions
+{
+    public static void Shuffle<T>(this System.Random rng, T[] array)
+    {
+        int n = array.Length;
+        while (n > 1)
+        {
+            int k = rng.Next(n--);
+            T temp = array[n];
+            array[n] = array[k];
+            array[k] = temp;
+        }
+    }
+}
+
 public class GameController : MonoSingleton<GameController>
 {
     private const float DEADZONE = 60.0f;
@@ -66,7 +82,7 @@ public class GameController : MonoSingleton<GameController>
         //Application.targetFrameRate = 60;
 
         Time.timeScale = score = 1;
-        amountBalls = 1;
+        amountBalls = 5;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;

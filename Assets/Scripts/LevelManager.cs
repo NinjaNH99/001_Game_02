@@ -12,7 +12,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     // List of rows
     protected List<GameObject> rows = new List<GameObject>();
     // Max obj 
-    public int LSQ1MAX, LBLMAX, LBNMAX;
+    [HideInInspector]
+    public int LSQ1MAX, LBLMAX, LBNMAX, nrRowsInGame;
     private int resSQ1Max, resBLMAX, resBNMAX;
 
     private float curPosY;
@@ -20,7 +21,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Awake()
     {
-        LSQ1MAX = 3; LBLMAX = 3; LBNMAX = 1;
+        LSQ1MAX = 3; LBLMAX = 4; LBNMAX = 1;
         resSQ1Max = resBLMAX = resBNMAX = 0;
         curPosY = 0;
         desiredPosition = -168.0f;
@@ -33,16 +34,16 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void GenerateRow()
     {
+        CheckRowsNull();
         if (CheckData())
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SetData(LBLMAX, LSQ1MAX, LBNMAX);
+            go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LBNMAX);
             rows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
         }
-        CheckRowsNull();
     }
 
     private void CheckRowsNull()
@@ -58,10 +59,6 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private bool CheckData()
     {
-        Debug.Log("LSQ1MAX : " + LSQ1MAX);
-        Debug.Log("LBLMAX : " + LBLMAX);
-        Debug.Log("LBNMAX : " + LBNMAX);
-        Debug.Log("-------------------");
         if (LSQ1MAX <= 0)
         {
             resSQ1Max++;
@@ -91,6 +88,17 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
 
         return true;
+    }
+
+    public void NrBlocksInGame()
+    {
+        nrRowsInGame = rows.Count;
+        Debug.Log(nrRowsInGame);
+        if (nrRowsInGame <= 1)
+        {
+            Bonus.bonus_02++;
+            Bonus.Instance.AddBonus_02();
+        }
     }
 
     /*

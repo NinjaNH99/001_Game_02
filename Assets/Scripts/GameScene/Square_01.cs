@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Square_01 : MonoBehaviour
+public class Square_01 : Row
 {
     public GameObject Square_01EFX;
     public GameObject Square_01Pr;

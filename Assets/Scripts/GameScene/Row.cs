@@ -2,71 +2,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Row : MonoBehaviour
 {
     public int rowID;
+    public int nrBlock = 0;
 
-    protected int SQ1MAX, BLMAX, BONMAX, SPMAX;
+    protected int SQ1MAX, BLMAX, BONMAX, SPMAX = 2;
 
     private Container[] containers = new Container[8];
 
     private void Awake()
     {
         rowID = GameController.score;
-        int rand = Random.Range(0, 100);
-        if (rand >= 60)
-            SPMAX = 3;
-        else if (rand >= 20)
-            SPMAX = 2;
 
         containers = GetComponentsInChildren<Container>();
+        // Random sort containers by Fisher-Yates algorithm
+        new System.Random().Shuffle(containers);
     }
 
-    public void SetData(int x1, int x2, int x3)
+    public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX)
     {
-        BLMAX = x1;
-        SQ1MAX = x2;
-        BONMAX = x3;
-        Spawn();
-    }
+        bool kBL = true, kSQ1 = true;
+        int rand;
 
-    private void Spawn()
-    {
-        int kBL = 0, kSQ1 = 0;
-        
         for (int i = 0; i < containers.Length; i++)
         {
-            int rand = Random.Range(0, 101);
+            rand = Random.Range(0, 101);
 
-            if (rand >= 70 && BLMAX > 0 && kBL <= 1)
+            if (rand >= 60 && BLMAX > 0 && kBL)
             {
-                containers[i].SpawnType(2);
+                containers[i].SpawnType(BlType.ball);
+                if(Random.Range(0, 3) != 1)
+                    kBL = false;
                 BLMAX--;
-                kBL++;
                 LevelManager.Instance.LBLMAX--;
             }
-            else if (rand >= 40 && SQ1MAX > 0 && kSQ1 <= 1)
+            else if (rand >= 50 && SQ1MAX > 0 && kSQ1)
             {
-                containers[i].SpawnType(1);
-                SQ1MAX--;
-                kSQ1++;
+                containers[i].SpawnType(BlType.square_01);
+                kSQ1 = false;
                 LevelManager.Instance.LSQ1MAX--;
             }
-            else if (rand >= 20 && SPMAX > 0)
+            else if (SPMAX > 0)
             {
-                containers[i].SpawnType(5);
+                containers[i].SpawnType(BlType.space);
                 SPMAX--;
             }
-            else if (rand >= 10 && BONMAX > 0)
+            else if (rand >= 5 && BONMAX > 0)
             {
-                containers[i].SpawnType(3);
+                containers[i].SpawnType(BlType.bonus);
                 BONMAX--;
                 LevelManager.Instance.LBNMAX--;
             }
             else
-                containers[i].SpawnType(4);
+                containers[i].SpawnType(BlType.square);
         }
+    }
 
+    public void CheckNrConts()
+    {
+        nrBlock--;
+        if(nrBlock <= 1)
+        {
+            if (GetComponentInChildren<Square_01>() != null)
+                GetComponentInChildren<Square_01>().DeathZone();
+        }
     }
 
     public bool DeSpawn()
@@ -75,10 +76,12 @@ public class Row : MonoBehaviour
         containers = GetComponentsInChildren<Container>();
         for (int i = 0; i < containers.Length; i++)
             containers[i].DeSpawnBlock();
-        if (containers.Length == 0)
+        
+        if (containers.Length <= 0)
         {
+            LevelManager.Instance.NrBlocksInGame();
             r = false;
-            Destroy(this.gameObject, 0.5f);
+            Destroy(this.gameObject, 0.1f);
         }
         return r;
     }
