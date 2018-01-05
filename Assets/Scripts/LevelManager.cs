@@ -94,7 +94,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         nrRowsInGame = rows.Count;
         Debug.Log(nrRowsInGame);
-        if (nrRowsInGame <= 1)
+        if (nrRowsInGame <= 0)
         {
             Bonus.bonus_02++;
             Bonus.Instance.AddBonus_02();

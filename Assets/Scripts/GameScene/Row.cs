@@ -76,8 +76,9 @@ public class Row : MonoBehaviour
         containers = GetComponentsInChildren<Container>();
         for (int i = 0; i < containers.Length; i++)
             containers[i].DeSpawnBlock();
-        
-        if (containers.Length <= 0)
+
+        Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
+        if (nrBlock <= 1)
         {
             LevelManager.Instance.NrBlocksInGame();
             r = false;
