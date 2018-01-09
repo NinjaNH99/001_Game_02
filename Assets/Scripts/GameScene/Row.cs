@@ -21,6 +21,7 @@ public class Row : MonoBehaviour
         new System.Random().Shuffle(containers);
     }
 
+    // Spawn random blockType from Cont in row
     public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX)
     {
         bool kBL = true, kSQ1 = true;
