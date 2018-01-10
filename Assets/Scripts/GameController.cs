@@ -82,7 +82,7 @@ public class GameController : MonoSingleton<GameController>
         //Application.targetFrameRate = 60;
 
         Time.timeScale = score = 1;
-        amountBalls = 5;
+        amountBalls = 1;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;

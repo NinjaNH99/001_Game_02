@@ -26,13 +26,15 @@ public class Container : MonoBehaviour
         DeSpawnBlock();
     }
 
-    public void DeSpawnBlock()
+    public bool DeSpawnBlock()
     {
         blockTypes = GetComponentsInChildren<BlockType>();
         if (blockTypes.Length <= 0)
         {
+            Debug.Log("Gone!" + visualIndex);
             this.gameObject.SetActive(false);
         }
+        return true;
     }
 
     public void EndLevel(GameObject obj)

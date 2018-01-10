@@ -6,7 +6,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 {
     private const float DISTANCE_BETWEEN_BLOCKS = 84.0f; // 83.0
     private const float ANIMPOSY_SPEED = 250.0f;
-    private const int RESETDATA = 4;
+    private const int RESETDATA = 2;
 
     public GameObject rowPrefab;
     // List of rows
@@ -86,7 +86,6 @@ public class LevelManager : MonoSingleton<LevelManager>
                 resBNMAX = 0;
             }
         }
-
         return true;
     }
 
