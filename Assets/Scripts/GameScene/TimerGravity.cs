@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TimerGravity : MonoSingleton<TimerGravity>
 {
-    private const float TIMESPEED = 10.0f;
+    private const float TIMESPEED = 10.0f; // 10
 
     public float nrBalls;
     public bool checkTime;

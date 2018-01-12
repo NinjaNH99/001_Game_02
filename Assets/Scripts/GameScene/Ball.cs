@@ -11,7 +11,7 @@ public abstract class Ball : MonoSingleton<Ball>
     public float speed;
     [HideInInspector]
 
-    protected Rigidbody2D rigid;
+    public Rigidbody2D rigid;
     protected RectTransform rectPos;
     protected float currentSpawnY;
     protected int checkPosX;
