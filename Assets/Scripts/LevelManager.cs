@@ -6,11 +6,15 @@ public class LevelManager : MonoSingleton<LevelManager>
 {
     private const float DISTANCE_BETWEEN_BLOCKS = 84.0f; // 83.0
     private const float ANIMPOSY_SPEED = 250.0f;
-    private const int RESETDATA = 2;
+    private const int RESETDATA = 4;
 
     public GameObject rowPrefab;
     // List of rows
-    protected List<GameObject> rows = new List<GameObject>();
+    protected List<GameObject> listRows = new List<GameObject>();
+
+    // List of teleports
+    public List<GameObject> listTelep = new List<GameObject>();
+
     // Max obj 
     [HideInInspector]
     public int LSQ1MAX, LBLMAX, LBNMAX, nrRowsInGame;
@@ -40,7 +44,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
             go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LBNMAX);
-            rows.Add(go_row);
+            listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
         }
@@ -48,11 +52,11 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void CheckRowsNull()
     {
-        for (int i = 0; i < rows.Count; i++)
+        for (int i = 0; i < listRows.Count; i++)
         {
-            if(!rows[i].GetComponent<Row>().DeSpawn())
+            if(!listRows[i].GetComponent<Row>().DeSpawn())
             {
-                rows.RemoveAt(i);
+                listRows.RemoveAt(i);
             }
         }
     }
@@ -71,9 +75,9 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LBLMAX <= 0)
         {
             resBLMAX++;
-            if (resSQ1Max >= RESETDATA - 1)
+            if (resSQ1Max >= RESETDATA - 2)
             {
-                LBLMAX = 3;
+                LBLMAX = 4;
                 resBLMAX = 0;
             }
         }
@@ -91,8 +95,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void NrBlocksInGame()
     {
-        nrRowsInGame = rows.Count;
-        Debug.Log(nrRowsInGame);
+        nrRowsInGame = listRows.Count;
+        //Debug.Log(nrRowsInGame);
         if (nrRowsInGame <= 0)
         {
             Bonus.bonus_02++;

@@ -31,15 +31,15 @@ public class Row : MonoBehaviour
         {
             rand = Random.Range(0, 101);
 
-            if (rand >= 60 && BLMAX > Random.Range(1,5) && kBL)
+            if (rand >= 60 && BLMAX > 0 && kBL)
             {
                 containers[i].SpawnType(BlType.ball);
-                if(Random.Range(0, 3) != 1)
+                if(Random.Range(0, 4) != 1)
                     kBL = false;
                 BLMAX--;
                 LevelManager.Instance.LBLMAX--;
             }
-            else if (rand >= 50 && SQ1MAX > Random.Range(1,4) && kSQ1)
+            else if (rand >= 50 && SQ1MAX > 0 && kSQ1)
             {
                 containers[i].SpawnType(BlType.square_01);
                 kSQ1 = false;
@@ -59,21 +59,19 @@ public class Row : MonoBehaviour
             else
                 containers[i].SpawnType(BlType.square);
         }
-        Debug.Log("BLMAX :" + BLMAX);
-        Debug.Log("SQ1MAX :" + SQ1MAX);
     }
 
     public void CheckNrConts(bool swt)
     {
         nrBlock--;
-        if (swt)
+        /*if (swt)
         {
             if (nrBlock <= 1)
             {
                 if (GetComponentInChildren<Square_01>() != null)
                     GetComponentInChildren<Square_01>().DeathZone();
             }
-        }
+        }*/
     }
 
     public bool DeSpawn()
@@ -86,7 +84,7 @@ public class Row : MonoBehaviour
                 i++;
         }
 
-        Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
+        //Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
         if (nrBlock <= 0)
         {
             LevelManager.Instance.NrBlocksInGame();

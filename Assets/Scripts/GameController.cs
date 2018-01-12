@@ -37,11 +37,24 @@ static class RandomExtensions
     }
 }
 
+static class SetTransparencyExtensions
+{
+    public static void SetTransparency(this Image p_image, float p_transparency)
+    {
+        if (p_image != null)
+        {
+            Color __alpha = p_image.color;
+            __alpha.a = p_transparency;
+            p_image.color = __alpha;
+        }
+    }
+}
+
 public class GameController : MonoSingleton<GameController>
 {
     private const float DEADZONE = 60.0f;
     private const float MAXIMUM_PULL = 200.0f;
-    private const float TIMEWAITBOOSTSPEED = 1.5f; // 1.5
+    private const float TIMEWAITBOOSTSPEED = 2f; // 1.5
     public const float BALLSPEED = 4f;
 
     public Transform Canvas1, ballsPreview, Space2D;
@@ -79,10 +92,11 @@ public class GameController : MonoSingleton<GameController>
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
 
-        Time.timeScale = score = 1;
-        amountBalls = 50;
+        Time.timeScale = 1;
+        score = 1;
+        amountBalls = 1;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;
@@ -118,9 +132,8 @@ public class GameController : MonoSingleton<GameController>
             if (allBallLanded)
             {
                 score++;
-                score = Random.Range(0, 200);
                 onBoostSpeed = false;
-                timeWaitBoostSpeed = 1;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
                 //LevelContainer.Instance.GenerateNewRow();
                 LevelManager.Instance.GenerateRow();

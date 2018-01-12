@@ -5,26 +5,20 @@ public class Square_01 : Row
     public GameObject Square_01EFX;
     public GameObject Square_01Pr;
 
-    public void Teleport(GameObject obj ,float dir, float speed)
+    private void Start()
     {
-        obj.GetComponent<RectTransform>().position = this.gameObject.transform.position;
+        LevelManager.Instance.listTelep.Add(this.gameObject);
     }
 
     public void DeathZone()
     {
+        //LevelManager.Instance.CheckTeleportsNull();
+        LevelManager.Instance.listTelep.Remove(this.gameObject);
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
         GetComponentInParent<Row>().CheckNrConts(false);
         Destroy(Square_01Pr);
         Destroy(goEFX, 1f);
         Destroy(gameObject, 1f);
-    }
-
-    private void OnTriggerEnter2D(Collider2D coll)
-    {
-        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
-        {
-            Teleport(coll.gameObject, coll.GetComponent<Ball>().rigid.velocity.magnitude, coll.GetComponent<Ball>().speed);
-        }
     }
 
 }

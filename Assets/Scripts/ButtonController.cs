@@ -85,7 +85,6 @@ public class ButtonController : MonoBehaviour
     public void OnBoostSpeed()
     {
         Time.timeScale = 2f + (GameController.amountBalls / 80f);
-        //Application.targetFrameRate = 15;
         boostSpeedButton.interactable = false;
         boostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Exit");
     }
