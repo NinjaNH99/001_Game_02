@@ -63,13 +63,16 @@ public class Row : MonoBehaviour
         Debug.Log("SQ1MAX :" + SQ1MAX);
     }
 
-    public void CheckNrConts()
+    public void CheckNrConts(bool swt)
     {
         nrBlock--;
-        if(nrBlock <= 1)
+        if (swt)
         {
-            if (GetComponentInChildren<Square_01>() != null)
-                GetComponentInChildren<Square_01>().DeathZone();
+            if (nrBlock <= 1)
+            {
+                if (GetComponentInChildren<Square_01>() != null)
+                    GetComponentInChildren<Square_01>().DeathZone();
+            }
         }
     }
 
@@ -84,7 +87,7 @@ public class Row : MonoBehaviour
         }
 
         Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
-        if (nrBlock <= 1)
+        if (nrBlock <= 0)
         {
             LevelManager.Instance.NrBlocksInGame();
             r = false;
