@@ -58,7 +58,7 @@ public class CollectBall : MonoSingleton<CollectBall>
                     GameController.Instance.AddBallUI++;
                     GameObject goEFX = Instantiate(AddBallUIPr, BackgroundPr.transform) as GameObject;
                     Destroy(goEFX, 1f);
-                    GetComponentInParent<Row>().CheckNrConts(true);
+                    GetComponentInParent<Row>().CheckNrConts();
                     //LevelContainer.Instance.nrBlocksInGame--;
                     isDestroy = false;
                 }

@@ -17,16 +17,16 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     // Max obj 
     [HideInInspector]
-    public int LSQ1MAX, LBLMAX, LBNMAX, nrRowsInGame;
-    private int resSQ1Max, resBLMAX, resBNMAX;
+    public int LSQ1MAX, LBLMAX, LBNMAX , HPX2, nrRowsInGame;
+    private int resSQ1Max, resBLMAX, resBNMAX, resHPX2;
 
     private float curPosY;
     private float desiredPosition;
 
     private void Awake()
     {
-        LSQ1MAX = 3; LBLMAX = 4; LBNMAX = 1;
-        resSQ1Max = resBLMAX = resBNMAX = 0;
+        LSQ1MAX = 3; LBLMAX = 4; LBNMAX = 1; HPX2 = 2;
+        resSQ1Max = resBLMAX = resBNMAX = resHPX2 = 0;
         curPosY = 0;
         desiredPosition = -168.0f;
     }
@@ -43,7 +43,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LBNMAX);
+            go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LBNMAX, HPX2);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
@@ -88,6 +88,15 @@ public class LevelManager : MonoSingleton<LevelManager>
             {
                 LBNMAX = 1;
                 resBNMAX = 0;
+            }
+        }
+        if (HPX2 <= 0)
+        {
+            resHPX2++;
+            if (resHPX2 >= RESETDATA)
+            {
+                HPX2 = 2;
+                resHPX2 = 0;
             }
         }
         return true;

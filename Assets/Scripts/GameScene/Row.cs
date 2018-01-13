@@ -22,10 +22,12 @@ public class Row : MonoBehaviour
     }
 
     // Spawn random blockType from Cont in row
-    public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX)
+    public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX, int HPX2)
     {
-        bool kBL = true, kSQ1 = true;
-        int rand;
+        var kBL = true;
+        var kSQ1 = true;
+        var kHPX2 = true;
+        var rand = 0;
        
         for (int i = 0; i < containers.Length; i++)
         {
@@ -34,7 +36,7 @@ public class Row : MonoBehaviour
             if (rand >= 60 && BLMAX > 0 && kBL)
             {
                 containers[i].SpawnType(BlType.ball);
-                if(Random.Range(0, 4) != 1)
+                if (Random.Range(0, 4) != 1)
                     kBL = false;
                 BLMAX--;
                 LevelManager.Instance.LBLMAX--;
@@ -57,11 +59,20 @@ public class Row : MonoBehaviour
                 LevelManager.Instance.LBNMAX--;
             }
             else
+            {
                 containers[i].SpawnType(BlType.square);
+                if(HPX2 > 0 && kHPX2)
+                {
+                    containers[i].GetComponentInChildren<Block>().hpx2 = 2;
+                    HPX2--;
+                    kHPX2 = false;
+                    LevelManager.Instance.HPX2--;
+                }
+            }
         }
     }
 
-    public void CheckNrConts(bool swt)
+    public void CheckNrConts()
     {
         nrBlock--;
         /*if (swt)
@@ -72,6 +83,15 @@ public class Row : MonoBehaviour
                     GetComponentInChildren<Square_01>().DeathZone();
             }
         }*/
+    }
+
+    public void RunBonus_02()
+    {
+        var blocks = GetComponentsInChildren<Block>();
+        for (int i = 0; i < blocks.Length;)
+        {
+            blocks[i].ReciveHitByBonus();
+        }
     }
 
     public bool DeSpawn()

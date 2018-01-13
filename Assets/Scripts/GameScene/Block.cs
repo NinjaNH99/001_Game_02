@@ -7,7 +7,7 @@ public class Block : MonoSingleton<Block>
     public GameObject goHpText;
     public GameObject DeathEFX;
     public RectTransform containerPos;
-    public int hp;
+    public int hp , hpx2 = 1;
 
     private TextMeshProUGUI hpText;
     private Animator anim;
@@ -21,14 +21,7 @@ public class Block : MonoSingleton<Block>
     private void Start()
     {
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        /*if (GetComponentInParent<Row>().nrBlock2HP > 0)
-        {
-            hp = GameController.score * 2;
-            GetComponentInParent<Row>().nrBlock2HP--;
-        }
-        else
-            hp = GameController.score;*/
-        hp = GameController.score;
+        hp = GameController.score * hpx2;
         hpText.text = hp.ToString();
         isDestroy = true;
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
@@ -45,16 +38,12 @@ public class Block : MonoSingleton<Block>
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
             gameObject.SetActive(false);
 
-            //Debug.Log(posInBlock);
-
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
             GetComponent<BoxCollider2D>().isTrigger = true;
             if (isDestroy)
             {
-                GetComponentInParent<Row>().CheckNrConts(true);
-                //LevelContainer.Instance.nrBlocksInGame--;
-                //LevelContainer.Instance.NrBlocksInGame();
+                GetComponentInParent<Row>().CheckNrConts();
                 isDestroy = false;
             }
             return;
@@ -63,24 +52,10 @@ public class Block : MonoSingleton<Block>
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
     }
 
-    public void ReciveHitByBonus(int nr)
+    public void ReciveHitByBonus()
     {
-        switch(nr)
-        {
-            case 1:
-                {
-                    hp /= 2;
-                    hp++;
-                    ReceiveHit();
-                    break;
-                }
-            case 0:
-                {
-                    hp = 1;
-                    ReceiveHit();
-                    break;
-                }
-        }
+        hp = 1;
+        ReceiveHit();
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
@@ -89,8 +64,8 @@ public class Block : MonoSingleton<Block>
             ReceiveHit();
         if (coll.gameObject.CompareTag(Tags.Bonus_02))
         {
-            //GetComponentInParent<Container>().RunBonus_02();
-            ReciveHitByBonus(0);
+            ReciveHitByBonus();
+            //GetComponentInParent<Row>().RunBonus_02();
         }
     }
 }

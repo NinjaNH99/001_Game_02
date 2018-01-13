@@ -15,7 +15,7 @@ public class Square_01 : Row
         //LevelManager.Instance.CheckTeleportsNull();
         LevelManager.Instance.listTelep.Remove(this.gameObject);
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
-        GetComponentInParent<Row>().CheckNrConts(false);
+        GetComponentInParent<Row>().CheckNrConts();
         Destroy(Square_01Pr);
         Destroy(goEFX, 1f);
         Destroy(gameObject, 1f);

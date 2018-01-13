@@ -241,6 +241,7 @@ public class GameController : MonoSingleton<GameController>
                 ballCopy.speed = BALLSPEED;
                 BallsList[i].SetActive(true);
                 ballCopy.SendBallInDirection(sd);
+                AmountBalls--;
                 BallsList.RemoveAt(i);
                 yield return new WaitForSeconds(0.1f);
             }
@@ -317,6 +318,11 @@ public class GameController : MonoSingleton<GameController>
     private void ShowAmBallsText(int amountBallsShow)
     {
         amountBallsText.text = 'x' + amountBallsShow.ToString();
+        if (amountBallsShow == 0)
+            amountBallsText.gameObject.SetActive(false);
+        else
+            amountBallsText.gameObject.SetActive(true);
+        amountBallsText.rectTransform.position = ballOr.GetComponent<RectTransform>().position + new Vector3(0.15f, 0.15f, 0);
     }
 
     public void UpdateUIText()
