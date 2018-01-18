@@ -3177,6 +3177,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224878799501433660}
   hp: 0
+  hpx2: 1
 --- !u!114 &114021274189466280
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3309,6 +3310,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224545119150526644}
   hp: 0
+  hpx2: 1
 --- !u!114 &114045003214334574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3449,6 +3451,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224156792234067202}
   hp: 0
+  hpx2: 1
 --- !u!114 &114067802172471320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3461,7 +3464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1682372697827914}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114068582447467414
@@ -3871,7 +3874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1352765207098782}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114181916522667626
@@ -3986,7 +3989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1703276600038476}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114287002826993664
@@ -4186,6 +4189,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224355742523137284}
   hp: 0
+  hpx2: 1
 --- !u!114 &114378930933820730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4252,7 +4256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1559272030767054}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114402963147682574
@@ -4282,6 +4286,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224314418709976044}
   hp: 0
+  hpx2: 1
 --- !u!114 &114416962170556768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4365,6 +4370,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224725705718346708}
   hp: 0
+  hpx2: 1
 --- !u!114 &114467736274404870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4392,6 +4398,7 @@ MonoBehaviour:
   DeathEFX: {fileID: 1105430120488380, guid: ecd98531c1da7b44c9957d1572401876, type: 2}
   containerPos: {fileID: 224239293171825182}
   hp: 0
+  hpx2: 1
 --- !u!114 &114491343441990132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4675,7 +4682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1257525475561514}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114577042247640162
@@ -5470,7 +5477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1534243642436752}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114793933553067076
@@ -5587,7 +5594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1178582231805144}
-  AddBallUIPr: {fileID: 1875178886244132, guid: 3b0d6fbacfa45a64ea7ef968e824c5d9,
+  AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
 --- !u!114 &114874475839750820

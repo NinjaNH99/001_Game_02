@@ -14,7 +14,7 @@ public class Row : MonoBehaviour
 
     private void Awake()
     {
-        rowID = GameController.score;
+        rowID = GameController.score_Rows;
 
         containers = GetComponentsInChildren<Container>();
         // Random sort containers by Fisher-Yates algorithm

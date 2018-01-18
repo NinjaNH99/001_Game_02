@@ -21,7 +21,7 @@ public class Block : MonoSingleton<Block>
     private void Start()
     {
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        hp = GameController.score * hpx2;
+        hp = GameController.score_Rows * hpx2;
         hpText.text = hp.ToString();
         isDestroy = true;
         GetComponent<Image>().color = GameController.Instance.ChangeColor(hp);
@@ -44,6 +44,8 @@ public class Block : MonoSingleton<Block>
             if (isDestroy)
             {
                 GetComponentInParent<Row>().CheckNrConts();
+                ScoreLEVEL.Instance.AddScoreLevel();
+                ScoreLEVEL.Instance.ShowNrBlock(containerPos);
                 isDestroy = false;
             }
             return;

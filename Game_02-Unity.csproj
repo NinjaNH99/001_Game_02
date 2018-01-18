@@ -89,6 +89,7 @@
     <Compile Include="Assets\Scripts\CameraScreenResolution.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScene\AddBallUI.cs" />
+    <Compile Include="Assets\Scripts\GameScene\AddScoreLevelUI.cs" />
     <Compile Include="Assets\Scripts\GameScene\Ball.cs" />
     <Compile Include="Assets\Scripts\GameScene\BallCopy.cs" />
     <Compile Include="Assets\Scripts\GameScene\BallOrg.cs" />
@@ -104,9 +105,10 @@
     <Compile Include="Assets\Scripts\GameScene\OldContainer.cs" />
     <Compile Include="Assets\Scripts\GameScene\OldRow.cs" />
     <Compile Include="Assets\Scripts\GameScene\Row.cs" />
+    <Compile Include="Assets\Scripts\GameScene\ScoreLEVEL.cs" />
+    <Compile Include="Assets\Scripts\GameScene\ShowStar.cs" />
     <Compile Include="Assets\Scripts\GameScene\Square_01.cs" />
     <Compile Include="Assets\Scripts\GameScene\Square_01Teleport.cs" />
-    <Compile Include="Assets\Scripts\GameScene\TimerGravity.cs" />
     <Compile Include="Assets\Scripts\GameScene\UpdateLoseMenu.cs" />
     <Compile Include="Assets\Scripts\GameScene\UpdatePauseMenu.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />

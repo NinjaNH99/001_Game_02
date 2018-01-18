@@ -14,14 +14,13 @@ public class Square_01Teleport : MonoBehaviour
 
     public void Teleport(GameObject obj, float dir, float speed)
     {
-        Debug.Log(LevelManager.Instance.listTelep.Count);
         var i = Random.Range(0, LevelManager.Instance.listTelep.Count);
         obj.GetComponent<RectTransform>().position = LevelManager.Instance.listTelep[i].gameObject.GetComponent<RectTransform>().position;
     }
 
     public void ChangeColor()
     {
-        var colorScore = GameController.score;
+        var colorScore = GameController.score_Rows;
         imgSign.color = GameController.Instance.ChangeColor(colorScore);
     }
 

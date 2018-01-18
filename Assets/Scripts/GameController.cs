@@ -71,7 +71,7 @@ public class GameController : MonoSingleton<GameController>
 
 
     [HideInInspector]
-    public static int score, amountBallsLeft, amountBalls;
+    public static int score_Rows, scoreLevel, amountBallsLeft;
     [HideInInspector]
     public static float ballOrgYPos;
 
@@ -81,6 +81,8 @@ public class GameController : MonoSingleton<GameController>
     [HideInInspector]
     public static bool onBoostSpeed, isBreakingStuff, updateInputs, startTimerGravity, allBallLanded, bonus_02IsReady, firstBallLanded;
     public Vector2 targetPosLanded;
+
+    public static int amountBalls;
 
     private Vector2 sd;
     private float timeWaitBoostSpeed;
@@ -95,8 +97,9 @@ public class GameController : MonoSingleton<GameController>
         //Application.targetFrameRate = 60;
 
         Time.timeScale = 1;
-        score = 1;
-        amountBalls = 1;
+        score_Rows = 1;
+        amountBalls = 5;
+        scoreLevel = 0;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;
@@ -111,7 +114,7 @@ public class GameController : MonoSingleton<GameController>
         nrBallINeed = amountBalls - 1;
         GenerateBalls(nrBallINeed, false);
         ballColor = Ball.Instance.GetComponent<Image>().color;
-        amountBallsText = amountBallsTextPr.GetComponent<TextMeshProUGUI>();
+        amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
         ballCopyColor = ballColor;
         ballCopyColor.a = 0.8f;
         ballsPreview.parent.gameObject.SetActive(false);
@@ -131,7 +134,7 @@ public class GameController : MonoSingleton<GameController>
                 PoolInput();
             if (allBallLanded)
             {
-                score++;
+                score_Rows++;
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
@@ -140,7 +143,7 @@ public class GameController : MonoSingleton<GameController>
                 allBallLanded = false;
                 UpdateUIText();
                 ShowAmBallsText(amountBalls);
-                TimerGravity.Instance.nrBalls = amountBalls / 10f;
+                //TimerGravity.Instance.nrBalls = amountBalls / 10f;
                 GenerateBalls(nrBallINeed, false);
             }
             if (onBoostSpeed)
@@ -298,10 +301,9 @@ public class GameController : MonoSingleton<GameController>
         amountBallsLeft--;
         if (amountBallsLeft <= 0)
         {
-            startTimerGravity = false;
-            if (TimerGravity.Instance.i == 1)
-                AllBallLanded();
+            AllBallLanded();
         }
+        ShowAmBallsText(amountBallsLeft);
     }
 
     private void AllBallLanded()
@@ -312,22 +314,32 @@ public class GameController : MonoSingleton<GameController>
         amountBallsLeft = amountBalls;
         nrBallINeed = AddBallUI;
         AddBallUI = 0;
+        ScoreLEVEL.Instance.ResetSetting();
         Bonus.Instance.ActivateButton(true);
+        //ShowAmBallsText(amountBalls);
     }
 
     private void ShowAmBallsText(int amountBallsShow)
     {
         amountBallsText.text = 'x' + amountBallsShow.ToString();
         if (amountBallsShow == 0)
-            amountBallsText.gameObject.SetActive(false);
-        else
-            amountBallsText.gameObject.SetActive(true);
-        amountBallsText.rectTransform.position = ballOr.GetComponent<RectTransform>().position + new Vector3(0.15f, 0.15f, 0);
+        {
+            amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Exit");
+        }
+        if(allBallLanded)
+        {
+            amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Enter");
+        }
+        amountBallsTextPr.GetComponent<RectTransform>().position = ballOr.GetComponent<RectTransform>().position + new Vector3(0.15f, 0.15f, 0);
+        if(amountBallsTextPr.GetComponent<RectTransform>().position.x >= 233)
+        {
+            amountBallsTextPr.GetComponent<RectTransform>().position = ballOr.GetComponent<RectTransform>().position + new Vector3(-0.15f, 0.15f, 0);
+        }
     }
 
     public void UpdateUIText()
     {
-        scoreText.GetComponent<TextMeshProUGUI>().text = score.ToString();
+        scoreText.GetComponent<TextMeshProUGUI>().text = score_Rows.ToString();
         Bonus.Instance.UpdateUIText();
     }
 
@@ -336,7 +348,7 @@ public class GameController : MonoSingleton<GameController>
         canvas2.SetActive(true);
         loseMenu.SetActive(true);
         statusBar.SetActive(false);
-        score--;
+        score_Rows--;
         loseMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
         loseMenu.GetComponent<Animator>().SetTrigger("PanelON");
         Time.timeScale = 0f;

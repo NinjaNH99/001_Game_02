@@ -81,13 +81,13 @@ public class LevelContainer : MonoBehaviour
             }
             else if (ballSpawnIndex != i && !doNotSpawn)
             {
-                if (GameController.score % Random.Range(4, 6) == 0)
+                if (GameController.score_Rows % Random.Range(4, 6) == 0)
                 {
                     //blockArray[i].SpawnSquare_01();
                     doNotSpawn = true;
                 }
             }
-            else if (GameController.score % 2 == 0)
+            else if (GameController.score_Rows % 2 == 0)
             {
                 //blockArray[i].SpawnBonus();
                 break;

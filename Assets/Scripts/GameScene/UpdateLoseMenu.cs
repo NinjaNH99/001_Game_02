@@ -9,7 +9,7 @@ public class UpdateLoseMenu : MonoBehaviour {
 
     public void UpdateGameStatus()
     {
-        score.GetComponent<TextMeshProUGUI>().text = GameController.score.ToString();
+        score.GetComponent<TextMeshProUGUI>().text = GameController.score_Rows.ToString();
         bonus.GetComponent<TextMeshProUGUI>().text = Bonus.bonus_01.ToString();
     }
 }
