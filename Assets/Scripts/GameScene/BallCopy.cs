@@ -6,10 +6,10 @@ public class BallCopy : Ball
 {
     public GameController ballOr;
     [HideInInspector]
-    public bool ballIsLanded;
     public Vector2 ballPos;
 
     private RectTransform statePos;
+    private bool ballIsLanded, DisplayAtFloor;
     //private Vector2 ballCopPos;
     private Collider2D ballCopyCol;
 
@@ -35,20 +35,17 @@ public class BallCopy : Ball
     {
         if (ballIsLanded)
         {
-            //if (!Instance.firstBallLanded)
-              //  rectPos.position = statePos.position;
-            if(Instance.firstBallLanded)
+            if(GameController.firstBallLanded)
             {
-                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), BallOrg.ballPosFolled, Time.deltaTime * speed);
-                if ((Vector2)gameObject.transform.position == BallOrg.ballPosFolled)
+                //Debug.Log("Instance.firstBallLanded Copy : " + Instance.firstBallLanded);
+                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, GameController.ballOrgYPos), /*BallOrg.ballPosFolled*/ GameController.Instance.targetBallPosLanded, Time.deltaTime * speed);
+                if ((Vector2)gameObject.transform.position == /*BallOrg.ballPosFolled*/ GameController.Instance.targetBallPosLanded)
                 {
                     GameController.Instance.IsAllBallLanded();
-                    //Destroy(gameObject);
                     ResetSpeed();
                     ballIsLanded = false;
-                    //Debug.Log("ballCopPosInCycle :  " + ballPos);
-                    //rectPos.position = ballPos;
-                    gameObject.SetActive(false);
+                    if(!DisplayAtFloor)
+                        gameObject.SetActive(false);
                 }
             }
         }
@@ -65,6 +62,7 @@ public class BallCopy : Ball
         //ballCopPos = this.gameObject.transform.position;
         rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
         //statePos.position = new Vector2(ballCopPos.x, GameController.ballOrgYPos);
+        DisplayAtFloor = GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
         ballIsLanded = true;
         ResetSpeed();
     }

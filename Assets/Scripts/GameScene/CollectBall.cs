@@ -33,13 +33,20 @@ public class CollectBall : MonoSingleton<CollectBall>
     {
         if (ballIsLanded)
         {
-            if (Ball.Instance.firstBallLanded)
-                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, GameController.ballOrgYPos, 0), BallOrg.Instance.transform.position, Time.deltaTime * 4.0f);
+            if (GameController.firstBallLanded)
+            {
+                Debug.Log("+ : " + GameController.firstBallLanded);
+                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, GameController.ballOrgYPos, 0), GameController.Instance.targetBallPosLanded, Time.deltaTime * 4.0f);
+            }
             else
                 gameObject.transform.position = new Vector3(transform.position.x, GameController.ballOrgYPos, 0);
-                //rectPos.anchoredPosition = new Vector2(rectPos.anchoredPosition.x, 155);
-            if (gameObject.transform.position == BallOrg.Instance.transform.position)
+            //rectPos.anchoredPosition = new Vector2(rectPos.anchoredPosition.x, 155);
+            if ((Vector2)gameObject.transform.position == GameController.Instance.targetBallPosLanded)
+            {
+                GameController.amountCollectBallsLeft--;
+                GameController.Instance.IsAllBallLanded();
                 Destroy(this.gameObject);
+            }
         }
     }
 
@@ -50,6 +57,7 @@ public class CollectBall : MonoSingleton<CollectBall>
             if (!collected)
             {
                 collected = true;
+                GameController.amountCollectBallsLeft++;
                 GameObject go =  Instantiate(AddBallEFX, gameObject.transform) as GameObject;
                 Destroy(go, 2f);
                 StartFalling();
@@ -61,6 +69,7 @@ public class CollectBall : MonoSingleton<CollectBall>
                     goEFX.GetComponent<RectTransform>().localPosition = new Vector2(-95, -95);
                     Destroy(goEFX, 1f);
                     GetComponentInParent<Row>().CheckNrConts();
+                    GameController.amountBallsLeft++;
                     //LevelContainer.Instance.nrBlocksInGame--;
                     isDestroy = false;
                 }

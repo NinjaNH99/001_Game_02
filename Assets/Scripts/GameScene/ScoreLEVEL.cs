@@ -22,10 +22,12 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
     private void Start()
     {
+        x = (1000f / maxScore) / 100f;
         addTimer = checkTimer = false;
         timerImg = GetComponent<Image>();
         timerBGimg = timerBG.GetComponent<Image>();
-        i = spidT = 0;
+        i = 0;
+        spidT = 0.005f;
         nrBlDestroy = 1;
         timerImg.fillAmount = i;
         ChangeColor();
@@ -49,9 +51,9 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         {
             spidT -= Time.deltaTime / 10;
             timerImg.fillAmount = spidT;
-            if (spidT <= 0)
+            if (spidT <= 0.005f)
             {
-                spidT = 0;
+                spidT = 0.005f;
                 checkTimer = false;
             }
         }
@@ -60,8 +62,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     public void AddScoreLevel()
     {
         nrBlDestroy++;
-        i = x * nrBlDestroy;
-        //timerImg.fillAmount += i;
+        i += x * nrBlDestroy;
         CheckStar(timerImg.fillAmount);
         addTimer = true;
     }
@@ -99,7 +100,6 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         nrBlDestroy = 1;
         i = 0;
         timerImg.fillAmount = i;
-        x = (1000f / maxScore) / 100f;
     }
 
     private void ChangeColor()

@@ -6,7 +6,7 @@ using System;
 public abstract class Ball : MonoSingleton<Ball>
 {
     [HideInInspector]
-    public bool allBallLanded, startFall, firstBallLanded;
+    public bool allBallLanded, startFall;//, firstBallLanded = false;
     [HideInInspector]
     public float speed;
     [HideInInspector]
@@ -27,7 +27,7 @@ public abstract class Ball : MonoSingleton<Ball>
     protected virtual void Start()
     {
         Awake();
-        firstBallLanded = false;
+        //firstBallLanded = false;
         startFall = false;
         rectPos = GetComponent<RectTransform>();
         ResetSpeed();
