@@ -7,6 +7,9 @@ public class CollectBall : MonoSingleton<CollectBall>
     public GameObject AddBallUIPr;
     public GameObject AddBallEFX;
 
+    public bool isByBonus = false;
+
+    private GameController gameContr;
     private bool collected;
     private bool ballIsLanded;
     private bool LoseBall;
@@ -14,16 +17,16 @@ public class CollectBall : MonoSingleton<CollectBall>
     private Rigidbody2D rigid;
     private Color spriteColor;
     private GameObject Space2D;
-    private GameObject BackgroundPr;
 
     private void Start()
     {
+        gameContr = GameController.Instance;
         collected = false;
         ballIsLanded = false;
         LoseBall = false;
         isDestroy = true;
         rigid = GetComponent<Rigidbody2D>();
-        BackgroundPr = GameObject.FindGameObjectWithTag(Tags.Background);
+
         Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
         spriteColor = BallOrg.Instance.GetComponent<Image>().color;
         GetComponent<Image>().color = spriteColor;
@@ -33,18 +36,16 @@ public class CollectBall : MonoSingleton<CollectBall>
     {
         if (ballIsLanded)
         {
-            if (GameController.firstBallLanded)
+            if (gameContr.firstBallLanded)
             {
-                Debug.Log("+ : " + GameController.firstBallLanded);
-                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, GameController.ballOrgYPos, 0), GameController.Instance.targetBallPosLanded, Time.deltaTime * 4.0f);
+                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, gameContr.ballOrgYPos, 0), gameContr.targetBallPosLanded, Time.deltaTime * 4.0f);
             }
             else
-                gameObject.transform.position = new Vector3(transform.position.x, GameController.ballOrgYPos, 0);
-            //rectPos.anchoredPosition = new Vector2(rectPos.anchoredPosition.x, 155);
-            if ((Vector2)gameObject.transform.position == GameController.Instance.targetBallPosLanded)
+                gameObject.transform.position = new Vector3(transform.position.x, gameContr.ballOrgYPos, 0);
+            if ((Vector2)gameObject.transform.position == gameContr.targetBallPosLanded)
             {
-                GameController.amountCollectBallsLeft--;
-                GameController.Instance.IsAllBallLanded();
+                gameContr.amountCollectBallsLeft--;
+                gameContr.IsAllBallLanded();
                 Destroy(this.gameObject);
             }
         }
@@ -52,38 +53,49 @@ public class CollectBall : MonoSingleton<CollectBall>
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+        if(isByBonus)
         {
-            if (!collected)
-            {
-                collected = true;
-                GameController.amountCollectBallsLeft++;
-                GameObject go =  Instantiate(AddBallEFX, gameObject.transform) as GameObject;
-                Destroy(go, 2f);
-                StartFalling();
-                if (isDestroy)
-                {
-                    GameController.Instance.AddBallUI++;
-                    var AmountBallUIPos = GameController.Instance.amountBallsTextPr.transform;
-                    GameObject goEFX = Instantiate(AddBallUIPr, AmountBallUIPos) as GameObject;
-                    goEFX.GetComponent<RectTransform>().localPosition = new Vector2(-95, -95);
-                    Destroy(goEFX, 1f);
-                    GetComponentInParent<Row>().CheckNrConts();
-                    GameController.amountBallsLeft++;
-                    //LevelContainer.Instance.nrBlocksInGame--;
-                    isDestroy = false;
-                }
-                //LevelContainer.Instance.NrBlocksInGame();
-                rigid.velocity = new Vector2(0, 0.5f) * 2.0f;
-                spriteColor.a = 0.8f;
-                transform.SetParent(Space2D.transform);
-                GetComponent<Image>().color = spriteColor;
-                Ball.Instance.CollectBall();
-                Destroy(Sprite);
-            }
+            if (coll.gameObject.CompareTag(Tags.Player))
+                Collect();
+            else if (coll.gameObject.CompareTag(Tags.EndLevel))
+                DeathLevel();
         }
-        else if (coll.gameObject.CompareTag(Tags.EndLevel))
-            DeathLevel();
+        else
+        {
+            if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+                Collect();
+            else if (coll.gameObject.CompareTag(Tags.EndLevel))
+                DeathLevel();
+        }
+    }
+
+    private void Collect()
+    {
+        if (!collected)
+        {
+            collected = true;
+            gameContr.amountCollectBallsLeft++;
+            GameObject go = Instantiate(AddBallEFX, gameObject.transform) as GameObject;
+            Destroy(go, 2f);
+            StartFalling();
+            if (isDestroy)
+            {
+                gameContr.AddBallUI++;
+                var AmountBallUIPos = gameContr.amountBallsTextPr.transform;
+                GameObject goEFX = Instantiate(AddBallUIPr, AmountBallUIPos) as GameObject;
+                goEFX.GetComponent<RectTransform>().localPosition = new Vector2(-95, -95);
+                Destroy(goEFX, 1f);
+                GetComponentInParent<Row>().CheckNrConts();
+                gameContr.amountBallsLeft++;
+                isDestroy = false;
+            }
+            rigid.velocity = new Vector2(0, 0.5f) * 2.0f;
+            spriteColor.a = 0.8f;
+            transform.SetParent(Space2D.transform);
+            GetComponent<Image>().color = spriteColor;
+            Ball.Instance.CollectBall();
+            Destroy(Sprite);
+        }
     }
 
     private void StartFalling()

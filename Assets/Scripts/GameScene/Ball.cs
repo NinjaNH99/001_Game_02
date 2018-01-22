@@ -13,11 +13,13 @@ public abstract class Ball : MonoSingleton<Ball>
 
     public Rigidbody2D rigid;
     protected RectTransform rectPos;
+    protected GameController gameContr;
     protected float currentSpawnY;
     protected int checkPosX;
 
     protected virtual void Awake()
     {
+        gameContr = GameController.Instance;
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0;
         rigid.simulated = true;
@@ -44,7 +46,7 @@ public abstract class Ball : MonoSingleton<Ball>
     {
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
-        rectPos.position = new Vector2(rectPos.position.x, GameController.ballOrgYPos);
+        rectPos.position = new Vector2(rectPos.position.x, gameContr.ballOrgYPos);
         checkPosX = 5;
         ResetSpeed();
     }
@@ -81,7 +83,7 @@ public abstract class Ball : MonoSingleton<Ball>
 
     public virtual void CollectBall()
     {
-        GameController.amountBalls++;
+        gameContr.amountBalls++;
     }
     
     protected virtual void OnCollisionEnter2D(Collision2D coll)

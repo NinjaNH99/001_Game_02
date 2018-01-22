@@ -10,11 +10,14 @@ public class Row : MonoBehaviour
 
     protected int SQ1MAX, BLMAX, BONMAX, SPMAX = 2;
 
+    private GameController gameContr;
+
     private Container[] containers = new Container[8];
 
     private void Awake()
     {
-        rowID = GameController.score_Rows;
+        gameContr = GameController.Instance;
+        rowID = gameContr.score_Rows;
 
         containers = GetComponentsInChildren<Container>();
         // Random sort containers by Fisher-Yates algorithm
@@ -60,14 +63,17 @@ public class Row : MonoBehaviour
             }
             else
             {
-                containers[i].SpawnType(BlType.square);
                 if(HPX2 > 0 && kHPX2)
                 {
+                    containers[i].SpawnType(BlType.square_Bonus);
                     containers[i].GetComponentInChildren<Block>().hpx2 = 2;
+                    containers[i].GetComponentInChildren<Block>().isBonus = true;
                     HPX2--;
                     kHPX2 = false;
                     LevelManager.Instance.HPX2--;
                 }
+                else
+                    containers[i].SpawnType(BlType.square);
             }
         }
     }
@@ -105,7 +111,7 @@ public class Row : MonoBehaviour
         }
 
         //Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
-        if (nrBlock <= 0)
+        if (containers.Length <= 0)
         {
             LevelManager.Instance.NrBlocksInGame();
             r = false;

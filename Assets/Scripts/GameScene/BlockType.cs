@@ -8,23 +8,12 @@ public enum BlType
     ball = 2,
     bonus = 3,
     square_01 = 4,
-    space = 5
+    square_Bonus = 5,
+    space = 6
 }
 
 public class BlockType : MonoBehaviour
 {
     public BlType Bltype;
-
-    public void Option(bool spawn)
-    {
-        if(spawn)
-        {
-            this.gameObject.SetActive(true);
-        }
-        else
-        {
-            this.gameObject.SetActive(false);
-        }
-    }
 
 }

@@ -9,6 +9,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     private const int RESETDATA = 4;
 
     public GameObject rowPrefab;
+
+    private GameController gameContr;
     // List of rows
     protected List<GameObject> listRows = new List<GameObject>();
 
@@ -25,6 +27,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Awake()
     {
+        gameContr = GameController.Instance;
         LSQ1MAX = 3; LBLMAX = 4; LBNMAX = 1; HPX2 = 2;
         resSQ1Max = resBLMAX = resBNMAX = resHPX2 = 0;
         curPosY = 0;
@@ -77,7 +80,10 @@ public class LevelManager : MonoSingleton<LevelManager>
             resBLMAX++;
             if (resSQ1Max >= RESETDATA - 2)
             {
-                LBLMAX = 4;
+                if(gameContr.score_Rows - gameContr.amountBalls >= 3)
+                    LBLMAX = 6;
+                else
+                    LBLMAX = 4;
                 resBLMAX = 0;
             }
         }

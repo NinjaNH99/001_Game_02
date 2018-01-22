@@ -3,9 +3,12 @@ using TMPro;
 
 public class AddBallUI : MonoBehaviour {
 
+    private GameController gameContr;
+
     private void Awake()
     {
-        GetComponent<TextMeshProUGUI>().text = '+' + GameController.Instance.AddBallUI.ToString();
+        gameContr = GameController.Instance;
+        GetComponent<TextMeshProUGUI>().text = '+' + gameContr.AddBallUI.ToString();
     }
 
 }

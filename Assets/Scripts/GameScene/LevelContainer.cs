@@ -10,6 +10,7 @@ public class LevelContainer : MonoBehaviour
     public GameObject containerPrefab;
     public RectTransform rowContainer;
 
+    private GameController gameContr;
     private float currentSpawnY;
     private Vector2 rowContainerStartingPosition;
     private Vector2 desiredPosition;
@@ -22,6 +23,7 @@ public class LevelContainer : MonoBehaviour
 
     private void Awake()
     {
+        gameContr = GameController.Instance;
         animPosY = true;
         //GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200.0f);
         rowContainerStartingPosition = rowContainer.anchoredPosition;
@@ -81,13 +83,13 @@ public class LevelContainer : MonoBehaviour
             }
             else if (ballSpawnIndex != i && !doNotSpawn)
             {
-                if (GameController.score_Rows % Random.Range(4, 6) == 0)
+                if (gameContr.score_Rows % Random.Range(4, 6) == 0)
                 {
                     //blockArray[i].SpawnSquare_01();
                     doNotSpawn = true;
                 }
             }
-            else if (GameController.score_Rows % 2 == 0)
+            else if (gameContr.score_Rows % 2 == 0)
             {
                 //blockArray[i].SpawnBonus();
                 break;

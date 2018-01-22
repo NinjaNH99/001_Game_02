@@ -71,28 +71,28 @@ public class GameController : MonoSingleton<GameController>
 
 
     [HideInInspector]
-    public static int score_Rows, scoreLevel, amountBallsLeft, amountCollectBallsLeft;
-    [HideInInspector]
-    public static float ballOrgYPos;
+    public float ballOrgYPos;
 
     [HideInInspector]
-    public int AddBallUI;
-
-    [HideInInspector]
-    public static bool onBoostSpeed, isBreakingStuff, updateInputs, startTimerGravity, allBallLanded, bonus_02IsReady, firstBallLanded;
+    public bool isBreakingStuff, updateInputs, allBallLanded, bonus_02IsReady, firstBallLanded;
     public Vector2 targetBallPosLanded;
 
-    public static int amountBalls;
+    public int amountBalls;
 
     private Vector2 sd;
     private float timeWaitBoostSpeed;
+
+    // For UI Show
+    public bool onBoostSpeed;
+    [HideInInspector]
+    public int score_Rows, scoreLevel, amountBallsLeft, amountCollectBallsLeft, AddBallUI;
+    private int amountBallsBack;
+    private bool showsABExit;
     private TextMeshProUGUI amountBallsText;
 
     //For the new method of spawning the ball
     private List<GameObject> BallsList;
     private int nrBallINeed;
-
-    private int amountBallsBack;
 
     private void Awake()
     {
@@ -100,12 +100,13 @@ public class GameController : MonoSingleton<GameController>
 
         Time.timeScale = 1;
         score_Rows = 1;
-        amountBalls = 1;
+        amountBalls = 1;                                                                // std = 1
         scoreLevel = 0;
         amountBallsBack = amountCollectBallsLeft = 0;
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;
+        showsABExit = true;
         updateInputs = true;
         AddBallUI = 0;
     }
@@ -123,10 +124,10 @@ public class GameController : MonoSingleton<GameController>
         ballsPreview.parent.gameObject.SetActive(false);
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
         UpdateUIText();
-        ShowAmBallsText(amountBalls);
+        ShowAmBallsExitText(amountBalls);
         amountBallsLeft = amountBalls;
         ballOrgYPos = ballOr.transform.position.y;
-        startTimerGravity = bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
+        bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
         targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
         amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.15f, 0.15f);
     }
@@ -143,13 +144,11 @@ public class GameController : MonoSingleton<GameController>
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
-                //LevelContainer.Instance.GenerateNewRow();
                 LevelManager.Instance.GenerateRow();
-                allBallLanded = false;
                 UpdateUIText();
-                ShowAmBallsText(amountBalls);
-                //TimerGravity.Instance.nrBalls = amountBalls / 10f;
+                ShowAmBallsExitText(amountBalls);
                 GenerateBalls(nrBallINeed, false);
+                allBallLanded = false;
             }
             if (onBoostSpeed)
             {
@@ -159,7 +158,6 @@ public class GameController : MonoSingleton<GameController>
                     BoostSpeedButtonAnim(false);
                     timeWaitBoostSpeed = TIMEWAITBOOSTSPEED + (amountBalls / 10f);
                     onBoostSpeed = false;
-                    //Application.targetFrameRate = 60;
                 }
             }
         }
@@ -192,7 +190,6 @@ public class GameController : MonoSingleton<GameController>
                     }
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(FireBalls(sd.normalized));
-                    startTimerGravity = true;
                     Bonus.Instance.ActivateButton(false);
                 }
             }
@@ -227,7 +224,6 @@ public class GameController : MonoSingleton<GameController>
     {
         int AmountBalls = BallsList.Count - 1;
 
-        //Vector2 posIn = ballOr.GetComponent<RectTransform>().position;
         Vector2 posIn = targetBallPosLanded;
         for (int i = BallsList.Count - 1; i > 0; i--)
         {
@@ -252,11 +248,15 @@ public class GameController : MonoSingleton<GameController>
                 BallsList.RemoveAt(i);
                 yield return new WaitForSeconds(0.1f);
             }
-            //ShowAmBallsText(AmountBalls);
+            ShowAmBallsExitText(AmountBalls);
         }
         BallsList[0].GetComponent<BallOrg>().speed = BALLSPEED;
         BallsList[0].GetComponent<BallOrg>().SendBallInDirection(sd);
-        ShowAmBallsText(AmountBalls);
+        ShowAmBallsExitText(AmountBalls);
+        if (AmountBalls <= 0)
+        {
+            showsABExit = false;
+        }
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -274,12 +274,13 @@ public class GameController : MonoSingleton<GameController>
 
     public void IsAllBallLanded()
     {
+        ShowAmBallsEnterText(++amountBallsBack);
         amountBallsLeft--;
-        if (amountBallsLeft <= 0 && amountCollectBallsLeft <= 0)
+        if (amountBallsLeft <= 0)
         {
-            AllBallLanded();
+            if (amountCollectBallsLeft <= 0)
+                AllBallLanded();
         }
-        ShowAmBallsText(++amountBallsBack);
     }
 
     private void AllBallLanded()
@@ -287,7 +288,6 @@ public class GameController : MonoSingleton<GameController>
         Time.timeScale = 1f;
         isBreakingStuff = false;
         firstBallLanded = false;
-        allBallLanded = updateInputs = true;
         amountBallsLeft = amountBalls;
         nrBallINeed = AddBallUI;
         AddBallUI = 0;
@@ -295,27 +295,33 @@ public class GameController : MonoSingleton<GameController>
         targetBallPosLanded = ballOr.transform.position;
         ScoreLEVEL.Instance.ResetSetting();
         Bonus.Instance.ActivateButton(true);
-        //ShowAmBallsText(amountBalls);
+        allBallLanded = updateInputs = true;
+        showsABExit = true;
+        Time.timeScale = 1f;
     }
 
-    private void ShowAmBallsText(int amountBallsShow)
+    private void ShowAmBallsExitText(int amountBallsShowExit)
     {
-        amountBallsText.text = 'x' + amountBallsShow.ToString();
+        amountBallsText.text = 'x' + amountBallsShowExit.ToString();
 
-        Debug.Log(amountBallsShow);
-        if (amountBallsShow == 0)
-        {
+        if (amountBallsShowExit <= 0)
             amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Exit");
-        }
-        if(allBallLanded)
-        {
-            amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Enter");
-        }
+    }
 
-        amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.15f, 0.15f);
-        if (amountBallsTextPr.GetComponent<RectTransform>().position.x >= 1f)
+    private void ShowAmBallsEnterText(int amountBallsShowEnter)
+    {
+        if(!showsABExit)
         {
-            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(-0.15f, 0.15f);
+            amountBallsText.text = 'x' + amountBallsShowEnter.ToString();
+
+            if(amountBallsShowEnter >= amountBalls)
+                amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Enter");
+
+            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.15f, 0.15f);
+            if (amountBallsTextPr.GetComponent<RectTransform>().position.x >= 0.9f)
+                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(-0.2f, 0.15f);
+            else if (amountBallsTextPr.GetComponent<RectTransform>().position.x <= -0.7f)
+                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.3f, 0.15f);
         }
     }
 

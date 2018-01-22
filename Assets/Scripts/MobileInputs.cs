@@ -7,8 +7,11 @@ public class MobileInputs : MonoSingleton<MobileInputs>
     public bool hold;
     private Vector2 initialPosition;
 
+    private GameController gameContr;
+
     protected void Awake()
     {
+        gameContr = GameController.Instance;
         release = hold = false;
         swipeDelta = Vector2.zero;
         initialPosition = Input.mousePosition;
@@ -16,7 +19,7 @@ public class MobileInputs : MonoSingleton<MobileInputs>
 
     private void Update()
     {
-        if (GameController.updateInputs)
+        if (gameContr.updateInputs)
         {
             release = false;
             swipeDelta = Vector2.zero;

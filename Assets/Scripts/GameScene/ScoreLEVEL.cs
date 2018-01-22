@@ -16,19 +16,22 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     [HideInInspector]
     public int nrBlDestroy;
 
+    private GameController gameContr;
     private Image timerImg, timerBGimg;
     private bool checkTimer, addTimer;
-    private float x, spidT;
+    private float x, spidT, minPosT;
 
     private void Start()
     {
+        gameContr = GameController.Instance;
         x = (1000f / maxScore) / 100f;
         addTimer = checkTimer = false;
         timerImg = GetComponent<Image>();
         timerBGimg = timerBG.GetComponent<Image>();
         i = 0;
-        spidT = 0.005f;
-        nrBlDestroy = 1;
+        minPosT = 0;
+        spidT = minPosT;
+        nrBlDestroy = 0;
         timerImg.fillAmount = i;
         ChangeColor();
         ResetSetting();
@@ -39,21 +42,23 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     {
         if (addTimer)
         {
-            spidT += Time.deltaTime / 1.5f;
+            spidT += Time.deltaTime / 5f;
             timerImg.fillAmount = spidT;
             if (spidT >= i)
             {
                 timerImg.fillAmount = spidT;
+                CheckStar(timerImg.fillAmount);
                 addTimer = false;
             }
         }
         else if(!addTimer && checkTimer)
         {
-            spidT -= Time.deltaTime / 10;
+            spidT -= Time.deltaTime / 5f;
             timerImg.fillAmount = spidT;
-            if (spidT <= 0.005f)
+            if (spidT <= minPosT)
             {
-                spidT = 0.005f;
+                spidT = minPosT;
+                ChangeColor();
                 checkTimer = false;
             }
         }
@@ -63,27 +68,27 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     {
         nrBlDestroy++;
         i += x * nrBlDestroy;
-        CheckStar(timerImg.fillAmount);
+        minPosT += 0.001f;
         addTimer = true;
     }
 
     private void CheckStar(float  i)
     {
-        if (i >= 0.2f)
+        if (i >= 0.95f)
         {
-            stars[0].GetComponent<ShowStar>().Staroption();
-        }
-        else if(i >= 0.49f)
-        {
-            stars[1].GetComponent<ShowStar>().Staroption();
+            stars[3].GetComponent<ShowStar>().Staroption(timerImg.color);
         }
         else if(i >= 0.74f)
         {
-            stars[2].GetComponent<ShowStar>().Staroption();
+            stars[2].GetComponent<ShowStar>().Staroption(timerImg.color);
         }
-        else if(i >= 0.95f)
+        else if(i >= 0.49f)
         {
-            stars[3].GetComponent<ShowStar>().Staroption();
+            stars[1].GetComponent<ShowStar>().Staroption(timerImg.color);
+        }
+        else if(i >= 0.2f)
+        {
+            stars[0].GetComponent<ShowStar>().Staroption(timerImg.color);
         }
     }
 
@@ -104,13 +109,17 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
     private void ChangeColor()
     {
-        var colorScore = GameController.score_Rows;
+        var colorScore = gameContr.score_Rows;
 
-        timerImg.color = GameController.Instance.ChangeColor(colorScore);
+        timerImg.color = gameContr.ChangeColor(colorScore);
         timerImg.SetTransparency(0.4f);
 
         timerBGimg.color = timerImg.color;
         timerBGimg.SetTransparency(0.08f);
+        for (int i = 0; i < stars.Length; i++)
+        {
+            stars[i].GetComponent<ShowStar>().ChangeColor(colorScore, timerImg.color);
+        }
     }
 
 }

@@ -16,11 +16,14 @@ public class Bonus : MonoSingleton<Bonus>
     [HideInInspector]
     public static int AddBallUI, bonus_01, bonus_02;
 
+    private GameController gameContr;
+
     private bool firstBonus_02;
     private bool ballIsReady;
 
     private void Awake()
     {
+        gameContr = GameController.Instance;
         bonus_01 = 0;
         bonus_02 = 5;
         AddBallUI = 0;
@@ -56,7 +59,7 @@ public class Bonus : MonoSingleton<Bonus>
                 firstBonus_02 = true;
                 bonus_02UI.GetComponent<Animator>().SetTrigger("RmBonus_02");
             }
-            GameController.bonus_02IsReady = true;
+            gameContr.bonus_02IsReady = true;
             UpdateUIText();
             ballIsReady = false;
         }

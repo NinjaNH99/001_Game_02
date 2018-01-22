@@ -2,6 +2,8 @@
 
 public class CollectBonus : MonoBehaviour
 {
+    public bool isByBonus = false;
+
     private Rigidbody2D rigid;
     private bool isCollected;
     private bool isDestroy;
@@ -15,21 +17,34 @@ public class CollectBonus : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+        if(isByBonus)
         {
-            Bonus.bonus_01++;
-            isCollected = true;
-            if (!isDestroy)
-            {
-                GetComponentInParent<Row>().CheckNrConts();
-                //LevelContainer.Instance.nrBlocksInGame--;
-                GameController.Instance.UpdateUIText();
-                isDestroy = true;
-            }
-            Destroy(this.gameObject);
+            if (coll.gameObject.CompareTag(Tags.Player))
+                Collect();
+            else if (coll.gameObject.CompareTag(Tags.EndLevel))
+                DeathLevel();
         }
-        else if (coll.gameObject.CompareTag(Tags.EndLevel))
-            DeathLevel();
+        else
+        {
+            if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+                Collect();
+            else if (coll.gameObject.CompareTag(Tags.EndLevel))
+                DeathLevel();
+        }
+    }
+
+    private void Collect()
+    {
+        Bonus.bonus_01++;
+        isCollected = true;
+        if (!isDestroy)
+        {
+            GetComponentInParent<Row>().CheckNrConts();
+            //LevelContainer.Instance.nrBlocksInGame--;
+            GameController.Instance.UpdateUIText();
+            isDestroy = true;
+        }
+        Destroy(this.gameObject);
     }
 
     public void DeathZone()

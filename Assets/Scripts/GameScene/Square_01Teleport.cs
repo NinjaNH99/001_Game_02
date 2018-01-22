@@ -7,8 +7,11 @@ public class Square_01Teleport : MonoBehaviour
 {
     public Image imgSign;
 
+    private GameController gameContr;
+
     private void Start()
     {
+        gameContr = GameController.Instance;
         ChangeColor();
     }
 
@@ -20,8 +23,8 @@ public class Square_01Teleport : MonoBehaviour
 
     public void ChangeColor()
     {
-        var colorScore = GameController.score_Rows;
-        imgSign.color = GameController.Instance.ChangeColor(colorScore);
+        var colorScore = gameContr.score_Rows;
+        imgSign.color = gameContr.ChangeColor(colorScore);
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

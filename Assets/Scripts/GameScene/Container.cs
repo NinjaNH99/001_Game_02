@@ -4,34 +4,34 @@ public class Container : MonoBehaviour
 {
     public int visualIndex;
 
-    private BlockType[] blockTypes = new BlockType[5];
+    public GameObject[] blockTypes = new GameObject[5];
 
-    private void Awake()
-    {
-        blockTypes = GetComponentsInChildren<BlockType>();
-    }
-
-    public void SpawnType(BlType type)
+    public void SpawnType(BlType type , bool applayBonus = false)
     {
         for (int i = 0; i < blockTypes.Length; i++)
         {
-            if (blockTypes[i].Bltype == type && type != BlType.space)
+            if (blockTypes[i].GetComponent<BlockType>().Bltype == type && type != BlType.space)
             {
-                blockTypes[i].Option(true);
+                GameObject go = Instantiate(blockTypes[i], transform) as GameObject;
+
+                if (applayBonus && type == BlType.ball)
+                    go.GetComponent<CollectBall>().isByBonus = true;
+                else if(applayBonus && type == BlType.bonus)
+                    go.GetComponent<CollectBonus>().isByBonus = true;
+
                 GetComponentInParent<Row>().nrBlock++;
             }
-            else
-                blockTypes[i].Option(false);
         }
         DeSpawnBlock();
     }
 
     public bool DeSpawnBlock()
     {
-        blockTypes = GetComponentsInChildren<BlockType>();
-        if (blockTypes.Length <= 0)
+        var nrBlockType = GetComponentsInChildren<BlockType>().Length;
+        if (nrBlockType <= 0)
         {
-            this.gameObject.SetActive(false);
+            GetComponentInParent<Row>().nrBlock--;
+            gameObject.SetActive(false);
         }
         return true;
     }
