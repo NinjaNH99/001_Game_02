@@ -18,6 +18,8 @@ public class Container : MonoBehaviour
                     go.GetComponent<CollectBall>().isByBonus = true;
                 else if(applayBonus && type == BlType.bonus)
                     go.GetComponent<CollectBonus>().isByBonus = true;
+                else if(applayBonus && type == BlType.square_01)
+                    LevelManager.Instance.LSQ1MAX--;
 
                 GetComponentInParent<Row>().nrBlock++;
             }
@@ -34,6 +36,21 @@ public class Container : MonoBehaviour
             gameObject.SetActive(false);
         }
         return true;
+    }
+
+    public void ApplySquare_Bonus()
+    {
+        BlType blType = BlType.ball;
+
+        var r = Random.Range(0, 100);
+        if (r >= 60)
+            blType = BlType.ball;
+        else if (r >= 20)
+            blType = BlType.bonus;
+        else if(r >= 10)
+            blType = BlType.square_01;
+
+        SpawnType(blType, true);
     }
 
     public void EndLevel(GameObject obj)

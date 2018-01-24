@@ -80,10 +80,10 @@ public class LevelManager : MonoSingleton<LevelManager>
             resBLMAX++;
             if (resSQ1Max >= RESETDATA - 2)
             {
-                if(gameContr.score_Rows - gameContr.amountBalls >= 3)
-                    LBLMAX = 6;
-                else
+                if(gameContr.score_Rows - gameContr.amountBalls > 3)
                     LBLMAX = 4;
+                else
+                    LBLMAX = 3;
                 resBLMAX = 0;
             }
         }

@@ -14,6 +14,7 @@ public class Block : MonoSingleton<Block>
     private GameController gameContr;
     private TextMeshProUGUI hpText;
     private Animator anim;
+    private BoxCollider2D coll;
     private bool isDestroy;
 
     private void Awake()
@@ -21,6 +22,7 @@ public class Block : MonoSingleton<Block>
         containerPos = GetComponentInParent<Container>().gameObject.GetComponent<RectTransform>();
         gameContr = GameController.Instance;
         GetComponent<RectTransform>().localScale = new Vector2(75, 75);
+        coll = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -37,13 +39,15 @@ public class Block : MonoSingleton<Block>
 
     private void ReceiveHit()
     {
-        anim.SetTrigger("Hit");
         hp--;
-        if (hp <= 0)
+        if (hp > 0)
+            anim.SetTrigger("Hit");
+        else
         {
-            ApplySquare_Bonus(isBonus);
+            coll.isTrigger = true;
+            if (isBonus)
+                GetComponentInParent<Container>().ApplySquare_Bonus();
             hpText.text = "1";
-            anim.StopPlayback();
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
 
             var main = go.GetComponent<ParticleSystem>().main;
@@ -71,24 +75,6 @@ public class Block : MonoSingleton<Block>
     {
         hp = 1;
         ReceiveHit();
-    }
-
-    private void ApplySquare_Bonus(bool isBonus)
-    {
-        if (!isBonus)
-            return;
-
-        BlType blType = BlType.ball;
-
-        var r = Random.Range(0, 4);
-         if (r == 1)
-            blType = BlType.bonus;
-        else if (r == 2)
-            blType = BlType.square_01;
-        else if (r == 3)
-            blType = BlType.ball;
-
-        GetComponentInParent<Container>().SpawnType(blType, true);
     }
 
     private void OnCollisionEnter2D(Collision2D coll)

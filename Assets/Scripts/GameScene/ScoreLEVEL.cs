@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 {
+    public const int MAXSCore = 2000;
+
     public GameObject timerBG;
     public GameObject[] stars;
 
     public Transform BackgroundPr;
     public GameObject AddScoreUIPr;
 
-    public int maxScore = 2000;
+    public TextMeshProUGUI PointsScore;
 
     [Range(0f, 1f), HideInInspector]
     public float i;
@@ -20,19 +23,21 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     private Image timerImg, timerBGimg;
     private bool checkTimer, addTimer;
     private float x, spidT, minPosT;
+    private int showPoints;
 
     private void Start()
     {
         gameContr = GameController.Instance;
-        x = (1000f / maxScore) / 100f;
+        x = (1000f / MAXSCore) / 100f;
         addTimer = checkTimer = false;
         timerImg = GetComponent<Image>();
         timerBGimg = timerBG.GetComponent<Image>();
         i = 0;
-        minPosT = 0;
+        minPosT = showPoints = 0;
         spidT = minPosT;
         nrBlDestroy = 0;
         timerImg.fillAmount = i;
+        PointsScore.text = showPoints.ToString();
         ChangeColor();
         ResetSetting();
     }
@@ -68,13 +73,15 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     {
         nrBlDestroy++;
         i += x * nrBlDestroy;
-        minPosT += 0.001f;
+        minPosT += 0.0015f;
+        showPoints += (nrBlDestroy * 10);
+        PointsScore.text = showPoints.ToString();
         addTimer = true;
     }
 
     private void CheckStar(float  i)
     {
-        if (i >= 0.95f)
+        if (i >= 1f)
         {
             stars[3].GetComponent<ShowStar>().Staroption(timerImg.color);
         }
@@ -82,11 +89,11 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         {
             stars[2].GetComponent<ShowStar>().Staroption(timerImg.color);
         }
-        else if(i >= 0.49f)
+        else if(i >= 0.5f)
         {
             stars[1].GetComponent<ShowStar>().Staroption(timerImg.color);
         }
-        else if(i >= 0.2f)
+        else if(i >= 0.25f)
         {
             stars[0].GetComponent<ShowStar>().Staroption(timerImg.color);
         }

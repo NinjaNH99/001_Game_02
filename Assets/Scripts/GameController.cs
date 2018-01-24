@@ -140,6 +140,7 @@ public class GameController : MonoSingleton<GameController>
                 PoolInput();
             if (allBallLanded)
             {
+                GenerateBalls(nrBallINeed, false);
                 score_Rows++;
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
@@ -147,7 +148,6 @@ public class GameController : MonoSingleton<GameController>
                 LevelManager.Instance.GenerateRow();
                 UpdateUIText();
                 ShowAmBallsExitText(amountBalls);
-                GenerateBalls(nrBallINeed, false);
                 allBallLanded = false;
             }
             if (onBoostSpeed)
@@ -295,9 +295,9 @@ public class GameController : MonoSingleton<GameController>
         targetBallPosLanded = ballOr.transform.position;
         ScoreLEVEL.Instance.ResetSetting();
         Bonus.Instance.ActivateButton(true);
-        allBallLanded = updateInputs = true;
         showsABExit = true;
         Time.timeScale = 1f;
+        allBallLanded = updateInputs = true;
     }
 
     private void ShowAmBallsExitText(int amountBallsShowExit)
