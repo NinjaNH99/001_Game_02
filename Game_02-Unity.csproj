@@ -106,7 +106,8 @@
     <Compile Include="Assets\Scripts\GameScene\OldRow.cs" />
     <Compile Include="Assets\Scripts\GameScene\Row.cs" />
     <Compile Include="Assets\Scripts\GameScene\ScoreLEVEL.cs" />
-    <Compile Include="Assets\Scripts\GameScene\ShowStar.cs" />
+    <Compile Include="Assets\Scripts\GameScene\ShowPoint.cs" />
+    <Compile Include="Assets\Scripts\GameScene\ShowStars.cs" />
     <Compile Include="Assets\Scripts\GameScene\Square_01.cs" />
     <Compile Include="Assets\Scripts\GameScene\Square_01Teleport.cs" />
     <Compile Include="Assets\Scripts\GameScene\UpdateLoseMenu.cs" />

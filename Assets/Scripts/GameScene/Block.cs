@@ -14,7 +14,6 @@ public class Block : MonoSingleton<Block>
     private GameController gameContr;
     private TextMeshProUGUI hpText;
     private Animator anim;
-    private BoxCollider2D coll;
     private bool isDestroy;
 
     private void Awake()
@@ -22,7 +21,6 @@ public class Block : MonoSingleton<Block>
         containerPos = GetComponentInParent<Container>().gameObject.GetComponent<RectTransform>();
         gameContr = GameController.Instance;
         GetComponent<RectTransform>().localScale = new Vector2(75, 75);
-        coll = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -44,7 +42,7 @@ public class Block : MonoSingleton<Block>
             anim.SetTrigger("Hit");
         else
         {
-            coll.isTrigger = true;
+            GetComponent<BoxCollider2D>().isTrigger = true;
             if (isBonus)
                 GetComponentInParent<Container>().ApplySquare_Bonus();
             hpText.text = "1";
@@ -55,7 +53,6 @@ public class Block : MonoSingleton<Block>
 
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
-            GetComponent<BoxCollider2D>().isTrigger = true;
             if (isDestroy)
             {
                 GetComponentInParent<Row>().CheckNrConts();

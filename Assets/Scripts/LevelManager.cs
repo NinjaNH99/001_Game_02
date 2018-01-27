@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class LevelManager : MonoSingleton<LevelManager>
 {
-    private const float DISTANCE_BETWEEN_BLOCKS = 84.0f; // 83.0
-    private const float ANIMPOSY_SPEED = 250.0f;
-    private const int RESETDATA = 4;
+    private const float DISTANCE_BETWEEN_BLOCKS = 65.0f; // 83.0
+    private const int RESETDATA = 6;
 
     public GameObject rowPrefab;
 
@@ -19,8 +18,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     // Max obj 
     [HideInInspector]
-    public int LSQ1MAX, LBLMAX, LBNMAX , HPX2, nrRowsInGame;
-    private int resSQ1Max, resBLMAX, resBNMAX, resHPX2;
+    public int LSQ1MAX, LBLMAX, LBNMAX , SQBON, nrRowsInGame;
+    private int resSQ1Max, resBLMAX, resBNMAX, resSQBON;
 
     private float curPosY;
     private float desiredPosition;
@@ -28,14 +27,17 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LSQ1MAX = 3; LBLMAX = 4; LBNMAX = 1; HPX2 = 2;
-        resSQ1Max = resBLMAX = resBNMAX = resHPX2 = 0;
+        LSQ1MAX = 2; LBLMAX = 3; LBNMAX = 0; SQBON = 4;
+        resSQ1Max = resBLMAX = resBNMAX = resSQBON = 0;
         curPosY = 0;
-        desiredPosition = -168.0f;
+        desiredPosition = -130.0f;
     }
 
     private void Start()
     {
+        GenerateRow();
+        GenerateRow();
+        GenerateRow();
         GenerateRow();
     }
 
@@ -46,7 +48,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LBNMAX, HPX2);
+            go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
@@ -69,7 +71,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LSQ1MAX <= 0)
         {
             resSQ1Max++;
-            if(resSQ1Max >= RESETDATA)
+            if(resSQ1Max >= RESETDATA + 1)
             {
                 LSQ1MAX = 3;
                 resSQ1Max = 0;
@@ -81,9 +83,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             if (resSQ1Max >= RESETDATA - 2)
             {
                 if(gameContr.score_Rows - gameContr.amountBalls > 3)
-                    LBLMAX = 4;
+                    LBLMAX = 6;
                 else
-                    LBLMAX = 3;
+                    LBLMAX = 4;
                 resBLMAX = 0;
             }
         }
@@ -96,13 +98,13 @@ public class LevelManager : MonoSingleton<LevelManager>
                 resBNMAX = 0;
             }
         }
-        if (HPX2 <= 0)
+        if (SQBON <= 0)
         {
-            resHPX2++;
-            if (resHPX2 >= RESETDATA)
+            resSQBON++;
+            if (resSQBON >= RESETDATA)
             {
-                HPX2 = 2;
-                resHPX2 = 0;
+                SQBON = 4;
+                resSQBON = 0;
             }
         }
         return true;

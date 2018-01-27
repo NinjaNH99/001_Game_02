@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 50733412540813552}
   - component: {fileID: 250859563411809046}
   - component: {fileID: 222461559882129732}
-  - component: {fileID: 114876959015963826}
   - component: {fileID: 95827610373862682}
   - component: {fileID: 114200176989093460}
   m_Layer: 14
@@ -62,7 +61,7 @@ GameObject:
   - component: {fileID: 114351758905799076}
   - component: {fileID: 114033707786910048}
   m_Layer: 14
-  m_Name: Square_01
+  m_Name: Square_Teleport
   m_TagString: Square_01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +101,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 35
+  m_Radius: 27
 --- !u!95 &95057043772541768
 Animator:
   serializedVersion: 3
@@ -204,33 +203,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114876959015963826
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1420241449188852}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.49019608}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e8ae344bd48baf14da9b965428d2022a, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!222 &222461559882129732
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -259,7 +231,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 72, y: 72}
+  m_SizeDelta: {x: 56.6, y: 56.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224168154243866006
 RectTransform:
@@ -278,7 +250,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 72, y: 72}
+  m_SizeDelta: {x: 56.6, y: 56.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224517599484387844
 RectTransform:

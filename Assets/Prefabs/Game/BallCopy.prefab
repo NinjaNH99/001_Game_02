@@ -65,7 +65,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 11
+  m_Radius: 8.5
 --- !u!114 &114341535006139434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,10 +106,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allBallLanded: 0
   startFall: 0
-  firstBallLanded: 0
   speed: 0
-  ballOr: {fileID: 0}
-  ballIsLanded: 0
+  rigid: {fileID: 0}
   ballPos: {x: 0, y: 0}
 --- !u!222 &222033178505019390
 CanvasRenderer:
@@ -133,5 +131,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -354}
-  m_SizeDelta: {x: 23, y: 23}
+  m_SizeDelta: {x: 17.5, y: 17.5}
   m_Pivot: {x: 0.5, y: 0.5}

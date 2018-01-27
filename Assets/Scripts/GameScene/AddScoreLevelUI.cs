@@ -7,6 +7,6 @@ public class AddScoreLevelUI : MonoBehaviour
 {
     public void Show(int value)
     {
-        GetComponent<TextMeshProUGUI>().text = '+' + value.ToString() + '0';
+        GetComponent<TextMeshProUGUI>().text = '+' + value.ToString();
     }
 }

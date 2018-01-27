@@ -8,11 +8,11 @@ public class Row : MonoBehaviour
     public int rowID;
     public int nrBlock = 0;
 
-    protected int SQ1MAX, BLMAX, BONMAX, SPMAX = 2;
+    protected int SQ1MAX, BLMAX, BONMAX, SPMAX = 3;
 
     private GameController gameContr;
 
-    private Container[] containers = new Container[8];
+    private Container[] containers = new Container[10];
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class Row : MonoBehaviour
     }
 
     // Spawn random blockType from Cont in row
-    public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX, int HPX2)
+    public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX, int SQBON)
     {
         var kBL = true;
         var kSQ1 = true;
@@ -63,14 +63,14 @@ public class Row : MonoBehaviour
             }
             else
             {
-                if(HPX2 > 0 && kHPX2)
+                if(SQBON > 0 && kHPX2)
                 {
                     containers[i].SpawnType(BlType.square_Bonus);
                     containers[i].GetComponentInChildren<Block>().hpx2 = 2;
                     containers[i].GetComponentInChildren<Block>().isBonus = true;
-                    HPX2--;
+                    SQBON--;
                     kHPX2 = false;
-                    LevelManager.Instance.HPX2--;
+                    LevelManager.Instance.SQBON--;
                 }
                 else
                     containers[i].SpawnType(BlType.square);

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198369792024626224}
   - component: {fileID: 199873129859585274}
   m_Layer: 9
-  m_Name: AddStarlEFX
+  m_Name: AddPointEFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

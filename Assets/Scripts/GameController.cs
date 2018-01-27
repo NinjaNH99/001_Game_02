@@ -100,7 +100,7 @@ public class GameController : MonoSingleton<GameController>
 
         Time.timeScale = 1;
         score_Rows = 1;
-        amountBalls = 1;                                                                // std = 1
+        amountBalls = 5;                                                                // std = 1
         scoreLevel = 0;
         amountBallsBack = amountCollectBallsLeft = 0;
         sd = MobileInputs.Instance.swipeDelta;
@@ -120,7 +120,7 @@ public class GameController : MonoSingleton<GameController>
         ballColor = Ball.Instance.GetComponent<Image>().color;
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
         ballCopyColor = ballColor;
-        ballCopyColor.a = 0.8f;
+        //ballCopyColor.a = 0.8f;
         ballsPreview.parent.gameObject.SetActive(false);
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
         UpdateUIText();
@@ -129,7 +129,7 @@ public class GameController : MonoSingleton<GameController>
         ballOrgYPos = ballOr.transform.position.y;
         bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
         targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
-        amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.15f, 0.15f);
+        amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
     }
 
     private void Update()
@@ -317,11 +317,11 @@ public class GameController : MonoSingleton<GameController>
             if(amountBallsShowEnter >= amountBalls)
                 amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Enter");
 
-            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.15f, 0.15f);
+            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
             if (amountBallsTextPr.GetComponent<RectTransform>().position.x >= 0.9f)
-                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(-0.2f, 0.15f);
+                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(-0.2f, 0.1f);
             else if (amountBallsTextPr.GetComponent<RectTransform>().position.x <= -0.7f)
-                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.3f, 0.15f);
+                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.3f, 0.1f);
         }
     }
 
@@ -345,10 +345,10 @@ public class GameController : MonoSingleton<GameController>
     public Color ChangeColor(int hp)
     {
         int colorID = 0;
-        if (hp / 3 > blockColor.Length - 1)
+        if (hp / 2 > blockColor.Length - 1)
             colorID = blockColor.Length - 1;
         else
-            colorID = hp / 3;
+            colorID = hp / 2;
         return blockColor[colorID];                  
     }
 

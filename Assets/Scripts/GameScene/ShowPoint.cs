@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowStar : MonoBehaviour
+public class ShowPoint : MonoBehaviour
 {
     public GameObject starON, starOFFCircle, collectEFX;
 
@@ -38,7 +38,7 @@ public class ShowStar : MonoBehaviour
     public void ChangeColor(int colorScore, Color color)
     {
         starONImg.color = color;
-        starONImg.SetTransparency(0.85f);
+        starONImg.SetTransparency(0.7f);
 
         starOFFCircleImg.color = color;
         starOFFCircleImg.SetTransparency(0.2f);
