@@ -18,6 +18,7 @@ TagManager:
   - AddBallUI
   - Bonus_02
   - WallT
+  - ballSQLine
   layers:
   - Default
   - TransparentFX

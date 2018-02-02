@@ -58,12 +58,12 @@ public abstract class Ball : MonoSingleton<Ball>
         {
             if (rectPos.position.x > 0)
             {
-                rigid.AddForce(new Vector2(-0.06f, -0.06f) * speed, ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(-0.01f, -0.01f) * speed, ForceMode2D.Impulse);
                 checkPosX = 5;
             }
             else
             {
-                rigid.AddForce(new Vector2(0.06f, -0.06f) * speed, ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(0.01f, -0.01f) * speed, ForceMode2D.Impulse);
                 checkPosX = 5;
             }
             ResetSpeed();
@@ -99,7 +99,7 @@ public abstract class Ball : MonoSingleton<Ball>
         }*/
         if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR))
         {
-            rigid.AddForce(new Vector2(0, -0.002f) * speed, ForceMode2D.Impulse);
+            rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
         }
 
         StartFall();

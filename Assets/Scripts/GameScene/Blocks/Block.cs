@@ -76,7 +76,7 @@ public class Block : MonoSingleton<Block>
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine))
             ReceiveHit();
         if (coll.gameObject.CompareTag(Tags.Bonus_02))
         {

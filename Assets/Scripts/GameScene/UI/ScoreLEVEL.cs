@@ -91,7 +91,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         {
             points[2].GetComponent<ShowPoint>().Staroption(timerImg.color);
             stars[2].GetComponent<ShowStars>().ShowStar();
-            ckStar1 = false;
+            ckStar3 = false;
         }
         else if(i >= 0.64f && ckStar2)
         {

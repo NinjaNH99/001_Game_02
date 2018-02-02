@@ -62,7 +62,7 @@ public class CollectBall : MonoSingleton<CollectBall>
         }
         else
         {
-            if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
+            if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine))
                 Collect();
             else if (coll.gameObject.CompareTag(Tags.EndLevel))
                 DeathLevel();

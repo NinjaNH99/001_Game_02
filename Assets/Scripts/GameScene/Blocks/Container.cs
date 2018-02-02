@@ -4,7 +4,7 @@ public class Container : MonoBehaviour
 {
     public int visualIndex;
 
-    public GameObject[] blockTypes = new GameObject[5];
+    public GameObject[] blockTypes = new GameObject[6];
 
     public void SpawnType(BlType type , bool applayBonus = false)
     {
@@ -18,7 +18,7 @@ public class Container : MonoBehaviour
                     go.GetComponent<CollectBall>().isByBonus = true;
                 else if(applayBonus && type == BlType.bonus)
                     go.GetComponent<CollectBonus>().isByBonus = true;
-                else if(applayBonus && type == BlType.square_01)
+                else if(applayBonus && type == BlType.square_Teleport)
                     LevelManager.Instance.LSQ1MAX--;
 
                 GetComponentInParent<Row>().nrBlock++;
@@ -48,7 +48,7 @@ public class Container : MonoBehaviour
         else if (r >= 20)
             blType = BlType.bonus;
         else if(r >= 10)
-            blType = BlType.square_01;
+            blType = BlType.square_Teleport;
 
         SpawnType(blType, true);
     }

@@ -15,6 +15,7 @@ public class Tags
     public const string WallT = "WallT";
     public const string Player = "Player";
     public const string ballCopy = "ballCopy";
+    public const string ballSQLine = "ballSQLine";
     public const string EndLevel = "EndLevel";
     public const string Background = "Background";
     public const string Space2D = "2DSpace";
@@ -100,7 +101,7 @@ public class GameController : MonoSingleton<GameController>
 
         Time.timeScale = 1;
         score_Rows = 1;
-        amountBalls = 5;                                                                // std = 1
+        amountBalls = 1;                                                                // std = 1
         scoreLevel = 0;
         amountBallsBack = amountCollectBallsLeft = 0;
         sd = MobileInputs.Instance.swipeDelta;

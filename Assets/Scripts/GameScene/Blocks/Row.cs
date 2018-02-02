@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Row : MonoBehaviour
 {
     public int rowID;
     public int nrBlock = 0;
 
-    protected int SQ1MAX, BLMAX, BONMAX, SPMAX = 3;
+    protected int SQ1MAX, SQLINE, BLMAX, BONMAX, SPMAX = 3;
 
     private GameController gameContr;
 
@@ -25,10 +24,11 @@ public class Row : MonoBehaviour
     }
 
     // Spawn random blockType from Cont in row
-    public void SpawnCont(int BLMAX, int SQ1MAX, int BONMAX, int SQBON)
+    public void SpawnCont(int BLMAX, int SQ1MAX, int SQLINE, int BONMAX, int SQBON)
     {
         var kBL = true;
         var kSQ1 = true;
+        var kSQLINE = true;
         var kHPX2 = true;
         var rand = 0;
        
@@ -46,7 +46,7 @@ public class Row : MonoBehaviour
             }
             else if (rand >= 50 && SQ1MAX > 0 && kSQ1)
             {
-                containers[i].SpawnType(BlType.square_01);
+                containers[i].SpawnType(BlType.square_Teleport);
                 kSQ1 = false;
                 LevelManager.Instance.LSQ1MAX--;
             }
@@ -71,6 +71,13 @@ public class Row : MonoBehaviour
                     SQBON--;
                     kHPX2 = false;
                     LevelManager.Instance.SQBON--;
+                }
+                else if (SQLINE > 0 && kSQLINE && (Random.Range(0, 4) != 1))
+                {
+                    containers[i].SpawnType(BlType.square_Line);
+                    SQLINE--;
+                    kSQLINE = false;
+                    LevelManager.Instance.LSQLINE--;
                 }
                 else
                     containers[i].SpawnType(BlType.square);
