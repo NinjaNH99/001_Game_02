@@ -66,6 +66,7 @@ MonoBehaviour:
   BoostSpeedButton: {fileID: 0}
   canvas2: {fileID: 0}
   loseMenu: {fileID: 0}
+  endMenu: {fileID: 0}
   statusBar: {fileID: 0}
   bonus_02Pr: {fileID: 1151160829602452, guid: 96191fea3a883fd41bc4434c3a4a9572, type: 2}
   ballColor: {r: 0.05882353, g: 0.61960787, b: 0.8980392, a: 1}
@@ -134,8 +135,20 @@ MonoBehaviour:
   - {r: 0.8901961, g: 0.3019608, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.2627451, b: 0.22745098, a: 0.7921569}
   - {r: 0.8901961, g: 0.22745098, b: 0.22745098, a: 0.7921569}
+  ballOrgYPos: 0
+  isBreakingStuff: 0
+  updateInputs: 0
+  allBallLanded: 0
+  bonus_02IsReady: 0
+  firstBallLanded: 0
+  targetBallPosLanded: {x: 0, y: 0}
+  amountBalls: 0
+  onBoostSpeed: 0
+  score_Rows: 0
+  scoreLevel: 0
+  amountBallsLeft: 0
+  amountCollectBallsLeft: 0
   AddBallUI: 0
-  targetPosLanded: {x: 0, y: 0}
 --- !u!114 &114123733791665332
 MonoBehaviour:
   m_ObjectHideFlags: 1

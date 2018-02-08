@@ -9,6 +9,7 @@ public class Tags
     public const string Floor = "Floor";
     public const string Square = "Square";
     public const string Square_01 = "Square_01";
+    public const string Square_Line = "Square_Line";
     public const string Bonus = "Bonus";
     public const string Wall = "Wall";
     public const string WallR = "WallR";
@@ -64,7 +65,7 @@ public class GameController : MonoSingleton<GameController>
     public Button BoostSpeedButton;
 
     // Canvas 2
-    public GameObject canvas2, loseMenu, statusBar, bonus_02Pr;
+    public GameObject canvas2, loseMenu, endMenu, statusBar, bonus_02Pr;
 
     public Color ballColor;
     public Color ballCopyColor;
@@ -104,33 +105,34 @@ public class GameController : MonoSingleton<GameController>
         amountBalls = 1;                                                                // std = 1
         scoreLevel = 0;
         amountBallsBack = amountCollectBallsLeft = 0;
-        sd = MobileInputs.Instance.swipeDelta;
-        sd.Set(-sd.x, -sd.y);
         isBreakingStuff = allBallLanded = firstBallLanded = false;
         showsABExit = true;
         updateInputs = true;
         AddBallUI = 0;
-    }
 
-    private void Start()
-    {
         BallsList = new List<GameObject>();
         BallsList.Add(ballOr);
         nrBallINeed = amountBalls - 1;
         GenerateBalls(nrBallINeed, false);
-        ballColor = Ball.Instance.GetComponent<Image>().color;
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
-        ballCopyColor = ballColor;
-        //ballCopyColor.a = 0.8f;
-        ballsPreview.parent.gameObject.SetActive(false);
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
-        UpdateUIText();
-        ShowAmBallsExitText(amountBalls);
+        ballsPreview.parent.gameObject.SetActive(false);
         amountBallsLeft = amountBalls;
         ballOrgYPos = ballOr.transform.position.y;
         bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
         targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
         amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
+    }
+
+    private void Start()
+    {
+        sd = MobileInputs.Instance.swipeDelta;
+        sd.Set(-sd.x, -sd.y);
+        ballColor = Ball.Instance.GetComponent<Image>().color;
+        ballCopyColor = ballColor;
+        //ballCopyColor.a = 0.8f;
+        UpdateUIText();
+        ShowAmBallsExitText(amountBalls);
     }
 
     private void Update()
@@ -287,6 +289,8 @@ public class GameController : MonoSingleton<GameController>
     private void AllBallLanded()
     {
         Time.timeScale = 1f;
+        if (ScoreLEVEL.Instance.showPoints <= 0)
+            OnEndMenu();
         isBreakingStuff = false;
         firstBallLanded = false;
         amountBallsLeft = amountBalls;
@@ -340,6 +344,18 @@ public class GameController : MonoSingleton<GameController>
         score_Rows--;
         loseMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
         loseMenu.GetComponent<Animator>().SetTrigger("PanelON");
+        Time.timeScale = 0f;
+    }
+
+    public void OnEndMenu()
+    {
+        canvas2.SetActive(true);
+        loseMenu.SetActive(false);
+        statusBar.SetActive(false);
+        endMenu.SetActive(true);
+        score_Rows--;
+        endMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
+        endMenu.GetComponent<Animator>().SetTrigger("PanelON");
         Time.timeScale = 0f;
     }
 

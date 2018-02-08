@@ -29,7 +29,8 @@ public class ButtonController : MonoBehaviour
 
     public void OnPlayClick()
     {
-        SceneManager.LoadScene("Game");
+        //SceneManager.LoadScene("Game");
+        LevelLoader.Instance.LoadLevel("Game");
     }
 
     public void OnRateClick()
@@ -70,12 +71,12 @@ public class ButtonController : MonoBehaviour
 
     public void OnRestartClick()
     {
-        SceneManager.LoadSceneAsync(1);
+        LevelLoader.Instance.LoadLevel("Game");
     }
 
     public void OnMenuClick()
     {
-        SceneManager.LoadSceneAsync(0);
+        LevelLoader.Instance.LoadLevel("Main");
     }
 
     public void OnSoundClick()

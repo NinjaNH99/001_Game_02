@@ -19,6 +19,7 @@ TagManager:
   - Bonus_02
   - WallT
   - ballSQLine
+  - Square_Line
   layers:
   - Default
   - TransparentFX
@@ -35,7 +36,7 @@ TagManager:
   - DeathZone
   - Ball_Bonus02
   - Square_01
-  - 
+  - BallSQLine
   - 
   - 
   - 

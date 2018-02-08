@@ -14,7 +14,7 @@ public class Block : MonoSingleton<Block>
     private GameController gameContr;
     private TextMeshProUGUI hpText;
     private Animator anim;
-    private bool isDestroy;
+    private bool isDestroy, isApplBonus;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class Block : MonoSingleton<Block>
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
         hp = gameContr.score_Rows * hpx2;
         hpText.text = hp.ToString();
-        isDestroy = true;
+        isDestroy = isApplBonus = true;
         GetComponent<Image>().color = gameContr.ChangeColor(hp);
         if (imageBonus != null)
             imageBonus.GetComponent<Image>().color = GetComponent<Image>().color;
@@ -43,8 +43,11 @@ public class Block : MonoSingleton<Block>
         else
         {
             GetComponent<BoxCollider2D>().isTrigger = true;
-            if (isBonus)
+            if (isBonus && isApplBonus)
+            {
+                isApplBonus = false;
                 GetComponentInParent<Container>().ApplySquare_Bonus();
+            }
             hpText.text = "1";
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
 

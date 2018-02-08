@@ -12,9 +12,10 @@ public class LevelManager : MonoSingleton<LevelManager>
     private GameController gameContr;
     // List of rows
     protected List<GameObject> listRows = new List<GameObject>();
-
     // List of teleports
     public List<GameObject> listTelep = new List<GameObject>();
+    // List of teleports
+    public List<GameObject> listSquareLine = new List<GameObject>();
 
     // Max obj 
     [HideInInspector]
@@ -27,7 +28,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LSQ1MAX = 1; LBLMAX = 3; LBNMAX = 0; SQBON = 4; LSQLINE = 2;
+        LSQ1MAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
         resSQ1Max = resBLMAX = resBNMAX = resSQBON = resSQLINE = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
@@ -41,6 +42,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void GenerateRow()
     {
+        RotateSqLine();
         CheckRowsNull();
         if (CheckData())
         {
@@ -64,6 +66,14 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
+    private void RotateSqLine()
+    {
+        for (int i = 0; i < listSquareLine.Count; i++)
+        {
+            listSquareLine[i].GetComponent<Square_Line>().RotateSquare();
+        }
+    }
+
     private bool CheckData()
     {
         if (LSQ1MAX <= 0)
@@ -81,9 +91,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             if (resSQ1Max >= RESETDATA - 2)
             {
                 if(gameContr.score_Rows - gameContr.amountBalls > 3)
-                    LBLMAX = 4;
+                    LBLMAX = 6;
                 else
-                    LBLMAX = 2;
+                    LBLMAX = 3;
                 resBLMAX = 0;
             }
         }
@@ -108,9 +118,9 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LSQLINE <= 0)
         {
             resSQLINE++;
-            if (resSQLINE >= RESETDATA + 1)
+            if (resSQLINE >= RESETDATA)
             {
-                LSQLINE = 2;
+                LSQLINE = 1;
                 resSQLINE = 0;
             }
         }

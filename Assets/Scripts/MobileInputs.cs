@@ -15,6 +15,7 @@ public class MobileInputs : MonoSingleton<MobileInputs>
         release = hold = false;
         swipeDelta = Vector2.zero;
         initialPosition = Input.mousePosition;
+        Reset();
     }
 
     private void Update()

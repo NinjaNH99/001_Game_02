@@ -42,13 +42,13 @@ public class Container : MonoBehaviour
     {
         BlType blType = BlType.ball;
 
-        var r = Random.Range(0, 100);
+        int r = Random.Range(0, 100);
         if (r >= 60)
             blType = BlType.ball;
         else if (r >= 20)
             blType = BlType.bonus;
-        else if(r >= 10)
-            blType = BlType.square_Teleport;
+        else if (r >= 10)
+            blType = BlType.square;
 
         SpawnType(blType, true);
     }

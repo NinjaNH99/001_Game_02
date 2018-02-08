@@ -111,6 +111,7 @@
     <Compile Include="Assets\Scripts\GameScene\UI\ShowStars.cs" />
     <Compile Include="Assets\Scripts\GameScene\UI\UpdateLoseMenu.cs" />
     <Compile Include="Assets\Scripts\GameScene\UI\UpdatePauseMenu.cs" />
+    <Compile Include="Assets\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\MobileInputs.cs" />
     <Compile Include="Assets\Scripts\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\Old Version\CameraScreenResolution.cs" />

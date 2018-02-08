@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 222629318369838270}
   - component: {fileID: 114589461203037364}
   - component: {fileID: 114608644212131162}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: BallSQLine
   m_TagString: ballSQLine
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ Rigidbody2D:
   m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!58 &58146662765311532
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -109,6 +109,7 @@ MonoBehaviour:
   speed: 0
   rigid: {fileID: 0}
   ballPos: {x: 0, y: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!222 &222629318369838270
 CanvasRenderer:
   m_ObjectHideFlags: 1

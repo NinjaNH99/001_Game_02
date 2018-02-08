@@ -38,7 +38,7 @@ public class ShowPoint : MonoBehaviour
     public void ChangeColor(int colorScore, Color color)
     {
         starONImg.color = color;
-        starONImg.SetTransparency(0.7f);
+        starONImg.SetTransparency(0.4f);
 
         starOFFCircleImg.color = color;
         starOFFCircleImg.SetTransparency(0.2f);

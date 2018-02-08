@@ -5,57 +5,99 @@ using UnityEngine.UI;
 
 public class Square_Line : MonoBehaviour
 {
-    public GameObject LineDir;
     public GameObject Line;
+    public GameObject Square_Img;
+    public GameObject Square_01EFX;
+
+    public Image Img1, Img2, Img3;
 
     private GameController gameContr;
-    private Animator lineDirAnim;
-    private Image img;
+    private Animator square_LineAnim;
+    private Vector2 shootDirL, shootDirR;
+    private RectTransform transofrmPos;
 
-    private bool shoot;
+    private bool rotate;
 
     private void Start()
     {
+        LevelManager.Instance.listSquareLine.Add(this.gameObject);
         gameContr = GameController.Instance;
-        lineDirAnim = LineDir.GetComponent<Animator>();
-        img = GetComponent<Image>();
+        square_LineAnim = GetComponent<Animator>();
         Change();
-        shoot = true;
+        rotate = true;
+        shootDirL = Vector2.left;
+        shootDirR = Vector2.right;
+        //RotateSquare();
     }
 
     public void Change()
     {
         var colorScore = gameContr.score_Rows;
-        img.color = gameContr.ChangeColor(colorScore);
+        Img1.color = Img2.color = Img3.color = gameContr.ChangeColor(colorScore);
     }
 
 
-    private void Shoot()
+    private void ShootL()
     {
-        RectTransform transofrmPos = gameObject.GetComponent<RectTransform>();
-
         GameObject go = Instantiate(Line, transofrmPos) as GameObject;
         go.GetComponent<RectTransform>().position = transofrmPos.position;
         BallSQLine ballSQLine = go.GetComponent<BallSQLine>();
         //ballSQLine.ballPos = transofrmPos.position;
-        ballSQLine.speed = 3.5f;
+        ballSQLine.speed = 4f;
+        ballSQLine.color = Img1.color;
+        ballSQLine.SendBallInDirection(shootDirL);
         go.SetActive(true);
-        ballSQLine.SendBallInDirection(Vector2.left);
-
-        GameObject go1 = Instantiate(Line, transofrmPos) as GameObject;
-        go1.GetComponent<RectTransform>().position = transofrmPos.position;
-        BallSQLine ballSQLine1 = go1.GetComponent<BallSQLine>();
-       // ballSQLine1.ballPos = transofrmPos.position;
-        ballSQLine1.speed = 3.5f;
-        go1.SetActive(true);
-        ballSQLine1.SendBallInDirection(Vector2.right);
     }
 
-    private void OnCollisionEnter2D(Collision2D coll)
+    private void ShootR()
+    {
+        GameObject go = Instantiate(Line, transofrmPos) as GameObject;
+        go.GetComponent<RectTransform>().position = transofrmPos.position;
+        BallSQLine ballSQLine = go.GetComponent<BallSQLine>();
+        //ballSQLine.ballPos = transofrmPos.position;
+        ballSQLine.speed = 4f;
+        ballSQLine.color = Img1.color;
+        ballSQLine.SendBallInDirection(shootDirR);
+        go.SetActive(true);
+    }
+
+    public void RotateSquare()
+    {
+        if (rotate)
+        {
+            square_LineAnim.SetTrigger("Rotate90");
+            shootDirL = Vector2.up;
+            shootDirR = Vector2.down;
+            rotate = false;
+        }
+        else
+        {
+            square_LineAnim.SetTrigger("Rotate180");
+            shootDirL = Vector2.left;
+            shootDirR = Vector2.right;
+            rotate = true;
+        }
+    }
+
+    public void DeathZone()
+    {
+        //LevelManager.Instance.CheckTeleportsNull();
+        LevelManager.Instance.listSquareLine.Remove(this.gameObject);
+        GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
+        GetComponentInParent<Row>().CheckNrConts();
+        Destroy(Square_Img);
+        Destroy(goEFX, 1f);
+        Destroy(gameObject, 1f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy)/* && shoot */)
         {
-            Shoot();
+            transofrmPos = gameObject.GetComponent<RectTransform>();
+            square_LineAnim.SetTrigger("Hit");
+            ShootL();
+            ShootR();
             //Shoot(false);
             //shoot = false;
         }

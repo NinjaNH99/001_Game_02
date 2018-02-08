@@ -20,5 +20,7 @@ public class DeathZone : MonoBehaviour
             coll.gameObject.SendMessage("DeathZone");
         else if (coll.gameObject.CompareTag(Tags.Square_01))
             coll.transform.parent.GetComponent<Square_01>().DeathZone();
+        else if (coll.gameObject.CompareTag(Tags.Square_Line))
+            coll.transform.parent.GetComponent<Square_Line>().DeathZone();
     }
 }

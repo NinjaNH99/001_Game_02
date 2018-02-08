@@ -18,13 +18,12 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     [Range(0f, 1f), HideInInspector]
     public float i;
     [HideInInspector]
-    public int nrBlDestroy;
+    public int nrBlDestroy, showPoints;
 
     private GameController gameContr;
     private Image timerImg, timerBGimg;
     private bool checkTimer, addTimer, ckStar1, ckStar2, ckStar3;
     private float x, spidT, minPosT;
-    private int showPoints;
 
     private void Awake()
     {
@@ -35,7 +34,8 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         timerImg = GetComponent<Image>();
         timerBGimg = timerBG.GetComponent<Image>();
         i = 0;
-        minPosT = showPoints = 0;
+        minPosT = 0;
+        showPoints = MAXSCore;
         spidT = minPosT;
         nrBlDestroy = 0;
         timerImg.fillAmount = i;
@@ -44,8 +44,8 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
     private void Start()
     {
-        ChangeColor();
         ResetSetting();
+        ChangeColor();
     }
 
 
@@ -80,7 +80,10 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         nrBlDestroy++;
         i += x * nrBlDestroy;
         minPosT += 0.0015f;
-        showPoints += nrBlDestroy;
+        if (showPoints >= 0)
+            showPoints -= nrBlDestroy;
+        else
+            showPoints = 0;
         PointsScore.text = showPoints.ToString();
         addTimer = true;
     }
@@ -92,6 +95,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
             points[2].GetComponent<ShowPoint>().Staroption(timerImg.color);
             stars[2].GetComponent<ShowStars>().ShowStar();
             ckStar3 = false;
+            gameContr.OnEndMenu();
         }
         else if(i >= 0.64f && ckStar2)
         {

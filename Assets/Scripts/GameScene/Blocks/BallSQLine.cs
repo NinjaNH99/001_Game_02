@@ -7,6 +7,7 @@ public class BallSQLine : Ball
 {
     [HideInInspector]
     public Vector2 ballPos;
+    public Color color;
 
     //private RectTransform statePos;
     private Collider2D ballCopyCol;
@@ -14,7 +15,7 @@ public class BallSQLine : Ball
     protected override void Awake()
     {
         base.Awake();
-        gameObject.GetComponent<Image>().color = gameContr.ballCopyColor;
+        gameObject.GetComponent<Image>().color = color;
     }
 
     protected override void Start()
@@ -33,19 +34,14 @@ public class BallSQLine : Ball
         base.SendBallInDirection(dir);
     }
 
-    protected override void ResetSpeed()
-    {
-        base.ResetSpeed();
-    }
-
     protected override void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR) || coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Square_01))
+        if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR)
+            || coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Square_01)
+            || coll.gameObject.CompareTag(Tags.WallT) || coll.gameObject.CompareTag(Tags.Floor))
         {
-            Destroy(gameObject, 0.1f);
+            Destroy(gameObject);
         }
-
-        ResetSpeed();
     }
 
 }
