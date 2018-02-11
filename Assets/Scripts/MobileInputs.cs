@@ -11,9 +11,13 @@ public class MobileInputs : MonoSingleton<MobileInputs>
 
     protected void Awake()
     {
-        gameContr = GameController.Instance;
         release = hold = false;
         swipeDelta = Vector2.zero;
+    }
+
+    private void Start()
+    {
+        gameContr = GameController.Instance;
         initialPosition = Input.mousePosition;
         Reset();
     }

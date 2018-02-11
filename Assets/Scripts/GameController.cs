@@ -110,6 +110,8 @@ public class GameController : MonoSingleton<GameController>
         updateInputs = true;
         AddBallUI = 0;
 
+        sd = MobileInputs.Instance.swipeDelta;
+        sd.Set(-sd.x, -sd.y);
         BallsList = new List<GameObject>();
         BallsList.Add(ballOr);
         nrBallINeed = amountBalls - 1;
@@ -126,8 +128,6 @@ public class GameController : MonoSingleton<GameController>
 
     private void Start()
     {
-        sd = MobileInputs.Instance.swipeDelta;
-        sd.Set(-sd.x, -sd.y);
         ballColor = Ball.Instance.GetComponent<Image>().color;
         ballCopyColor = ballColor;
         //ballCopyColor.a = 0.8f;

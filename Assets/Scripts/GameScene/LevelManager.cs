@@ -15,7 +15,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     // List of teleports
     public List<GameObject> listTelep = new List<GameObject>();
     // List of teleports
-    public List<GameObject> listSquareLine = new List<GameObject>();
+    public List<Square_Line> listSquareLine = new List<Square_Line>();
 
     // Max obj 
     [HideInInspector]
@@ -70,7 +70,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         for (int i = 0; i < listSquareLine.Count; i++)
         {
-            listSquareLine[i].GetComponent<Square_Line>().RotateSquare();
+            //listSquareLine[i].GetComponent<Square_Line>().RotateSquare();
+            listSquareLine[i].RotateSquare();
+
         }
     }
 

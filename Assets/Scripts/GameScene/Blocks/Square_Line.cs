@@ -20,7 +20,7 @@ public class Square_Line : MonoBehaviour
 
     private void Start()
     {
-        LevelManager.Instance.listSquareLine.Add(this.gameObject);
+        LevelManager.Instance.listSquareLine.Add(this);
         gameContr = GameController.Instance;
         square_LineAnim = GetComponent<Animator>();
         Change();
@@ -82,7 +82,7 @@ public class Square_Line : MonoBehaviour
     public void DeathZone()
     {
         //LevelManager.Instance.CheckTeleportsNull();
-        LevelManager.Instance.listSquareLine.Remove(this.gameObject);
+        LevelManager.Instance.listSquareLine.Remove(this);
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
         GetComponentInParent<Row>().CheckNrConts();
         Destroy(Square_Img);

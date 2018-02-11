@@ -28,7 +28,6 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     private void Awake()
     {
         ckStar1 = ckStar2 = ckStar3 = true;
-        gameContr = GameController.Instance;
         x = (1000f / MAXSCore) / 100f;
         addTimer = checkTimer = false;
         timerImg = GetComponent<Image>();
@@ -44,6 +43,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
     private void Start()
     {
+        gameContr = GameController.Instance;
         ResetSetting();
         ChangeColor();
     }
