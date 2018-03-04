@@ -77,11 +77,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b30ef9fa5f794cba506f31caf421f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allBallLanded: 0
+  startFall: 0
+  speed: 0
+  rigid: {fileID: 50631606909117336}
   DeathEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
   DestroyEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
   ballPos: {x: 0, y: 0}
-  rigid: {fileID: 50631606909117336}
-  rectPos: {fileID: 224672913782253674}
 --- !u!114 &114863635557670698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 751c535c2a8ef044583e1f6ba4c2bf13, type: 2}
+  m_Material: {fileID: 2100000, guid: 2edfb4f206de8ef4c9166f36a2f5e4e0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:

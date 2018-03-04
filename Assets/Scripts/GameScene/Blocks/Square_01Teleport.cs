@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class Square_01Teleport : MonoBehaviour
 {
-    public Image imgSign;
+    //public Image imgSign;
+    public Material imgSign;
 
     private GameController gameContr;
 

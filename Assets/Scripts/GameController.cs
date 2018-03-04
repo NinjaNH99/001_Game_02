@@ -21,6 +21,7 @@ public class Tags
     public const string Background = "Background";
     public const string Space2D = "2DSpace";
     public const string Bonus_02 = "Bonus_02";
+    public const string IgnoreRaycast = "Ignore Raycast";
 }
 
 //  Fisher-Yates algorithm 
@@ -91,6 +92,7 @@ public class GameController : MonoSingleton<GameController>
     private int amountBallsBack;
     private bool showsABExit;
     private TextMeshProUGUI amountBallsText;
+    public LineRenderer lineRend;
 
     //For the new method of spawning the ball
     private List<GameObject> BallsList;
@@ -109,6 +111,7 @@ public class GameController : MonoSingleton<GameController>
         showsABExit = true;
         updateInputs = true;
         AddBallUI = 0;
+        lineRend.enabled = false;
 
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
@@ -174,10 +177,12 @@ public class GameController : MonoSingleton<GameController>
         {
             if (sd.y < 3.5f)
             {
+                lineRend.enabled = false;
                 ballsPreview.parent.gameObject.SetActive(false);
             }
             else
             {
+                lineRend.enabled = true;
                 ballsPreview.parent.up = sd.normalized;
                 ballsPreview.parent.gameObject.SetActive(true);
                 ballsPreview.localScale = Vector2.Lerp(new Vector2(0.7f, 0.7f), new Vector2(1, 1), sd.magnitude / MAXIMUM_PULL);
@@ -191,6 +196,7 @@ public class GameController : MonoSingleton<GameController>
                     {
                         GenerateBalls(1, true);
                     }
+                    lineRend.enabled = false;
                     ballsPreview.parent.gameObject.SetActive(false);
                     StartCoroutine(FireBalls(sd.normalized));
                     Bonus.Instance.ActivateButton(false);
@@ -362,10 +368,10 @@ public class GameController : MonoSingleton<GameController>
     public Color ChangeColor(int hp)
     {
         int colorID = 0;
-        if (hp / 2 > blockColor.Length - 1)
+        if (hp / 3 > blockColor.Length - 1)
             colorID = blockColor.Length - 1;
         else
-            colorID = hp / 2;
+            colorID = hp / 3;
         return blockColor[colorID];                  
     }
 

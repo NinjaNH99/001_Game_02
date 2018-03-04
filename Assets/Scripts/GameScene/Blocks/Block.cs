@@ -30,8 +30,8 @@ public class Block : MonoSingleton<Block>
         hpText.text = hp.ToString();
         isDestroy = isApplBonus = true;
         GetComponent<Image>().color = gameContr.ChangeColor(hp);
-        if (imageBonus != null)
-            imageBonus.GetComponent<Image>().color = GetComponent<Image>().color;
+        //if (imageBonus != null)
+          //  imageBonus.GetComponent<Image>().color = GetComponent<Image>().color;
         anim = GetComponent<Animator>();
     }
 
@@ -67,7 +67,7 @@ public class Block : MonoSingleton<Block>
             return;
         }
         hpText.text = hp.ToString();
-        if(!isBonus)
+        if (!isBonus)
             GetComponent<Image>().color = gameContr.ChangeColor(hp);
     }
 

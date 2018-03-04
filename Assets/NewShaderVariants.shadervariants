@@ -8,6 +8,12 @@ ShaderVariantCollection:
   m_Name: NewShaderVariants
   m_Shaders:
     data:
+      first: {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
       first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:
@@ -32,12 +38,6 @@ ShaderVariantCollection:
         - keywords: 
           passType: 0
     data:
-      first: {fileID: 10721, guid: 0000000000000000f000000000000000, type: 0}
-      second:
-        variants:
-        - keywords: 
-          passType: 0
-    data:
       first: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:
@@ -56,7 +56,13 @@ ShaderVariantCollection:
         - keywords: 
           passType: 0
     data:
-      first: {fileID: 4800000, guid: dca26082f9cb439469295791d9f76fe5, type: 3}
+      first: {fileID: 4800000, guid: 392bd3257cc4c2646a998cf637665874, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
       second:
         variants:
         - keywords: 

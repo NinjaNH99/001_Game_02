@@ -7,7 +7,7 @@ public class BallSQLine : Ball
 {
     [HideInInspector]
     public Vector2 ballPos;
-    public Color color;
+    //public Color color;
 
     //private RectTransform statePos;
     private Collider2D ballCopyCol;
@@ -15,7 +15,7 @@ public class BallSQLine : Ball
     protected override void Awake()
     {
         base.Awake();
-        gameObject.GetComponent<Image>().color = color;
+        //gameObject.GetComponent<Image>().color = color;
     }
 
     protected override void Start()

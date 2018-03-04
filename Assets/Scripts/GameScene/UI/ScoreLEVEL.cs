@@ -13,6 +13,8 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     public Transform BackgroundPr;
     public GameObject AddScoreUIPr;
 
+    public Material bgEFX;
+
     public TextMeshProUGUI PointsScore;
 
     [Range(0f, 1f), HideInInspector]
@@ -135,6 +137,9 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
         timerBGimg.color = timerImg.color;
         timerBGimg.SetTransparency(0.08f);
+
+        bgEFX.color = timerImg.color;
+
         for (int i = 0; i < points.Length; i++)
         {
             points[i].GetComponent<ShowPoint>().ChangeColor(colorScore, timerImg.color);
