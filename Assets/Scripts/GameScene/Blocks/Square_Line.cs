@@ -41,6 +41,7 @@ public class Square_Line : MonoBehaviour
     private void ShootL()
     {
         GameObject line = Instantiate(Laser, transofrmPos) as GameObject;
+        line.GetComponent<RectTransform>().position = Img1.GetComponent<RectTransform>().position;
         line.GetComponent<LaserSq>().dir = shootDirL;
         line.SetActive(true);
         /*
@@ -54,10 +55,11 @@ public class Square_Line : MonoBehaviour
         go.SetActive(true);
         */
     }
-
+    
     private void ShootR()
     {
         GameObject line = Instantiate(Laser, transofrmPos) as GameObject;
+        line.GetComponent<RectTransform>().position = Img2.GetComponent<RectTransform>().position;
         line.GetComponent<LaserSq>().dir = shootDirR;
         line.SetActive(true);
         /*
@@ -70,6 +72,7 @@ public class Square_Line : MonoBehaviour
         ballSQLine.SendBallInDirection(shootDirR);
         go.SetActive(true);
         */
+        
     }
 
     public void RotateSquare()

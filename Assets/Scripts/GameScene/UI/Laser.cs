@@ -14,7 +14,7 @@ public class Laser : MonoBehaviour
     {
         lineRend = GetComponent<LineRenderer>();
         rectTransf = GetComponent<RectTransform>();
-        hit = Physics2D.Raycast(rectTransf.position, rectTransf.up, 550, ~(1 << LayerMask.NameToLayer("DeathZone")));
+        //hit = Physics2D.Raycast(rectTransf.position, rectTransf.up, 550, ~(1 << LayerMask.NameToLayer("DeathZone")));
     }
 
     private void OnEnable()
@@ -24,7 +24,7 @@ public class Laser : MonoBehaviour
 
     private void Update()
     {
-        hit = Physics2D.Raycast(rectTransf.position, rectTransf.up, 550, ~(1 << LayerMask.NameToLayer("DeathZone")));
+        hit = Physics2D.Raycast(rectTransf.position, rectTransf.up, 550, ~(1 << LayerMask.NameToLayer("DeathZone") | 1 << LayerMask.NameToLayer("ObjectIgR")));
         lineRend.SetPosition(0, rectTransf.position);
         lineRend.SetPosition(1, hit.point);
     }

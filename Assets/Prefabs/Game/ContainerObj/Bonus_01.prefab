@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114003345941815946}
   - component: {fileID: 114066533815275218}
   - component: {fileID: 95981565810539048}
-  m_Layer: 9
+  m_Layer: 17
   m_Name: Bonus_01
   m_TagString: Bonus
   m_Icon: {fileID: 0}

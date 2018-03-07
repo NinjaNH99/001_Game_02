@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224923870496217114}
   - component: {fileID: 222334172269970280}
   - component: {fileID: 95850243038675630}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: Line_Dir
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224141700649898928}
   - component: {fileID: 222852472258214888}
   - component: {fileID: 114993952800385162}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 95967573309192294}
   - component: {fileID: 114016179430332174}
   - component: {fileID: 114500798731766352}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: Square_Line
   m_TagString: Square_Line
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 224381068447676114}
   - component: {fileID: 222395669182649444}
   - component: {fileID: 114398131764899846}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: GameObject (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 224367513869325064}
   - component: {fileID: 222720999665593346}
   - component: {fileID: 114095211790321772}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.8}
+  m_Size: {x: 0.77, y: 0.55}
   m_EdgeRadius: 0.01
 --- !u!95 &95850243038675630
 Animator:

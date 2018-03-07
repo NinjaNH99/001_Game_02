@@ -20,6 +20,7 @@ TagManager:
   - WallT
   - ballSQLine
   - Square_Line
+  - LaserSq
   layers:
   - Default
   - TransparentFX
@@ -38,7 +39,7 @@ TagManager:
   - Square_01
   - BallSQLine
   - Lazer
-  - 
+  - ObjectIgR
   - 
   - 
   - 

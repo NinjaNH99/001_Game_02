@@ -14,6 +14,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     public GameObject AddScoreUIPr;
 
     public Material bgEFX;
+    public Material timerMat0, timerMat1;
 
     public TextMeshProUGUI PointsScore;
 
@@ -134,11 +135,13 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
         timerImg.color = gameContr.ChangeColor(colorScore);
         timerImg.SetTransparency(0.4f);
+        timerMat0.color = timerImg.color;
 
-        timerBGimg.color = timerImg.color;
+        timerBGimg.color = timerMat0.color;
         timerBGimg.SetTransparency(0.08f);
+        timerMat1.color = timerBGimg.color;
 
-        bgEFX.color = timerImg.color;
+        bgEFX.color = timerMat0.color;
 
         for (int i = 0; i < points.Length; i++)
         {

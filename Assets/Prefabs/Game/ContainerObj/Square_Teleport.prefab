@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222535878013858164}
   - component: {fileID: 114438698248815054}
   - component: {fileID: 95057043772541768}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222461559882129732}
   - component: {fileID: 95827610373862682}
   - component: {fileID: 114200176989093460}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: Square_01
   m_TagString: Square_01
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 224517599484387844}
   - component: {fileID: 114351758905799076}
   - component: {fileID: 114033707786910048}
-  m_Layer: 14
+  m_Layer: 17
   m_Name: Square_Teleport
   m_TagString: Square_01
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 9bd2f5fab12a3104fba008c0a2cc673e, type: 2}
   m_Color: {r: 0.09411765, g: 0.47843137, b: 0.7490196, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:

@@ -14,6 +14,16 @@ ShaderVariantCollection:
         - keywords: 
           passType: 0
     data:
+      first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: DIRECTIONAL
+          passType: 4
+        - keywords: DIRECTIONAL
+          passType: 5
+        - keywords: SHADOWS_DEPTH
+          passType: 8
+    data:
       first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:
@@ -38,6 +48,18 @@ ShaderVariantCollection:
         - keywords: 
           passType: 0
     data:
+      first: {fileID: 10720, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 10721, guid: 0000000000000000f000000000000000, type: 0}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
       first: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:
@@ -51,6 +73,12 @@ ShaderVariantCollection:
           passType: 0
     data:
       first: {fileID: 4800000, guid: cafd18099dfc0114896e0a8b277b81b6, type: 3}
+      second:
+        variants:
+        - keywords: 
+          passType: 0
+    data:
+      first: {fileID: 4800000, guid: dca26082f9cb439469295791d9f76fe5, type: 3}
       second:
         variants:
         - keywords: 

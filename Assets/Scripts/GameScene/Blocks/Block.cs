@@ -25,6 +25,7 @@ public class Block : MonoSingleton<Block>
 
     private void Start()
     {
+        float rtime = Random.Range(2f, 5f);
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
         hp = gameContr.score_Rows * hpx2;
         hpText.text = hp.ToString();
@@ -33,9 +34,16 @@ public class Block : MonoSingleton<Block>
         //if (imageBonus != null)
           //  imageBonus.GetComponent<Image>().color = GetComponent<Image>().color;
         anim = GetComponent<Animator>();
+
+        //InvokeRepeating("AnimState", 0, rtime);
     }
 
-    private void ReceiveHit()
+    private void AnimState()
+    {
+        anim.SetTrigger("Flash");
+    }
+
+    public void ReceiveHit()
     {
         hp--;
         if (hp > 0)
@@ -79,7 +87,7 @@ public class Block : MonoSingleton<Block>
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine))
+        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine) || coll.gameObject.CompareTag(Tags.LaserSq))
             ReceiveHit();
         if (coll.gameObject.CompareTag(Tags.Bonus_02))
         {
@@ -87,4 +95,5 @@ public class Block : MonoSingleton<Block>
             //GetComponentInParent<Row>().RunBonus_02();
         }
     }
+
 }
