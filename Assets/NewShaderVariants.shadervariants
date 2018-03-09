@@ -14,16 +14,6 @@ ShaderVariantCollection:
         - keywords: 
           passType: 0
     data:
-      first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-      second:
-        variants:
-        - keywords: DIRECTIONAL
-          passType: 4
-        - keywords: DIRECTIONAL
-          passType: 5
-        - keywords: SHADOWS_DEPTH
-          passType: 8
-    data:
       first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
       second:
         variants:

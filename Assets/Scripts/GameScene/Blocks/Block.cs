@@ -25,14 +25,12 @@ public class Block : MonoSingleton<Block>
 
     private void Start()
     {
-        float rtime = Random.Range(2f, 5f);
+        //float rtime = Random.Range(2f, 5f);
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
         hp = gameContr.score_Rows * hpx2;
         hpText.text = hp.ToString();
         isDestroy = isApplBonus = true;
         GetComponent<Image>().color = gameContr.ChangeColor(hp);
-        //if (imageBonus != null)
-          //  imageBonus.GetComponent<Image>().color = GetComponent<Image>().color;
         anim = GetComponent<Animator>();
 
         //InvokeRepeating("AnimState", 0, rtime);

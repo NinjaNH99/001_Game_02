@@ -44,16 +44,6 @@ public class Square_Line : MonoBehaviour
         line.GetComponent<RectTransform>().position = Img1.GetComponent<RectTransform>().position;
         line.GetComponent<LaserSq>().dir = shootDirL;
         line.SetActive(true);
-        /*
-        GameObject go = Instantiate(Line, transofrmPos) as GameObject;
-        go.GetComponent<RectTransform>().position = transofrmPos.position;
-        BallSQLine ballSQLine = go.GetComponent<BallSQLine>();
-        //ballSQLine.ballPos = transofrmPos.position;
-        ballSQLine.speed = 4f;
-        //ballSQLine.color = Img1.color;
-        ballSQLine.SendBallInDirection(shootDirL);
-        go.SetActive(true);
-        */
     }
     
     private void ShootR()
@@ -61,18 +51,7 @@ public class Square_Line : MonoBehaviour
         GameObject line = Instantiate(Laser, transofrmPos) as GameObject;
         line.GetComponent<RectTransform>().position = Img2.GetComponent<RectTransform>().position;
         line.GetComponent<LaserSq>().dir = shootDirR;
-        line.SetActive(true);
-        /*
-        GameObject go = Instantiate(Line, transofrmPos) as GameObject;
-        go.GetComponent<RectTransform>().position = transofrmPos.position;
-        BallSQLine ballSQLine = go.GetComponent<BallSQLine>();
-        //ballSQLine.ballPos = transofrmPos.position;
-        ballSQLine.speed = 4f;
-        //ballSQLine.color = Img1.color;
-        ballSQLine.SendBallInDirection(shootDirR);
-        go.SetActive(true);
-        */
-        
+        line.SetActive(true);        
     }
 
     public void RotateSquare()
@@ -106,14 +85,12 @@ public class Square_Line : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy)/* && shoot */)
+        if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
         {
             transofrmPos = gameObject.GetComponent<RectTransform>();
             square_LineAnim.SetTrigger("Hit");
             ShootL();
             ShootR();
-            //Shoot(false);
-            //shoot = false;
         }
     }
 

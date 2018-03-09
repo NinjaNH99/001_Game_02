@@ -19,8 +19,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     // Max obj 
     [HideInInspector]
-    public int LSQ1MAX, LBLMAX, LBNMAX , SQBON, LSQLINE,nrRowsInGame;
-    private int resSQ1Max, resBLMAX, resBNMAX, resSQBON, resSQLINE;
+    public int LSQ1MAX, LBLMAX, LBNMAX , SQBON, LSQLINE, LBOS, nrRowsInGame;
+    private int resSQ1Max, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS;
 
     private float curPosY;
     private float desiredPosition;
@@ -28,14 +28,16 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LSQ1MAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
-        resSQ1Max = resBLMAX = resBNMAX = resSQBON = resSQLINE = 0;
+        LSQ1MAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1; LBOS = 0;
+        resSQ1Max = resBLMAX = resBNMAX = resSQBON = resSQLINE = 0; resBOS = 20;
         curPosY = 0;
         desiredPosition = -130.0f;
     }
 
     private void Start()
     {
+        GenerateRow();
+        GenerateRow();
         GenerateRow();
         GenerateRow();
     }
@@ -53,6 +55,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
         }
+
     }
 
     private void CheckRowsNull()
@@ -70,9 +73,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         for (int i = 0; i < listSquareLine.Count; i++)
         {
-            //listSquareLine[i].GetComponent<Square_Line>().RotateSquare();
             listSquareLine[i].RotateSquare();
-
         }
     }
 
@@ -81,7 +82,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LSQ1MAX <= 0)
         {
             resSQ1Max++;
-            if(resSQ1Max >= RESETDATA - 1)
+            if(resSQ1Max >= RESETDATA)
             {
                 LSQ1MAX = 1;
                 resSQ1Max = 0;
@@ -90,12 +91,12 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LBLMAX <= 0)
         {
             resBLMAX++;
-            if (resSQ1Max >= RESETDATA - 2)
+            if (resSQ1Max >= RESETDATA - 1)
             {
                 if(gameContr.score_Rows - gameContr.amountBalls > 3)
-                    LBLMAX = 6;
+                    LBLMAX = 4;
                 else
-                    LBLMAX = 3;
+                    LBLMAX = 1;
                 resBLMAX = 0;
             }
         }
@@ -126,6 +127,16 @@ public class LevelManager : MonoSingleton<LevelManager>
                 resSQLINE = 0;
             }
         }
+        if(LBOS <= 0)
+        {
+            resBOS++;
+            if(resBOS >= RESETDATA * 5)
+            {
+                LBOS = 1;
+                resBOS = 0;
+            }
+        }
+
         return true;
     }
 
@@ -139,21 +150,5 @@ public class LevelManager : MonoSingleton<LevelManager>
             Bonus.Instance.AddBonus_02();
         }
     }
-
-    /*
-    public Container GetContainer(BlockType bt, int visualIndex)
-    {
-        Container cont = containers.Find(x => x.blockType == bt && x.visualIndex == visualIndex && !x.gameObject.activeSelf);
-
-        if(cont == null)
-        {
-            GameObject go = null;
-
-            go = Instantiate(go);
-            cont = go.GetComponent<Container>();
-            containers.Add(cont);
-        }
-        return cont;
-    }*/
 
 }

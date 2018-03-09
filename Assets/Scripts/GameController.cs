@@ -60,13 +60,12 @@ public class GameController : MonoSingleton<GameController>
     private const float TIMEWAITBOOSTSPEED = 2f; // 1.5
     public const float BALLSPEED = 4f;
 
-    public Transform Canvas1, ballsPreview, Space2D;
+    public Transform Canvas1, Space2D;
     public RectTransform ballContainer;
-    public GameObject tutorialContainer, ballCopyPr, ballOr , scoreText, amountBallsTextPr;
-    public Button BoostSpeedButton;
+    public GameObject tutorialContainer, ballCopyPr, ballOr;
 
     // Canvas 2
-    public GameObject canvas2, loseMenu, endMenu, statusBar, bonus_02Pr;
+    public GameObject canvas2, loseMenu, statusBar, bonus_02Pr;
 
     public Color ballColor;
     public Color ballCopyColor;
@@ -93,6 +92,9 @@ public class GameController : MonoSingleton<GameController>
     private bool showsABExit;
     private TextMeshProUGUI amountBallsText;
     public LineRenderer lineRend;
+    public GameObject scoreText, amountBallsTextPr;
+    public Button BoostSpeedButton;
+    public Transform ballLaser;
 
     //For the new method of spawning the ball
     private List<GameObject> BallsList;
@@ -121,7 +123,7 @@ public class GameController : MonoSingleton<GameController>
         GenerateBalls(nrBallINeed, false);
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
-        ballsPreview.parent.gameObject.SetActive(false);
+        ballLaser.gameObject.SetActive(false);
         amountBallsLeft = amountBalls;
         ballOrgYPos = ballOr.transform.position.y;
         bonus_02IsReady = onBoostSpeed = BoostSpeedButton.interactable = false;
@@ -178,14 +180,14 @@ public class GameController : MonoSingleton<GameController>
             if (sd.y < 3.5f)
             {
                 lineRend.enabled = false;
-                ballsPreview.parent.gameObject.SetActive(false);
+                ballLaser.gameObject.SetActive(false);
             }
             else
             {
                 lineRend.enabled = true;
-                ballsPreview.parent.up = sd.normalized;
-                ballsPreview.parent.gameObject.SetActive(true);
-                ballsPreview.localScale = Vector2.Lerp(new Vector2(0.7f, 0.7f), new Vector2(1, 1), sd.magnitude / MAXIMUM_PULL);
+                ballLaser.up = sd.normalized;
+                ballLaser.gameObject.SetActive(true);
+                //ballsPreview.localScale = Vector2.Lerp(new Vector2(0.7f, 0.7f), new Vector2(1, 1), sd.magnitude / MAXIMUM_PULL);
                 if (MobileInputs.Instance.release)
                 {
                     tutorialContainer.SetActive(false);
@@ -197,7 +199,7 @@ public class GameController : MonoSingleton<GameController>
                         GenerateBalls(1, true);
                     }
                     lineRend.enabled = false;
-                    ballsPreview.parent.gameObject.SetActive(false);
+                    ballLaser.gameObject.SetActive(false);
                     StartCoroutine(FireBalls(sd.normalized));
                     Bonus.Instance.ActivateButton(false);
                 }
@@ -295,8 +297,6 @@ public class GameController : MonoSingleton<GameController>
     private void AllBallLanded()
     {
         Time.timeScale = 1f;
-        if (ScoreLEVEL.Instance.showPoints <= 0)
-            OnEndMenu();
         isBreakingStuff = false;
         firstBallLanded = false;
         amountBallsLeft = amountBalls;
@@ -353,6 +353,7 @@ public class GameController : MonoSingleton<GameController>
         Time.timeScale = 0f;
     }
 
+    /*
     public void OnEndMenu()
     {
         canvas2.SetActive(true);
@@ -363,7 +364,7 @@ public class GameController : MonoSingleton<GameController>
         endMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
         endMenu.GetComponent<Animator>().SetTrigger("PanelON");
         Time.timeScale = 0f;
-    }
+    }*/
 
     public Color ChangeColor(int hp)
     {
