@@ -155,7 +155,6 @@ public class LevelContainer : MonoBehaviour
     {
         if (nrBlocksInGame == 0)
         {
-            Bonus.bonus_02++;
             Bonus.Instance.AddBonus_02();
         }
     }

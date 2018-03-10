@@ -22,6 +22,7 @@ public class Tags
     public const string Space2D = "2DSpace";
     public const string Bonus_02 = "Bonus_02";
     public const string LaserSq = "LaserSq";
+    public const string Block_Boss = "Block_Boss";
 }
 
 //  Fisher-Yates algorithm 

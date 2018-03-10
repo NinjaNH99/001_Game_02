@@ -29,6 +29,12 @@ public class LaserSq : MonoBehaviour
             check = false;
             Destroy(gameObject, 0.1f);
         }
+        else if (hit.collider.gameObject.CompareTag(Tags.Block_Boss) && check)
+        {
+            hit.transform.SendMessage("ReceiveHitBoss");
+            check = false;
+            Destroy(gameObject, 0.1f);
+        }
         else
         {
             Destroy(gameObject, 0.1f);

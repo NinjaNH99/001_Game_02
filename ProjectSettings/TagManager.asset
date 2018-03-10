@@ -21,6 +21,7 @@ TagManager:
   - ballSQLine
   - Square_Line
   - LaserSq
+  - Block_Boss
   layers:
   - Default
   - TransparentFX

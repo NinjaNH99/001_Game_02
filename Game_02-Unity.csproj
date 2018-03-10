@@ -79,6 +79,9 @@
     <Reference Include="TextMeshPro-1.0.55.56.0b12">
       <HintPath>Assets/Assets/TextMesh Pro/Plugins/TextMeshPro-1.0.55.56.0b12.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>Assets/Standard Assets/GifImporter/Plugins/System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>E:/UserProgramms/Unity 5.6.4f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
@@ -96,6 +99,7 @@
     <Compile Include="Assets\Scripts\GameScene\Blocks\BallSQLine.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Block.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\BlockType.cs" />
+    <Compile Include="Assets\Scripts\GameScene\Blocks\Block_Boss.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Container.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Row.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Square_01.cs" />

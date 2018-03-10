@@ -55,7 +55,7 @@ public class Container : MonoBehaviour
 
     public void EndLevel(GameObject obj)
     {
-        if (obj.tag == Tags.Square)
+        if (obj.tag == Tags.Square || obj.tag == Tags.Block_Boss)
         {
             obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }

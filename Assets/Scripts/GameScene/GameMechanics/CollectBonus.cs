@@ -35,7 +35,7 @@ public class CollectBonus : MonoBehaviour
 
     private void Collect()
     {
-        Bonus.bonus_01++;
+        Bonus.Instance.AddBonus_01();
         isCollected = true;
         if (!isDestroy)
         {

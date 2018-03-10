@@ -11,7 +11,7 @@ public class DeathZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Square))
+        if (coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Block_Boss))
         {
             coll.transform.parent.GetComponent<Container>().EndLevel(coll.gameObject);
             gameContr.isBreakingStuff = true;

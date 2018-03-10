@@ -47,7 +47,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     {
         if (addTimer)
         {
-            spidT += Time.deltaTime / 6f;
+            spidT += Time.deltaTime / (6f - (nrBlDestroy / 5f));
             timerImg.fillAmount = spidT;
             if (spidT >= 1)
                 CheckStar();
@@ -81,8 +81,8 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     private void CheckStar()
     {
         spidT = i = 0;
-        Bonus.bonus_01 += 2;
-        Bonus.bonus_02++;
+        Bonus.Instance.AddBonus_01();
+        Bonus.Instance.AddBonus_01();
         Bonus.Instance.AddBonus_02();
     }
 

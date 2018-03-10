@@ -130,6 +130,15 @@
     <Reference Include="SyntaxTree.Mono.Cecil">
       <HintPath>Assets/UnityVS/Editor/SyntaxTree.Mono.Cecil.dll</HintPath>
     </Reference>
+    <Reference Include="AssetStoreToolsExtra">
+      <HintPath>Assets/Standard Assets/GifImporter/AssetStoreTools/Editor/AssetStoreToolsExtra.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>Assets/Standard Assets/GifImporter/Plugins/System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="AssetStoreTools">
+      <HintPath>Assets/Standard Assets/GifImporter/AssetStoreTools/Editor/AssetStoreTools.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Game_02-Unity.Plugins.csproj">
@@ -152,6 +161,7 @@
     <Compile Include="Assets\Standard Assets\Editor\ImageEffects\SunShaftsEditor.cs" />
     <Compile Include="Assets\Standard Assets\Editor\ImageEffects\TonemappingEditor.cs" />
     <Compile Include="Assets\Standard Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
+    <Compile Include="Assets\Standard Assets\GifImporter\Scripts\Editor\Gif2Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

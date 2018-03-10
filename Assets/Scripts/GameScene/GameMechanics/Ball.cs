@@ -103,11 +103,11 @@ public abstract class Ball : MonoSingleton<Ball>
         }
 
         StartFall();
-        ResetSpeed();
+        //ResetSpeed();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D coll)
     {
-        ResetSpeed();
+        //ResetSpeed();
     }
 }

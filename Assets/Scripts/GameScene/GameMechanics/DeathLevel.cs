@@ -12,7 +12,7 @@ public class DeathLevel : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Square))
+        if (coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Block_Boss))
             OnLoadScene();
         else if (!coll.gameObject.CompareTag(Tags.ballCopy) || !coll.gameObject.CompareTag(Tags.Player))
             coll.gameObject.SendMessage("DeathLevel");

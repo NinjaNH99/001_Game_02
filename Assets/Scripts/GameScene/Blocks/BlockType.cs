@@ -10,7 +10,8 @@ public enum BlType
     square_Teleport = 4,
     square_Bonus = 5,
     square_Line = 6,
-    space = 7
+    space = 7,
+    square_Boss = 8
 }
 
 public class BlockType : MonoBehaviour

@@ -8,6 +8,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private const int RESETDATA = 4;
 
     public GameObject rowPrefab;
+    public Block_Boss bossObj = null;
 
     private GameController gameContr;
     // List of rows
@@ -18,9 +19,11 @@ public class LevelManager : MonoSingleton<LevelManager>
     public List<Square_Line> listSquareLine = new List<Square_Line>();
 
     // Max obj 
+    public bool spawnRows, spawnBoss;
     [HideInInspector]
-    public int LSQ1MAX, LBLMAX, LBNMAX , SQBON, LSQLINE, LBOS, nrRowsInGame;
-    private int resSQ1Max, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS;
+    public int LSQ1MAX, LBLMAX, LBNMAX , SQBON, LSQLINE, nrRowsInGame;
+    [HideInInspector]
+    private int resSQ1Max, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS, resSpawnRows;
 
     private float curPosY;
     private float desiredPosition;
@@ -28,10 +31,12 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LSQ1MAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1; LBOS = 0;
-        resSQ1Max = resBLMAX = resBNMAX = resSQBON = resSQLINE = 0; resBOS = 20;
+        LSQ1MAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
+        resSQ1Max = resBLMAX = resBNMAX = resSQBON = resSQLINE = resBOS = resSpawnRows = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
+        spawnRows = true;
+        spawnBoss = false;
     }
 
     private void Start()
@@ -50,7 +55,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(LBLMAX, LSQ1MAX, LSQLINE, LBNMAX, SQBON);
+            go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LSQ1MAX, LSQLINE, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
@@ -82,7 +87,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (LSQ1MAX <= 0)
         {
             resSQ1Max++;
-            if(resSQ1Max >= RESETDATA)
+            if (resSQ1Max >= RESETDATA)
             {
                 LSQ1MAX = 1;
                 resSQ1Max = 0;
@@ -93,7 +98,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             resBLMAX++;
             if (resSQ1Max >= RESETDATA - 1)
             {
-                if(gameContr.score_Rows - gameContr.amountBalls > 3)
+                if (gameContr.score_Rows - gameContr.amountBalls > 3)
                     LBLMAX = 4;
                 else
                     LBLMAX = 1;
@@ -127,15 +132,27 @@ public class LevelManager : MonoSingleton<LevelManager>
                 resSQLINE = 0;
             }
         }
-        if(LBOS <= 0)
+
+        resBOS++;
+        if (resBOS >= ( RESETDATA * 2 ) + 2)
         {
-            resBOS++;
-            if(resBOS >= RESETDATA * 5)
+            spawnBoss = true;
+            spawnRows = false;
+            resBOS = 0;
+        }
+
+        if (!spawnRows)
+        {
+            resSpawnRows++;
+            if (resSpawnRows >= 3)
             {
-                LBOS = 1;
-                resBOS = 0;
+                spawnRows = true;
+                resSpawnRows = 0;
             }
         }
+
+        if (bossObj != null)
+            bossObj.ResetShield();
 
         return true;
     }
@@ -146,7 +163,6 @@ public class LevelManager : MonoSingleton<LevelManager>
         //Debug.Log(nrRowsInGame);
         if (nrRowsInGame <= 0)
         {
-            Bonus.bonus_02++;
             Bonus.Instance.AddBonus_02();
         }
     }
