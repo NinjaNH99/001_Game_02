@@ -127,8 +127,8 @@
     <Reference Include="TextMeshPro-1.0.55.56.0b12-Editor">
       <HintPath>Assets/Assets/TextMesh Pro/Plugins/Editor/TextMeshPro-1.0.55.56.0b12-Editor.dll</HintPath>
     </Reference>
-    <Reference Include="SyntaxTree.Mono.Cecil">
-      <HintPath>Assets/UnityVS/Editor/SyntaxTree.Mono.Cecil.dll</HintPath>
+    <Reference Include="AssetStoreTools">
+      <HintPath>Assets/Standard Assets/GifImporter/AssetStoreTools/Editor/AssetStoreTools.dll</HintPath>
     </Reference>
     <Reference Include="AssetStoreToolsExtra">
       <HintPath>Assets/Standard Assets/GifImporter/AssetStoreTools/Editor/AssetStoreToolsExtra.dll</HintPath>
@@ -136,8 +136,8 @@
     <Reference Include="System.Drawing">
       <HintPath>Assets/Standard Assets/GifImporter/Plugins/System.Drawing.dll</HintPath>
     </Reference>
-    <Reference Include="AssetStoreTools">
-      <HintPath>Assets/Standard Assets/GifImporter/AssetStoreTools/Editor/AssetStoreTools.dll</HintPath>
+    <Reference Include="SyntaxTree.Mono.Cecil">
+      <HintPath>Assets/UnityVS/Editor/SyntaxTree.Mono.Cecil.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +180,7 @@
     <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Material\Glow.shader" />
+    <None Include="Assets\Material\Mat_Block\Additive Texture.shader" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Readme.txt" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />

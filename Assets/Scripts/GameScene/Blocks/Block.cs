@@ -21,6 +21,7 @@ public class Block : MonoSingleton<Block>
         containerPos = GetComponentInParent<Container>().gameObject.GetComponent<RectTransform>();
         gameContr = GameController.Instance;
         GetComponent<RectTransform>().localScale = new Vector2(75, 75);
+        anim = GetComponent<Animator>();
     }
 
     private void Start()
@@ -30,8 +31,13 @@ public class Block : MonoSingleton<Block>
         hp = gameContr.score_Rows * hpx2;
         hpText.text = hp.ToString();
         isDestroy = isApplBonus = true;
-        GetComponent<Image>().color = gameContr.ChangeColor(hp);
-        anim = GetComponent<Animator>();
+        if (isBonus)
+        {
+            GetComponent<Image>().color = gameContr.ChangeColor(hp);
+            anim.SetBool("IsBonus",true);
+        }
+        else
+            GetComponent<SpriteRenderer>().color = gameContr.ChangeColor(hp);
 
         //InvokeRepeating("AnimState", 0, rtime);
     }
@@ -58,7 +64,10 @@ public class Block : MonoSingleton<Block>
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
 
             var main = go.GetComponent<ParticleSystem>().main;
-            main.startColor = GetComponent<Image>().color;
+            if(isBonus)
+                main.startColor = GetComponent<Image>().color;
+            else
+                main.startColor = GetComponent<SpriteRenderer>().color;
 
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
@@ -74,7 +83,7 @@ public class Block : MonoSingleton<Block>
         }
         hpText.text = hp.ToString();
         if (!isBonus)
-            GetComponent<Image>().color = gameContr.ChangeColor(hp);
+            GetComponent<SpriteRenderer>().color = gameContr.ChangeColor(hp);
     }
 
     public void ReciveHitByBonus()

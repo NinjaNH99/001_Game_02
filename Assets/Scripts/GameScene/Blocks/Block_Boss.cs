@@ -33,8 +33,8 @@ public class Block_Boss : MonoBehaviour
         hpBossText.text = hpBoss.ToString();
         hpShieldText.text = hpShield.ToString();
         isDestroy = shieldOn = true;
-        GetComponent<Image>().color = gameContr.ChangeColor(hpBoss);
-        shieldObj.GetComponent<Image>().color = GetComponent<Image>().color;
+        GetComponent<SpriteRenderer>().color = gameContr.ChangeColor(hpBoss);
+        shieldObj.GetComponent<Image>().color = GetComponent<SpriteRenderer>().color;
         animBoss = GetComponent<Animator>();
         //animShield = shieldObj.GetComponent<Animator>();
     }
@@ -58,7 +58,7 @@ public class Block_Boss : MonoBehaviour
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
             //go.GetComponent<Transform>().localScale = new Vector2(2, 2);
             var main = go.GetComponent<ParticleSystem>().main;
-            main.startColor = GetComponent<Image>().color;
+            main.startColor = GetComponent<SpriteRenderer>().color;
 
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
@@ -76,7 +76,7 @@ public class Block_Boss : MonoBehaviour
             return;
         }
         hpBossText.text = hpBoss.ToString();
-        GetComponent<Image>().color = gameContr.ChangeColor(hpBoss);
+        GetComponent<SpriteRenderer>().color = gameContr.ChangeColor(hpBoss);
     }
 
     public void ReceiveHitShield()
@@ -91,7 +91,7 @@ public class Block_Boss : MonoBehaviour
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
             //go.GetComponent<Transform>().localScale = new Vector2(2, 2);
             var main = go.GetComponent<ParticleSystem>().main;
-            main.startColor = GetComponent<Image>().color;
+            main.startColor = GetComponent<SpriteRenderer>().color;
 
             Destroy(go, 1f);
             Destroy(shieldObj, 1f);
@@ -100,7 +100,7 @@ public class Block_Boss : MonoBehaviour
             return;
         }
         hpShieldText.text = hpShield.ToString();
-        shieldObj.GetComponent<Image>().color = GetComponent<Image>().color;
+        shieldObj.GetComponent<Image>().color = GetComponent<SpriteRenderer>().color;
     }
 
     public void ResetShield()
@@ -110,7 +110,7 @@ public class Block_Boss : MonoBehaviour
 
         hpShield = hpShieldReset;
         hpShieldText.text = hpShield.ToString();
-        shieldObj.GetComponent<Image>().color = GetComponent<Image>().color;
+        shieldObj.GetComponent<Image>().color = GetComponent<SpriteRenderer>().color;
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
