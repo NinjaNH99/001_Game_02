@@ -51,7 +51,11 @@ public class Block : MonoSingleton<Block>
     {
         hp--;
         if (hp > 0)
+        {
+            if (isBonus)
+                anim.SetBool("IsBonus", true);
             anim.SetTrigger("Hit");
+        }
         else
         {
             GetComponent<BoxCollider2D>().isTrigger = true;
@@ -64,7 +68,7 @@ public class Block : MonoSingleton<Block>
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
 
             var main = go.GetComponent<ParticleSystem>().main;
-            if(isBonus)
+            if (isBonus)
                 main.startColor = GetComponent<Image>().color;
             else
                 main.startColor = GetComponent<SpriteRenderer>().color;
