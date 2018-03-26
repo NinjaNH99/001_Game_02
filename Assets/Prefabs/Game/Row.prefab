@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 4
+  visualIndex: 3
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 1
+  visualIndex: 0
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 7
+  visualIndex: 8
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 3
+  visualIndex: 2
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 2
+  visualIndex: 1
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 6
+  visualIndex: 5
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 7
+  visualIndex: 6
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80905b9e67e48ed4d9b1870c846748fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visualIndex: 5
+  visualIndex: 4
   blockTypes:
   - {fileID: 1783218112254044, guid: e53d73a36732ce749a5e05239c7ccc78, type: 2}
   - {fileID: 1724084137678852, guid: 3939ed976a7124249a99239d9cf57291, type: 2}

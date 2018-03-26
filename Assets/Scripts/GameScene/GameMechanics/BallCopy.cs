@@ -25,9 +25,7 @@ public class BallCopy : Ball
     }
 
     private void OnEnable()
-    {
-        Start();
-    }
+    {        Start();    }
 
     private void Update()
     {

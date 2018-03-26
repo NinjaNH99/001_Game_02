@@ -19,15 +19,20 @@ public class Square_Line : MonoBehaviour
 
     private bool rotate;
 
-    private void Start()
+    private void Awake()
     {
-        LevelManager.Instance.listSquareLine.Add(this);
-        gameContr = GameController.Instance;
         square_LineAnim = GetComponent<Animator>();
-        Change();
         rotate = true;
         shootDirL = Vector2.left;
         shootDirR = Vector2.right;
+    }
+
+    private void Start()
+    {
+        //LevelManager.Instance.listSquareLine.Add(this);
+        gameContr = GameController.Instance;
+        EventManager.RotateSquareMethods += RotateSquare;
+        Change();
         //RotateSquare();
     }
 
@@ -75,7 +80,8 @@ public class Square_Line : MonoBehaviour
     public void DeathZone()
     {
         //LevelManager.Instance.CheckTeleportsNull();
-        LevelManager.Instance.listSquareLine.Remove(this);
+        //LevelManager.Instance.listSquareLine.Remove(this);
+        EventManager.RotateSquareMethods -= RotateSquare;
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
         GetComponentInParent<Row>().CheckNrConts();
         Destroy(Square_Img);
@@ -88,7 +94,7 @@ public class Square_Line : MonoBehaviour
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
         {
             transofrmPos = gameObject.GetComponent<RectTransform>();
-            square_LineAnim.SetTrigger("Hit");
+            //square_LineAnim.SetTrigger("Hit");
             ShootL();
             ShootR();
         }

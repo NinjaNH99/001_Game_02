@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\GameScene\Blocks\Square_01.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Square_01Teleport.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Square_Line.cs" />
+    <Compile Include="Assets\Scripts\GameScene\EventManager.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\Ball.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\BallCopy.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\BallOrg.cs" />

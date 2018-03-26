@@ -12,11 +12,11 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private GameController gameContr;
     // List of rows
-    protected List<GameObject> listRows = new List<GameObject>();
+    public List<GameObject> listRows = new List<GameObject>();
     // List of teleports
     public List<GameObject> listTelep = new List<GameObject>();
-    // List of teleports
-    public List<Square_Line> listSquareLine = new List<Square_Line>();
+    // List of SquareLines
+    //public List<Square_Line> listSquareLine = new List<Square_Line>();
 
     // Max obj 
     public bool spawnRows, spawnBoss;
@@ -41,9 +41,6 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        GenerateRow();
-        GenerateRow();
-        GenerateRow();
         GenerateRow();
     }
 
@@ -76,9 +73,24 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void RotateSqLine()
     {
-        for (int i = 0; i < listSquareLine.Count; i++)
+        EventManager.LevelMoveDown();
+    }
+
+    public void ApplyBallBonus(int contID, int rowID)
+    {
+        Debug.LogWarning("contID: " + contID + " rowID: " + rowID);
+
+        Container[] conts = listRows[rowID].GetComponentsInChildren<Container>();
+        for (int i = 0; i < conts.Length; i++)
         {
-            listSquareLine[i].RotateSquare();
+            if (conts[i].visualIndex == contID)
+            {
+                conts[i].GetComponentInChildren<Block>().ReceiveHit(true);
+                if(conts[i + 1].GetComponentInChildren<Block>() != null)
+                    conts[i + 1].GetComponentInChildren<Block>().ReceiveHit(true);
+                if (conts[i - 1].GetComponentInChildren<Block>() != null)
+                    conts[i - 1].GetComponentInChildren<Block>().ReceiveHit(true);
+            }
         }
     }
 
@@ -159,12 +171,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void NrBlocksInGame()
     {
-        nrRowsInGame = listRows.Count;
-        //Debug.Log(nrRowsInGame);
-        if (nrRowsInGame <= 0)
-        {
-            Bonus.Instance.AddBonus_02();
-        }
+        
     }
 
 }

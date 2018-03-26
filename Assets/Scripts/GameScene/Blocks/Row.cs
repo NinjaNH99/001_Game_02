@@ -11,7 +11,7 @@ public class Row : MonoBehaviour
 
     private GameController gameContr;
 
-    private Container[] containers = new Container[10];
+    public Container[] containers = new Container[10];
 
     private void Awake()
     {
@@ -21,6 +21,15 @@ public class Row : MonoBehaviour
         containers = GetComponentsInChildren<Container>();
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
+    }
+
+    public Block GetContIDBlock(int ID)
+    {
+        Debug.Log("ID: " + ID);
+        if(containers[ID].GetComponentInChildren<Block>())
+            return containers[ID].GetComponentInChildren<Block>();
+        else
+            return null;
     }
 
     // Spawn random blockType from Cont in row
@@ -217,23 +226,6 @@ public class Row : MonoBehaviour
     public void CheckNrConts()
     {
         nrBlock--;
-        /*if (swt)
-        {
-            if (nrBlock <= 1)
-            {
-                if (GetComponentInChildren<Square_01>() != null)
-                    GetComponentInChildren<Square_01>().DeathZone();
-            }
-        }*/
-    }
-
-    public void RunBonus_02()
-    {
-        var blocks = GetComponentsInChildren<Block>();
-        for (int i = 0; i < blocks.Length;)
-        {
-            blocks[i].ReciveHitByBonus();
-        }
     }
 
     public bool DeSpawn()

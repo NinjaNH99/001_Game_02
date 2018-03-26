@@ -42,14 +42,15 @@ public class Block : MonoSingleton<Block>
         //InvokeRepeating("AnimState", 0, rtime);
     }
 
-    private void AnimState()
+    public void ReceiveHit(bool hitBlBon)
     {
-        anim.SetTrigger("Flash");
-    }
-
-    public void ReceiveHit()
-    {
-        hp--;
+        if (hitBlBon)
+        {
+            hp = 0;
+            Debug.Log(hp);
+        }
+        else
+            hp--;
         if (hp > 0)
         {
             if (isBonus)
@@ -92,14 +93,15 @@ public class Block : MonoSingleton<Block>
 
     public void ReciveHitByBonus()
     {
-        hp = 1;
-        ReceiveHit();
+        //hp = 1;
+        LevelManager.Instance.ApplyBallBonus(GetComponentInParent<Container>().visualIndex, GetComponentInParent<Row>().rowID - 1);
+        //ReceiveHit(false);
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine) || coll.gameObject.CompareTag(Tags.LaserSq))
-            ReceiveHit();
+            ReceiveHit(false);
         if (coll.gameObject.CompareTag(Tags.Bonus_02))
         {
             ReciveHitByBonus();

@@ -18,8 +18,8 @@ public class Block_Boss : MonoBehaviour
 
     private void Awake()
     {
-        //containerPos = GetComponentInParent<Container>().gameObject.GetComponent<RectTransform>();
-        containerPos = GetComponent<RectTransform>();
+        containerPos = GetComponentInParent<Container>().gameObject.GetComponent<RectTransform>();
+        //containerPos = GetComponent<RectTransform>();
         gameContr = GameController.Instance;
         LevelManager.Instance.bossObj = this;
     }
@@ -56,12 +56,12 @@ public class Block_Boss : MonoBehaviour
 
             hpBossText.text = "1";
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
-            //go.GetComponent<Transform>().localScale = new Vector2(2, 2);
+            //go.GetComponent<Transform>().localScale = new Vector2(33, 33);
             var main = go.GetComponent<ParticleSystem>().main;
             main.startColor = GetComponent<SpriteRenderer>().color;
 
             Destroy(go, 1f);
-            Destroy(gameObject, 1f);
+            Destroy(gameObject, 3);
             if (isDestroy)
             {
                 GetComponentInParent<Row>().CheckNrConts();

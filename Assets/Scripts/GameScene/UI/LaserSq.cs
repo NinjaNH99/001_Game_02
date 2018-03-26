@@ -25,7 +25,7 @@ public class LaserSq : MonoBehaviour
         lineRend.SetPosition(1, hit.point);
         if (hit.collider.gameObject.CompareTag(Tags.Square) && check)
         {
-            hit.transform.SendMessage("ReceiveHit");
+            hit.transform.SendMessage("ReceiveHit", false);
             check = false;
             Destroy(gameObject, 0.1f);
         }
