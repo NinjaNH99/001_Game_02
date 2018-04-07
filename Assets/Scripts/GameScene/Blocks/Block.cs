@@ -15,6 +15,7 @@ public class Block : MonoSingleton<Block>
     private TextMeshProUGUI hpText;
     private Animator anim;
     private bool isDestroy, isApplBonus;
+    private int visualIndexCont, rowID;
 
     private void Awake()
     {
@@ -22,6 +23,8 @@ public class Block : MonoSingleton<Block>
         gameContr = GameController.Instance;
         GetComponent<RectTransform>().localScale = new Vector2(75, 75);
         anim = GetComponent<Animator>();
+        visualIndexCont = GetComponentInParent<Container>().visualIndex;
+        rowID = GetComponentInParent<Row>().rowID - 1;
     }
 
     private void Start()
@@ -47,7 +50,7 @@ public class Block : MonoSingleton<Block>
         if (hitBlBon)
         {
             hp = 0;
-            Debug.Log(hp);
+            //Debug.Log(hp);
         }
         else
             hp--;
@@ -78,7 +81,6 @@ public class Block : MonoSingleton<Block>
             Destroy(gameObject, 1f);
             if (isDestroy)
             {
-                GetComponentInParent<Row>().CheckNrConts();
                 ScoreLEVEL.Instance.AddScoreLevel();
                 ScoreLEVEL.Instance.ShowNrBlock(containerPos);
                 isDestroy = false;
@@ -94,7 +96,9 @@ public class Block : MonoSingleton<Block>
     public void ReciveHitByBonus()
     {
         //hp = 1;
-        LevelManager.Instance.ApplyBallBonus(GetComponentInParent<Container>().visualIndex, GetComponentInParent<Row>().rowID - 1);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID - 1);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID + 1);
         //ReceiveHit(false);
     }
 

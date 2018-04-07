@@ -29,11 +29,9 @@ public class Square_Line : MonoBehaviour
 
     private void Start()
     {
-        //LevelManager.Instance.listSquareLine.Add(this);
         gameContr = GameController.Instance;
-        EventManager.RotateSquareMethods += RotateSquare;
+        EventManager.EvMethods += RotateSquare;
         Change();
-        //RotateSquare();
     }
 
     public void Change()
@@ -81,9 +79,8 @@ public class Square_Line : MonoBehaviour
     {
         //LevelManager.Instance.CheckTeleportsNull();
         //LevelManager.Instance.listSquareLine.Remove(this);
-        EventManager.RotateSquareMethods -= RotateSquare;
+        EventManager.EvMethods -= RotateSquare;
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
-        GetComponentInParent<Row>().CheckNrConts();
         Destroy(Square_Img);
         Destroy(goEFX, 1f);
         Destroy(gameObject, 1f);

@@ -64,7 +64,6 @@ public class Block_Boss : MonoBehaviour
             Destroy(gameObject, 3);
             if (isDestroy)
             {
-                GetComponentInParent<Row>().CheckNrConts();
                 ScoreLEVEL.Instance.AddScoreLevel();
                 ScoreLEVEL.Instance.ShowNrBlock(containerPos);
                 Bonus.Instance.AddBonus_01();

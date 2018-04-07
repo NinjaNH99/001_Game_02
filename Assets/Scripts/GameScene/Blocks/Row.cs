@@ -87,7 +87,7 @@ public class Row : MonoBehaviour
                                 {
                                     containers[i].SpawnType(BlType.square_Teleport);
                                     kSQ1 = false;
-                                    LevelManager.Instance.LSQ1MAX--;
+                                    LevelManager.Instance.LTelepMAX--;
                                     god = true;
                                 }
                                 break;
@@ -168,64 +168,9 @@ public class Row : MonoBehaviour
                 }
 
                 god = false;
-                /*
-                rand = Random.Range(0, 101);
-
-                if (rand >= 60 && BLMAX > 0 && kBL)
-                {
-                    containers[i].SpawnType(BlType.ball);
-                    if (Random.Range(0, 4) != 1)
-                        kBL = false;
-                    BLMAX--;
-                    LevelManager.Instance.LBLMAX--;
-                }
-                else if (rand >= 50 && SQ1MAX > 0 && kSQ1)
-                {
-                    containers[i].SpawnType(BlType.square_Teleport);
-                    kSQ1 = false;
-                    LevelManager.Instance.LSQ1MAX--;
-                }
-                else if (SPMAX > 0)
-                {
-                    containers[i].SpawnType(BlType.space);
-                    SPMAX--;
-                }
-                else if (rand >= 5 && BONMAX > 0)
-                {
-                    containers[i].SpawnType(BlType.bonus);
-                    BONMAX--;
-                    LevelManager.Instance.LBNMAX--;
-                }
-                else
-                {
-                    if (SQBON > 0 && kHPX2)
-                    {
-                        containers[i].SpawnType(BlType.square_Bonus);
-                        containers[i].GetComponentInChildren<Block>().hpx2 = 2;
-                        containers[i].GetComponentInChildren<Block>().isBonus = true;
-                        SQBON--;
-                        kHPX2 = false;
-                        LevelManager.Instance.SQBON--;
-                    }
-                    else if (SQLINE > 0 && kSQLINE && (Random.Range(0, 4) != 1))
-                    {
-                        containers[i].SpawnType(BlType.square_Line);
-                        SQLINE--;
-                        kSQLINE = false;
-                        LevelManager.Instance.LSQLINE--;
-                    }
-                    else
-                        containers[i].SpawnType(BlType.square);
-                }
-                */
 
             }
         }
-    }
-
-    public void CheckNrConts()
-    {
-        nrBlock--;
     }
 
     public bool DeSpawn()

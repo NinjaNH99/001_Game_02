@@ -34,7 +34,7 @@ public class Bonus : MonoSingleton<Bonus>
     {
         gameContr = GameController.Instance;
         bonus_01 = 0;
-        bonus_02 = 10;
+        bonus_02 = 0;
         AddBallUI = 0;
         firstBonus_02 = ballIsReady = true;
         isReadyForLaunch = false;

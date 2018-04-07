@@ -14,14 +14,9 @@ public class Square_01Teleport : MonoBehaviour
     {
         gameContr = GameController.Instance;
         ChangeColor();
+        LevelManager.Instance.listTelep.Add(this.gameObject);
     }
-
-    public void Teleport(GameObject obj, float dir, float speed)
-    {
-        var i = Random.Range(0, LevelManager.Instance.listTelep.Count);
-        obj.GetComponent<RectTransform>().position = LevelManager.Instance.listTelep[i].gameObject.GetComponent<RectTransform>().position;
-    }
-
+    
     public void ChangeColor()
     {
         var colorScore = gameContr.score_Rows;
@@ -32,7 +27,8 @@ public class Square_01Teleport : MonoBehaviour
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
         {
-            Teleport(coll.gameObject, coll.GetComponent<Ball>().rigid.velocity.magnitude, coll.GetComponent<Ball>().speed);
+            if (coll.gameObject.GetComponent<Ball>().enterTeleport)
+                LevelManager.Instance.Teleports(this.gameObject, coll.gameObject);
         }
     }
 }

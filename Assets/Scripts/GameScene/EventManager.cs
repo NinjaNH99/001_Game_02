@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public delegate void RotateSquare();
-    public static event RotateSquare RotateSquareMethods = null;
+    public delegate void EvLevelMoveDown();
+    public static event EvLevelMoveDown EvMethods = null;
 
     private void Awake()
     {
-        RotateSquareMethods = null;
+        EvMethods = null;
     }
 
     public static void LevelMoveDown()
     {
 
-        if (RotateSquareMethods != null)
-            RotateSquareMethods();
+        if (EvMethods != null)
+            EvMethods();
     }
 
 }

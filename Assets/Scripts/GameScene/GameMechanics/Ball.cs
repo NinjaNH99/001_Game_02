@@ -6,7 +6,7 @@ using System;
 public abstract class Ball : MonoSingleton<Ball>
 {
     [HideInInspector]
-    public bool allBallLanded, startFall;//, firstBallLanded = false;
+    public bool allBallLanded, startFall, enterTeleport;//, firstBallLanded = false;
     [HideInInspector]
     public float speed;
     [HideInInspector]
@@ -23,6 +23,7 @@ public abstract class Ball : MonoSingleton<Ball>
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0;
         rigid.simulated = true;
+        enterTeleport = true;
         checkPosX = 5;
     }
 
@@ -102,6 +103,7 @@ public abstract class Ball : MonoSingleton<Ball>
             rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
         }
 
+        enterTeleport = true;
         StartFall();
         ResetSpeed();
     }

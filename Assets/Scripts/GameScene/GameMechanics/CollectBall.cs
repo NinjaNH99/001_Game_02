@@ -18,18 +18,26 @@ public class CollectBall : MonoSingleton<CollectBall>
     private Color spriteColor;
     private GameObject Space2D;
 
-    private void Start()
+    private void Awake()
     {
-        gameContr = GameController.Instance;
+        rigid = GetComponent<Rigidbody2D>();
+        GetComponent<Image>().color = spriteColor;
+        Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
         collected = false;
         ballIsLanded = false;
         LoseBall = false;
         isDestroy = true;
-        rigid = GetComponent<Rigidbody2D>();
+    }
 
-        Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
+    private void Start()
+    {
+        gameContr = GameController.Instance;
         spriteColor = BallOrg.Instance.GetComponent<Image>().color;
-        GetComponent<Image>().color = spriteColor;
+
+        if(isByBonus)
+        {
+            EventManager.EvMethods += CollectByBons;
+        }
     }
 
     private void Update()
@@ -55,10 +63,7 @@ public class CollectBall : MonoSingleton<CollectBall>
     {
         if(isByBonus)
         {
-            if (coll.gameObject.CompareTag(Tags.Player))
-                Collect();
-            else if (coll.gameObject.CompareTag(Tags.EndLevel))
-                DeathLevel();
+            return;
         }
         else
         {
@@ -67,6 +72,12 @@ public class CollectBall : MonoSingleton<CollectBall>
             else if (coll.gameObject.CompareTag(Tags.EndLevel))
                 DeathLevel();
         }
+    }
+
+    private void CollectByBons()
+    {
+        isByBonus = false;
+        EventManager.EvMethods -= CollectByBons;
     }
 
     private void Collect()
@@ -85,7 +96,6 @@ public class CollectBall : MonoSingleton<CollectBall>
                 GameObject goEFX = Instantiate(AddBallUIPr, AmountBallUIPos) as GameObject;
                 goEFX.GetComponent<RectTransform>().localPosition = new Vector2(-95, -95);
                 Destroy(goEFX, 1f);
-                GetComponentInParent<Row>().CheckNrConts();
                 gameContr.amountBallsLeft++;
                 isDestroy = false;
             }

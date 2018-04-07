@@ -15,15 +15,13 @@ public class LevelManager : MonoSingleton<LevelManager>
     public List<GameObject> listRows = new List<GameObject>();
     // List of teleports
     public List<GameObject> listTelep = new List<GameObject>();
-    // List of SquareLines
-    //public List<Square_Line> listSquareLine = new List<Square_Line>();
 
     // Max obj 
     public bool spawnRows, spawnBoss;
     [HideInInspector]
-    public int LSQ1MAX, LBLMAX, LBNMAX , SQBON, LSQLINE, nrRowsInGame;
+    public int LTelepMAX, LBLMAX, LBNMAX , SQBON, LSQLINE, nrRowsInGame;
     [HideInInspector]
-    private int resSQ1Max, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS, resSpawnRows;
+    private int resTelepMax, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS, resSpawnRows;
 
     private float curPosY;
     private float desiredPosition;
@@ -31,8 +29,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LSQ1MAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
-        resSQ1Max = resBLMAX = resBNMAX = resSQBON = resSQLINE = resBOS = resSpawnRows = 0;
+        LTelepMAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
+        resTelepMax = resBLMAX = resBNMAX = resSQBON = resSQLINE = resBOS = resSpawnRows = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
         spawnRows = true;
@@ -52,7 +50,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LSQ1MAX, LSQLINE, LBNMAX, SQBON);
+            go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LTelepMAX, LSQLINE, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
@@ -79,36 +77,62 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void ApplyBallBonus(int contID, int rowID)
     {
         Debug.LogWarning("contID: " + contID + " rowID: " + rowID);
+        Container[] conts;
+        try
+        {
+            var row = listRows.FindIndex(x => x.GetComponent<Row>().rowID == rowID);
+            conts = listRows[row + 1].GetComponentsInChildren<Container>();
+        }
+        catch (System.Exception)
+        {
+            return;
+        }
 
-        Container[] conts = listRows[rowID].GetComponentsInChildren<Container>();
         for (int i = 0; i < conts.Length; i++)
         {
-            if (conts[i].visualIndex == contID)
+            if ((conts[i].visualIndex == contID - 1 || conts[i].visualIndex == contID || conts[i].visualIndex == contID + 1) && conts[i].GetComponentInChildren<Block>() != null)
             {
                 conts[i].GetComponentInChildren<Block>().ReceiveHit(true);
-                if(conts[i + 1].GetComponentInChildren<Block>() != null)
-                    conts[i + 1].GetComponentInChildren<Block>().ReceiveHit(true);
-                if (conts[i - 1].GetComponentInChildren<Block>() != null)
-                    conts[i - 1].GetComponentInChildren<Block>().ReceiveHit(true);
             }
         }
     }
 
+    public void Teleports(GameObject currTeleport,GameObject ball)
+    {
+        if (listTelep.Count <= 1)
+            return;
+
+        var index = listTelep.FindIndex(x => x.gameObject == currTeleport);
+        Debug.Log("ID Teleport: " + index);
+
+        try
+        {
+            ball.GetComponent<RectTransform>().position = listTelep[index + 1].gameObject.GetComponent<RectTransform>().position;
+            ball.GetComponent<Ball>().enterTeleport = false;
+        }
+        catch (System.Exception)
+        {
+            ball.GetComponent<RectTransform>().position = listTelep[0].gameObject.GetComponent<RectTransform>().position;
+            ball.GetComponent<Ball>().enterTeleport = false;
+        }
+
+    }
+
     private bool CheckData()
     {
-        if (LSQ1MAX <= 0)
+        if (LTelepMAX <= 0)
         {
-            resSQ1Max++;
-            if (resSQ1Max >= RESETDATA)
+            resTelepMax++;
+            if (resTelepMax >= RESETDATA)
             {
-                LSQ1MAX = 1;
-                resSQ1Max = 0;
+                LTelepMAX = 1;
+                resTelepMax = 0;
             }
         }
         if (LBLMAX <= 0)
         {
             resBLMAX++;
-            if (resSQ1Max >= RESETDATA - 1)
+            if (resBLMAX >= RESETDATA - 1)
             {
                 if (gameContr.score_Rows - gameContr.amountBalls > 3)
                     LBLMAX = 4;

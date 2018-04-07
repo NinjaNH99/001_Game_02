@@ -19,7 +19,7 @@ public class Container : MonoBehaviour
                 else if(applayBonus && type == BlType.bonus)
                     go.GetComponent<CollectBonus>().isByBonus = true;
                 else if(applayBonus && type == BlType.square_Teleport)
-                    LevelManager.Instance.LSQ1MAX--;
+                    LevelManager.Instance.LTelepMAX--;
 
                 GetComponentInParent<Row>().nrBlock++;
             }
@@ -32,7 +32,7 @@ public class Container : MonoBehaviour
         var nrBlockType = GetComponentsInChildren<BlockType>().Length;
         if (nrBlockType <= 0)
         {
-            GetComponentInParent<Row>().nrBlock--;
+            //GetComponentInParent<Row>().nrBlock--;
             gameObject.SetActive(false);
         }
         return true;
