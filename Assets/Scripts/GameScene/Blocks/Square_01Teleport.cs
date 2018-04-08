@@ -9,18 +9,27 @@ public class Square_01Teleport : MonoBehaviour
     public Material imgSign;
 
     private GameController gameContr;
+    private LevelManager levelManager;
 
     private void Start()
     {
         gameContr = GameController.Instance;
+        levelManager = LevelManager.Instance;
         ChangeColor();
-        LevelManager.Instance.listTelep.Add(this.gameObject);
+        levelManager.listTelep.Add(this.gameObject);
+        EventManager.EvMethods += Despawn;
     }
     
     public void ChangeColor()
     {
         var colorScore = gameContr.score_Rows;
         imgSign.color = gameContr.ChangeColor(colorScore);
+    }
+
+    public void Despawn()
+    {
+        EventManager.EvMethods -= Despawn;
+        GetComponentInParent<Square_01>().DeathZone();
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

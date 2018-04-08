@@ -15,6 +15,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     public List<GameObject> listRows = new List<GameObject>();
     // List of teleports
     public List<GameObject> listTelep = new List<GameObject>();
+    // List of free containers
+    public List<GameObject> listFreeConts = new List<GameObject>();
 
     // Max obj 
     public bool spawnRows, spawnBoss;
@@ -23,13 +25,14 @@ public class LevelManager : MonoSingleton<LevelManager>
     [HideInInspector]
     private int resTelepMax, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS, resSpawnRows;
 
+    private int posTelep = -1, posLiser = -1;
     private float curPosY;
     private float desiredPosition;
 
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LTelepMAX = 0; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
+        LTelepMAX = 1; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
         resTelepMax = resBLMAX = resBNMAX = resSQBON = resSQLINE = resBOS = resSpawnRows = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
@@ -40,6 +43,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Start()
     {
         GenerateRow();
+        EventManager.EvMethods += SpawnRandomTeleport;
     }
 
     public void GenerateRow()
@@ -118,6 +122,27 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     }
 
+    public void SpawnRandomTeleport()
+    {
+        int maxTelep = 1;
+        if (gameContr.score_Rows > 5)
+        {
+            maxTelep = 2;
+        }
+        for (int i = 0; i < maxTelep; i++)
+        {
+            do
+                posTelep = Random.Range(0, listFreeConts.Count - 1);
+            while (posTelep == posLiser);
+            listFreeConts[posTelep].GetComponentInParent<Container>().SpawnType(BlType.square_Teleport);
+            do
+                posLiser = Random.Range(0, listFreeConts.Count - 1);
+            while (posLiser == posTelep);
+            listFreeConts[posLiser].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
+        }
+
+    }
+
     private bool CheckData()
     {
         if (LTelepMAX <= 0)
@@ -125,7 +150,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             resTelepMax++;
             if (resTelepMax >= RESETDATA)
             {
-                LTelepMAX = 1;
+                LTelepMAX = 0;
                 resTelepMax = 0;
             }
         }
@@ -164,7 +189,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             resSQLINE++;
             if (resSQLINE >= RESETDATA)
             {
-                LSQLINE = 1;
+                LSQLINE = 0;
                 resSQLINE = 0;
             }
         }

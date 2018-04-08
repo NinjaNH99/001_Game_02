@@ -16,15 +16,17 @@ public class Container : MonoBehaviour
 
                 if (applayBonus && type == BlType.ball)
                     go.GetComponent<CollectBall>().isByBonus = true;
-                else if(applayBonus && type == BlType.bonus)
+                else if (applayBonus && type == BlType.bonus)
                     go.GetComponent<CollectBonus>().isByBonus = true;
-                else if(applayBonus && type == BlType.square_Teleport)
+                else if (applayBonus && type == BlType.square_Teleport)
                     LevelManager.Instance.LTelepMAX--;
 
                 GetComponentInParent<Row>().nrBlock++;
             }
         }
-        DeSpawnBlock();
+        if (type == BlType.space)
+            LevelManager.Instance.listFreeConts.Add(this.gameObject);
+        //DeSpawnBlock();
     }
 
     public bool DeSpawnBlock()
@@ -34,6 +36,7 @@ public class Container : MonoBehaviour
         {
             //GetComponentInParent<Row>().nrBlock--;
             gameObject.SetActive(false);
+            LevelManager.Instance.listFreeConts.Remove(this.gameObject);
         }
         return true;
     }

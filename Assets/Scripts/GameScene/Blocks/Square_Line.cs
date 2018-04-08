@@ -31,6 +31,7 @@ public class Square_Line : MonoBehaviour
     {
         gameContr = GameController.Instance;
         EventManager.EvMethods += RotateSquare;
+        EventManager.EvMethods += Despawn;
         Change();
     }
 
@@ -75,11 +76,17 @@ public class Square_Line : MonoBehaviour
         }
     }
 
+    public void Despawn()
+    {
+        DeathZone();
+    }
+
     public void DeathZone()
     {
         //LevelManager.Instance.CheckTeleportsNull();
         //LevelManager.Instance.listSquareLine.Remove(this);
         EventManager.EvMethods -= RotateSquare;
+        EventManager.EvMethods -= Despawn;
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
         Destroy(Square_Img);
         Destroy(goEFX, 1f);
