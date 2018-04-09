@@ -60,6 +60,8 @@ public class Block_Boss : MonoBehaviour
             var main = go.GetComponent<ParticleSystem>().main;
             main.startColor = GetComponent<SpriteRenderer>().color;
 
+            GetComponentInParent<Row>().nrSpace++;
+            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
             Destroy(go, 1f);
             Destroy(gameObject, 3);
             if (isDestroy)

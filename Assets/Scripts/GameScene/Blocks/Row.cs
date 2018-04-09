@@ -5,19 +5,22 @@ using UnityEngine;
 public class Row : MonoBehaviour
 {
     public int rowID;
-    public int nrBlock = 0;
+    public int nrSpace;
 
-    protected int SQ1MAX, SQLINE, BLMAX, BONMAX, SPMAX = 3;
+    protected int  BLMAX, BONMAX, SPMAX = 3;
+
+    public Container[] containers = new Container[9];
+
+    public delegate void EvDeSpawnContainer();
+    public event EvDeSpawnContainer evDeSpawnContainer;
 
     private GameController gameContr;
-
-    public Container[] containers = new Container[10];
 
     private void Awake()
     {
         gameContr = GameController.Instance;
         rowID = gameContr.score_Rows;
-
+        nrSpace = 0;
         containers = GetComponentsInChildren<Container>();
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
@@ -33,11 +36,9 @@ public class Row : MonoBehaviour
     }
 
     // Spawn random blockType from Cont in row
-    public void SpawnCont(bool spawnRows, bool SPBOSS, int BLMAX, int SQ1MAX, int SQLINE, int BONMAX, int SQBON)
+    public void SpawnCont(bool spawnRows, bool SPBOSS, int BLMAX, int BONMAX, int SQBON)
     {
         var kBL = true;
-        var kSQ1 = true;
-        var kSQLINE = true;
         var kHPX2 = true;
         var god = false;
         var randType = 0;
@@ -46,12 +47,20 @@ public class Row : MonoBehaviour
         {
             for (int i = 0; i < containers.Length; i++)
             {
-                if (i != 4)
-                    containers[i].SpawnType(BlType.space);
-                else
+                if (i == 3 || i == 5)
+                {
+                    containers[i].SpawnType(BlType.space, false);
+                    nrSpace++;
+                }
+                else if (i == 4)
                 {
                     containers[i].SpawnType(BlType.square_Boss);
                     LevelManager.Instance.spawnBoss = false;
+                }
+                else
+                {
+                    containers[i].SpawnType(BlType.space);
+                    nrSpace++;
                 }
             }
             return;
@@ -60,13 +69,19 @@ public class Row : MonoBehaviour
         for (int i = 0; i < containers.Length; i++)
         {
             if (!spawnRows)
-                containers[i].SpawnType(BlType.space);
+            {
+                if (i == 3 || i == 4 || i == 5)
+                    containers[i].SpawnType(BlType.space, false);
+                else
+                    containers[i].SpawnType(BlType.space);
+                nrSpace++;
+            }
             else
             {
-                while(!god)
+                while (!god)
                 {
                     randType = Random.Range(0, 11);
-                    switch(randType)
+                    switch (randType)
                     {
                         case 0:
                             {
@@ -83,13 +98,15 @@ public class Row : MonoBehaviour
                             }
                         case 1:
                             {
+                                /*
                                 if (SQ1MAX > 0 && kSQ1)
                                 {
                                     containers[i].SpawnType(BlType.square_Teleport);
                                     kSQ1 = false;
                                     LevelManager.Instance.LTelepMAX--;
+                                    nrSpace++;
                                     god = true;
-                                }
+                                }*/
                                 break;
                             }
                         case 3:
@@ -119,14 +136,16 @@ public class Row : MonoBehaviour
                             }
                         case 5:
                             {
+                                /*
                                 if (SQLINE > 0 && kSQLINE && (Random.Range(0, 4) != 1))
                                 {
                                     containers[i].SpawnType(BlType.square_Line);
                                     SQLINE--;
                                     kSQLINE = false;
+                                    nrSpace++;
                                     LevelManager.Instance.LSQLINE--;
                                     god = true;
-                                }
+                                }*/
                                 break;
                             }
                         case 6:
@@ -159,6 +178,7 @@ public class Row : MonoBehaviour
                                 if (SPMAX > 0)
                                 {
                                     containers[i].SpawnType(BlType.space);
+                                    nrSpace++;
                                     SPMAX--;
                                     god = true;
                                 }
@@ -173,23 +193,31 @@ public class Row : MonoBehaviour
         }
     }
 
-    public bool DeSpawn()
+    public void DeSpawn()
     {
-        bool r = true;
+        Debug.Log("NrSpace: " + nrSpace);
+        /*
         containers = GetComponentsInChildren<Container>();
         for (int i = 0; i < containers.Length;)
         {
             if (containers[i].DeSpawnBlock())
                 i++;
-        }
+        }*/
 
         //Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
-        if (containers.Length <= 0)
+        if (nrSpace >= 9)
         {
-            LevelManager.Instance.NrBlocksInGame();
-            r = false;
-            Destroy(this.gameObject, 0.1f);
+            evDeSpawnContainer();
+            LevelManager.Instance.listRows.Remove(this.gameObject);
+            /*
+            containers = GetComponentsInChildren<Container>();
+            for (int i = 0; i < containers.Length; i++)
+                containers[i].DeSpawnBlock();
+            */
+
+            Debug.Log("DeSpawnRow");
+            Destroy(this.gameObject);
         }
-        return r;
+
     }
 }

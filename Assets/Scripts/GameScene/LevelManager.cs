@@ -21,19 +21,18 @@ public class LevelManager : MonoSingleton<LevelManager>
     // Max obj 
     public bool spawnRows, spawnBoss;
     [HideInInspector]
-    public int LTelepMAX, LBLMAX, LBNMAX , SQBON, LSQLINE, nrRowsInGame;
+    public int LBLMAX, LBNMAX , SQBON, nrRowsInGame;
     [HideInInspector]
-    private int resTelepMax, resBLMAX, resBNMAX, resSQBON, resSQLINE, resBOS, resSpawnRows;
+    private int resBLMAX, resBNMAX, resSQBON, resBOS, resSpawnRows;
 
-    private int posTelep = -1, posLiser = -1;
     private float curPosY;
     private float desiredPosition;
 
     private void Awake()
     {
         gameContr = GameController.Instance;
-        LTelepMAX = 1; LBLMAX = 3; LBNMAX = 0; SQBON = 3; LSQLINE = 1;
-        resTelepMax = resBLMAX = resBNMAX = resSQBON = resSQLINE = resBOS = resSpawnRows = 0;
+        LBLMAX = 3; LBNMAX = 0; SQBON = 3;
+        resBLMAX = resBNMAX = resSQBON = resBOS = resSpawnRows = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
         spawnRows = true;
@@ -43,44 +42,31 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Start()
     {
         GenerateRow();
-        EventManager.EvMethods += SpawnRandomTeleport;
+        EventManager.evSpawnRand += SpawnRandom;
     }
 
     public void GenerateRow()
     {
-        RotateSqLine();
-        CheckRowsNull();
+        EventManager.StartEvMoveDown();
+
         if (CheckData())
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LTelepMAX, LSQLINE, LBNMAX, SQBON);
+            go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
+
+            EventManager.StartEvSpawn();
+            EventManager.StartEvRotate();
         }
 
-    }
-
-    private void CheckRowsNull()
-    {
-        for (int i = 0; i < listRows.Count; i++)
-        {
-            if(!listRows[i].GetComponent<Row>().DeSpawn())
-            {
-                listRows.RemoveAt(i);
-            }
-        }
-    }
-
-    private void RotateSqLine()
-    {
-        EventManager.LevelMoveDown();
     }
 
     public void ApplyBallBonus(int contID, int rowID)
     {
-        Debug.LogWarning("contID: " + contID + " rowID: " + rowID);
+        //Debug.LogWarning("contID: " + contID + " rowID: " + rowID);
         Container[] conts;
         try
         {
@@ -107,7 +93,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             return;
 
         var index = listTelep.FindIndex(x => x.gameObject == currTeleport);
-        Debug.Log("ID Teleport: " + index);
+        //Debug.Log("ID Teleport: " + index);
 
         try
         {
@@ -122,38 +108,49 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     }
 
-    public void SpawnRandomTeleport()
+    public void SpawnRandom()
     {
-        int maxTelep = 1;
+        //Debug.Log("listFreeConts[0].RowID : " + listFreeConts[0].GetComponentInParent<Row>().rowID);
+        //Debug.Log("listFreeConts[listFreeConts.Count - 1].RowID : " + listFreeConts[listFreeConts.Count - 1].GetComponentInParent<Row>().rowID);
+        int maxObj = 1;
+        int posTelep = -1, posTelep2 = -1, posLiser = -1, posLiser2 = -1;
+
         if (gameContr.score_Rows > 5)
+            maxObj = 2;
+
+        if (maxObj == 1)
         {
-            maxTelep = 2;
-        }
-        for (int i = 0; i < maxTelep; i++)
-        {
-            do
-                posTelep = Random.Range(0, listFreeConts.Count - 1);
-            while (posTelep == posLiser);
-            listFreeConts[posTelep].GetComponentInParent<Container>().SpawnType(BlType.square_Teleport);
-            do
-                posLiser = Random.Range(0, listFreeConts.Count - 1);
-            while (posLiser == posTelep);
+            posLiser = Random.Range(0, listFreeConts.Count);
             listFreeConts[posLiser].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
         }
+        else
+        {
+            // Spawn Teleport1
+            posTelep = Random.Range(0, listFreeConts.Count);
+            listFreeConts[posTelep].GetComponentInParent<Container>().SpawnType(BlType.square_Teleport);
+            // Spawn Teleport2
+            do
+                posTelep2 = Random.Range(0, listFreeConts.Count);
+            while (Mathf.Abs(posTelep2 - posLiser) < 4);
+            listFreeConts[posTelep2].GetComponentInParent<Container>().SpawnType(BlType.square_Teleport);
+
+            // Spawn Liser1
+            do
+                posLiser = Random.Range(0, listFreeConts.Count);
+            while (Mathf.Abs(posLiser - posTelep) < 4 || Mathf.Abs(posLiser - posTelep2) < 4);
+            listFreeConts[posLiser].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
+            // Spawn Liser2
+            do
+                posLiser2 = Random.Range(0, listFreeConts.Count);
+            while (Mathf.Abs(posLiser2 - posTelep) < 4 || Mathf.Abs(posLiser2 - posTelep2) < 4 || Mathf.Abs(posTelep2 - posLiser) < 4);
+            listFreeConts[posLiser2].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
+        }
+
 
     }
 
     private bool CheckData()
     {
-        if (LTelepMAX <= 0)
-        {
-            resTelepMax++;
-            if (resTelepMax >= RESETDATA)
-            {
-                LTelepMAX = 0;
-                resTelepMax = 0;
-            }
-        }
         if (LBLMAX <= 0)
         {
             resBLMAX++;
@@ -184,15 +181,6 @@ public class LevelManager : MonoSingleton<LevelManager>
                 resSQBON = 0;
             }
         }
-        if (LSQLINE <= 0)
-        {
-            resSQLINE++;
-            if (resSQLINE >= RESETDATA)
-            {
-                LSQLINE = 0;
-                resSQLINE = 0;
-            }
-        }
 
         resBOS++;
         if (resBOS >= ( RESETDATA * 2 ) + 2)
@@ -216,11 +204,6 @@ public class LevelManager : MonoSingleton<LevelManager>
             bossObj.ResetShield();
 
         return true;
-    }
-
-    public void NrBlocksInGame()
-    {
-        
     }
 
 }

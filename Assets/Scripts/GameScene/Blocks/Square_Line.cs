@@ -17,7 +17,7 @@ public class Square_Line : MonoBehaviour
     private Vector2 shootDirL, shootDirR;
     private RectTransform transofrmPos;
 
-    private bool rotate;
+    private bool rotate = true;
 
     private void Awake()
     {
@@ -30,8 +30,8 @@ public class Square_Line : MonoBehaviour
     private void Start()
     {
         gameContr = GameController.Instance;
-        EventManager.EvMethods += RotateSquare;
-        EventManager.EvMethods += Despawn;
+        EventManager.evRotate += RotateSquare;
+        EventManager.evSpawnRand += Despawn;
         Change();
     }
 
@@ -85,9 +85,10 @@ public class Square_Line : MonoBehaviour
     {
         //LevelManager.Instance.CheckTeleportsNull();
         //LevelManager.Instance.listSquareLine.Remove(this);
-        EventManager.EvMethods -= RotateSquare;
-        EventManager.EvMethods -= Despawn;
+        EventManager.evRotate -= RotateSquare;
+        EventManager.evSpawnRand -= Despawn;
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
+        //GetComponentInParent<Row>().nrSpace++;
         Destroy(Square_Img);
         Destroy(goEFX, 1f);
         Destroy(gameObject, 1f);

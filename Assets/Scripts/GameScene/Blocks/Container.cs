@@ -6,8 +6,19 @@ public class Container : MonoBehaviour
 
     public GameObject[] blockTypes = new GameObject[6];
 
-    public void SpawnType(BlType type , bool applayBonus = false)
+    private void Start()
     {
+        GetComponentInParent<Row>().evDeSpawnContainer += DeSpawnBlock;
+    }
+
+    public void SpawnType(BlType type , bool applayBonus = false, bool addInListFC = true)
+    {
+        if (type == BlType.space && addInListFC)
+        {
+            LevelManager.Instance.listFreeConts.Add(this.gameObject);
+            return;
+        }
+
         for (int i = 0; i < blockTypes.Length; i++)
         {
             if (blockTypes[i].GetComponent<BlockType>().Bltype == type && type != BlType.space)
@@ -15,20 +26,21 @@ public class Container : MonoBehaviour
                 GameObject go = Instantiate(blockTypes[i], transform) as GameObject;
 
                 if (applayBonus && type == BlType.ball)
+                {
                     go.GetComponent<CollectBall>().isByBonus = true;
+                    LevelManager.Instance.listFreeConts.Remove(this.gameObject);
+                }
                 else if (applayBonus && type == BlType.bonus)
+                {
                     go.GetComponent<CollectBonus>().isByBonus = true;
-                else if (applayBonus && type == BlType.square_Teleport)
-                    LevelManager.Instance.LTelepMAX--;
-
-                GetComponentInParent<Row>().nrBlock++;
+                    LevelManager.Instance.listFreeConts.Remove(this.gameObject);
+                }
             }
         }
-        if (type == BlType.space)
-            LevelManager.Instance.listFreeConts.Add(this.gameObject);
+        
         //DeSpawnBlock();
     }
-
+    /*
     public bool DeSpawnBlock()
     {
         var nrBlockType = GetComponentsInChildren<BlockType>().Length;
@@ -39,6 +51,11 @@ public class Container : MonoBehaviour
             LevelManager.Instance.listFreeConts.Remove(this.gameObject);
         }
         return true;
+    }*/
+
+    public void DeSpawnBlock()
+    {
+        LevelManager.Instance.listFreeConts.Remove(this.gameObject);
     }
 
     public void ApplySquare_Bonus()

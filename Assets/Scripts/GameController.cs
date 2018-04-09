@@ -23,6 +23,7 @@ public class Tags
     public const string Bonus_02 = "Bonus_02";
     public const string LaserSq = "LaserSq";
     public const string Block_Boss = "Block_Boss";
+    public const string Row = "Row";
 }
 
 //  Fisher-Yates algorithm 
@@ -154,10 +155,10 @@ public class GameController : MonoSingleton<GameController>
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
-                LevelManager.Instance.GenerateRow();
                 UpdateUIText();
                 ShowAmBallsExitText(amountBalls);
                 allBallLanded = false;
+                LevelManager.Instance.GenerateRow();
             }
             if (onBoostSpeed)
             {
@@ -188,7 +189,6 @@ public class GameController : MonoSingleton<GameController>
                 lineRend.enabled = true;
                 ballLaser.up = sd.normalized;
                 ballLaser.gameObject.SetActive(true);
-                //ballsPreview.localScale = Vector2.Lerp(new Vector2(0.7f, 0.7f), new Vector2(1, 1), sd.magnitude / MAXIMUM_PULL);
                 if (MobileInputs.Instance.release)
                 {
                     tutorialContainer.SetActive(false);

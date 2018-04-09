@@ -22,6 +22,7 @@ TagManager:
   - Square_Line
   - LaserSq
   - Block_Boss
+  - Row
   layers:
   - Default
   - TransparentFX

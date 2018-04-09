@@ -19,7 +19,7 @@ public class CollectBonus : MonoBehaviour
     {
         if (isByBonus)
         {
-            EventManager.EvMethods += CollectByBons2;
+            EventManager.evMoveDown += CollectByBons2;
         }
     }
 
@@ -44,6 +44,8 @@ public class CollectBonus : MonoBehaviour
         isCollected = true;
         if (!isDestroy)
         {
+            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
+            GetComponentInParent<Row>().nrSpace++;
             GameController.Instance.UpdateUIText();
             isDestroy = true;
         }
@@ -53,7 +55,7 @@ public class CollectBonus : MonoBehaviour
     private void CollectByBons2()
     {
         isByBonus = false;
-        EventManager.EvMethods -= CollectByBons2;
+        EventManager.evMoveDown -= CollectByBons2;
     }
 
     public void DeathZone()

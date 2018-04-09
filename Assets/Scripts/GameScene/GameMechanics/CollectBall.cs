@@ -36,7 +36,7 @@ public class CollectBall : MonoSingleton<CollectBall>
 
         if(isByBonus)
         {
-            EventManager.EvMethods += CollectByBons;
+            EventManager.evMoveDown += CollectByBons;
         }
     }
 
@@ -77,7 +77,7 @@ public class CollectBall : MonoSingleton<CollectBall>
     private void CollectByBons()
     {
         isByBonus = false;
-        EventManager.EvMethods -= CollectByBons;
+        EventManager.evMoveDown -= CollectByBons;
     }
 
     private void Collect()
@@ -88,6 +88,8 @@ public class CollectBall : MonoSingleton<CollectBall>
             gameContr.amountCollectBallsLeft++;
             GameObject go = Instantiate(AddBallEFX, gameObject.transform) as GameObject;
             Destroy(go, 2f);
+            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
+            GetComponentInParent<Row>().nrSpace++;
             StartFalling();
             if (isDestroy)
             {

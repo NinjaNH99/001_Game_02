@@ -18,6 +18,12 @@ public class DeathLevel : MonoBehaviour
             coll.gameObject.SendMessage("DeathLevel");
     }
 
+    private void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.CompareTag(Tags.Row))
+            coll.gameObject.SendMessage("DeSpawn");
+    }
+
     private void OnLoadScene()
     {
         if(!isLose)

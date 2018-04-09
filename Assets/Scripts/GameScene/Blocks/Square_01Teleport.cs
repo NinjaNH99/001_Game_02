@@ -9,15 +9,13 @@ public class Square_01Teleport : MonoBehaviour
     public Material imgSign;
 
     private GameController gameContr;
-    private LevelManager levelManager;
+    private GameObject parentOBJ;
 
     private void Start()
     {
         gameContr = GameController.Instance;
-        levelManager = LevelManager.Instance;
         ChangeColor();
-        levelManager.listTelep.Add(this.gameObject);
-        EventManager.EvMethods += Despawn;
+        parentOBJ = GetComponentInParent<Square_01>().gameObject;
     }
     
     public void ChangeColor()
@@ -26,18 +24,13 @@ public class Square_01Teleport : MonoBehaviour
         imgSign.color = gameContr.ChangeColor(colorScore);
     }
 
-    public void Despawn()
-    {
-        EventManager.EvMethods -= Despawn;
-        GetComponentInParent<Square_01>().DeathZone();
-    }
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy))
         {
             if (coll.gameObject.GetComponent<Ball>().enterTeleport)
-                LevelManager.Instance.Teleports(this.gameObject, coll.gameObject);
+                LevelManager.Instance.Teleports(parentOBJ, coll.gameObject);
         }
     }
 }
