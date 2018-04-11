@@ -11,18 +11,19 @@ public class Square_01 : MonoBehaviour
     {
         levelManager = LevelManager.Instance;
         levelManager.listTelep.Add(this.gameObject);
-        EventManager.evSpawnRand += Despawn;
+        EventManager.EvDeSpawnM += Despawn;
     }
 
     public void Despawn()
     {
-        EventManager.evSpawnRand -= Despawn;
+        EventManager.EvDeSpawnM -= Despawn;
         levelManager.listTelep.Remove(this.gameObject);
         DeathZone();
     }
 
     public void DeathZone()
     {
+        Debug.Log("TeleportDied.RowID[" + GetComponentInParent<Row>().rowID + "]");
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
         //GetComponentInParent<Row>().nrSpace++;
         Destroy(Square_01Pr);

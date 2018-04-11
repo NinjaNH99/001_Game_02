@@ -17,21 +17,29 @@ public class Square_Line : MonoBehaviour
     private Vector2 shootDirL, shootDirR;
     private RectTransform transofrmPos;
 
-    private bool rotate = true;
+    private bool rotate;
 
     private void Awake()
     {
         square_LineAnim = GetComponent<Animator>();
-        rotate = true;
-        shootDirL = Vector2.left;
-        shootDirR = Vector2.right;
+
+        if (Random.Range(0f, 1f) > 0.5f)
+        {
+            square_LineAnim.SetTrigger("Rotate90");
+            shootDirL = Vector2.up;
+            shootDirR = Vector2.down;
+        }
+        else
+        {
+            shootDirL = Vector2.left;
+            shootDirR = Vector2.right;
+        }
     }
 
     private void Start()
     {
         gameContr = GameController.Instance;
-        EventManager.evRotate += RotateSquare;
-        EventManager.evSpawnRand += Despawn;
+        EventManager.EvDeSpawnM += Despawn;
         Change();
     }
 
@@ -58,24 +66,6 @@ public class Square_Line : MonoBehaviour
         line.SetActive(true);        
     }
 
-    public void RotateSquare()
-    {
-        if (rotate)
-        {
-            square_LineAnim.SetTrigger("Rotate90");
-            shootDirL = Vector2.up;
-            shootDirR = Vector2.down;
-            rotate = false;
-        }
-        else
-        {
-            square_LineAnim.SetTrigger("Rotate180");
-            shootDirL = Vector2.left;
-            shootDirR = Vector2.right;
-            rotate = true;
-        }
-    }
-
     public void Despawn()
     {
         DeathZone();
@@ -85,9 +75,9 @@ public class Square_Line : MonoBehaviour
     {
         //LevelManager.Instance.CheckTeleportsNull();
         //LevelManager.Instance.listSquareLine.Remove(this);
-        EventManager.evRotate -= RotateSquare;
-        EventManager.evSpawnRand -= Despawn;
+        EventManager.EvDeSpawnM -= Despawn;
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
+        Debug.Log("LiserDied.RowID[" + GetComponentInParent<Row>().rowID + "]");
         //GetComponentInParent<Row>().nrSpace++;
         Destroy(Square_Img);
         Destroy(goEFX, 1f);

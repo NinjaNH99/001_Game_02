@@ -115,6 +115,7 @@
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\DeathLevel.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\DeathZone.cs" />
     <Compile Include="Assets\Scripts\GameScene\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\GameScene\SaveLoadManager.cs" />
     <Compile Include="Assets\Scripts\GameScene\UI\AddBallUI.cs" />
     <Compile Include="Assets\Scripts\GameScene\UI\AddScoreLevelUI.cs" />
     <Compile Include="Assets\Scripts\GameScene\UI\Laser.cs" />
@@ -127,10 +128,6 @@
     <Compile Include="Assets\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\MobileInputs.cs" />
     <Compile Include="Assets\Scripts\MonoSingleton.cs" />
-    <Compile Include="Assets\Scripts\Old Version\CameraScreenResolution.cs" />
-    <Compile Include="Assets\Scripts\Old Version\LevelContainer.cs" />
-    <Compile Include="Assets\Scripts\Old Version\OldContainer.cs" />
-    <Compile Include="Assets\Scripts\Old Version\OldRow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

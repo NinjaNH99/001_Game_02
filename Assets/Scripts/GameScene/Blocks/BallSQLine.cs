@@ -37,7 +37,7 @@ public class BallSQLine : Ball
     protected override void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR)
-            || coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Square_01)
+            || coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Square_Teleport)
             || coll.gameObject.CompareTag(Tags.WallT) || coll.gameObject.CompareTag(Tags.Floor))
         {
             Destroy(gameObject);

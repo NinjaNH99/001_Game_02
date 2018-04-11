@@ -1,26 +1,32 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CollectBonus : MonoBehaviour
 {
     public bool isByBonus = false;
 
+    private bool isCollected, isDestroy;
+
     private Rigidbody2D rigid;
-    private bool isCollected;
-    private bool isDestroy;
+    private Animator anim;
 
     private void Awake()
     {
         isCollected = false;
         isDestroy = false;
         rigid = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private void Start()
     {
         if (isByBonus)
         {
-            EventManager.evMoveDown += CollectByBons2;
+            EventManager.EvMoveDownM += CollectByBons2;
+            anim.SetTrigger("BonON");
         }
+        else
+            anim.SetTrigger("BonOFF");
     }
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -44,7 +50,8 @@ public class CollectBonus : MonoBehaviour
         isCollected = true;
         if (!isDestroy)
         {
-            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
+            GetComponentInParent<Container>().AddInListFreeConts();
+
             GetComponentInParent<Row>().nrSpace++;
             GameController.Instance.UpdateUIText();
             isDestroy = true;
@@ -55,7 +62,8 @@ public class CollectBonus : MonoBehaviour
     private void CollectByBons2()
     {
         isByBonus = false;
-        EventManager.evMoveDown -= CollectByBons2;
+        anim.SetTrigger("BonOFF");
+        EventManager.EvMoveDownM -= CollectByBons2;
     }
 
     public void DeathZone()
@@ -66,6 +74,10 @@ public class CollectBonus : MonoBehaviour
     public void DeathLevel()
     {
         if (!isCollected)
+        {
             Destroy(this.gameObject);
+            if (!LevelManager.Instance.listFreeConts.Contains(GetComponentInParent<Container>().gameObject))
+                LevelManager.Instance.listFreeConts.Remove(GetComponentInParent<Container>().gameObject);
+        }
     }
 }

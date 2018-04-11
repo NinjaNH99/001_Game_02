@@ -6,49 +6,39 @@ public class EventManager : MonoBehaviour
 {
     // Level move down
     public delegate void EvLevelMove();
-    public static event EvLevelMove evMoveDown = null;
+    public static event EvLevelMove EvMoveDownM = null;
 
-    // Rotate square
-    public delegate void EvRotate();
-    public static event EvRotate evRotate = null;
+    // Despawn Liser and Teleport
+    public delegate void EvDeSpawn();
+    public static event EvDeSpawn EvDeSpawnM = null;
 
     // Random spawn
     public delegate void EvSpawnRand();
-    public static event EvSpawnRand evSpawnRand = null;
-    private static int pause;
+    public static event EvSpawnRand EvSpawnRandomM = null;
 
     private void Awake()
     {
-        evMoveDown = null;
-        evRotate = null;
-        evSpawnRand = null;
-
-        pause = 1;
+        EvMoveDownM = null;
+        EvSpawnRandomM = null;
+        EvDeSpawnM = null;
     }
 
     public static void StartEvMoveDown()
     {
-        if (evMoveDown != null)
-            evMoveDown();
+        if (EvMoveDownM != null)
+            EvMoveDownM();
     }
 
-    public static void StartEvRotate()
-    { 
-        if (evRotate != null)
-            evRotate();
+    public static void StartEvDeSpawn()
+    {
+        if (EvDeSpawnM != null)
+            EvDeSpawnM();
     }
 
     public static void StartEvSpawn()
     {
-        if (pause > 0)
-        {
-            pause--;
-            return;
-        }
-
-        pause = 1;
-        if (evSpawnRand != null)
-            evSpawnRand();
+        if (EvSpawnRandomM != null)
+            EvSpawnRandomM();
     }
 
 }

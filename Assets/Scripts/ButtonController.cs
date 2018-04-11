@@ -71,6 +71,7 @@ public class ButtonController : MonoBehaviour
 
     public void OnRestartClick()
     {
+        gameContr.SaveDataRestart();
         LevelLoader.Instance.LoadLevel("Game");
     }
 

@@ -3,8 +3,17 @@
 public class Container : MonoBehaviour
 {
     public int visualIndex;
+    public int rowID;
 
     public GameObject[] blockTypes = new GameObject[6];
+
+    private LevelManager levelManager;
+
+    private void Awake()
+    {
+        levelManager = LevelManager.Instance;
+        rowID = GetComponentInParent<Row>().rowID;
+    }
 
     private void Start()
     {
@@ -15,7 +24,7 @@ public class Container : MonoBehaviour
     {
         if (type == BlType.space && addInListFC)
         {
-            LevelManager.Instance.listFreeConts.Add(this.gameObject);
+            AddInListFreeConts();
             return;
         }
 
@@ -28,34 +37,36 @@ public class Container : MonoBehaviour
                 if (applayBonus && type == BlType.ball)
                 {
                     go.GetComponent<CollectBall>().isByBonus = true;
-                    LevelManager.Instance.listFreeConts.Remove(this.gameObject);
                 }
                 else if (applayBonus && type == BlType.bonus)
                 {
                     go.GetComponent<CollectBonus>().isByBonus = true;
-                    LevelManager.Instance.listFreeConts.Remove(this.gameObject);
                 }
             }
         }
         
-        //DeSpawnBlock();
     }
-    /*
-    public bool DeSpawnBlock()
+
+    public void AddInListFreeConts()
     {
-        var nrBlockType = GetComponentsInChildren<BlockType>().Length;
-        if (nrBlockType <= 0)
-        {
-            //GetComponentInParent<Row>().nrBlock--;
-            gameObject.SetActive(false);
-            LevelManager.Instance.listFreeConts.Remove(this.gameObject);
-        }
-        return true;
-    }*/
+        levelManager.listFreeConts.Add(this.gameObject);
+    }
+
+    public void RemoveContInLFC()
+    {
+        if(levelManager.listFreeConts.Contains(this.gameObject))
+            levelManager.listFreeConts.Remove(this.gameObject);
+    }
 
     public void DeSpawnBlock()
     {
-        LevelManager.Instance.listFreeConts.Remove(this.gameObject);
+        RemoveContInLFC();
+        GetComponentInParent<Row>().evDeSpawnContainer -= DeSpawnBlock;
+        if (visualIndex == 8)
+        {
+            Debug.Log("DeSpawn last block");
+            EventManager.StartEvSpawn();
+        }
     }
 
     public void ApplySquare_Bonus()
@@ -70,6 +81,7 @@ public class Container : MonoBehaviour
         else if (r >= 10)
             blType = BlType.square;
 
+        RemoveContInLFC();
         SpawnType(blType, true);
     }
 
@@ -79,7 +91,7 @@ public class Container : MonoBehaviour
         {
             obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
-        else if (obj.tag == Tags.Square_01)
+        else if (obj.tag == Tags.Square_Teleport)
         {
             Destroy(obj);
         }

@@ -9,35 +9,37 @@ public class CollectBall : MonoSingleton<CollectBall>
 
     public bool isByBonus = false;
 
-    private GameController gameContr;
-    private bool collected;
-    private bool ballIsLanded;
-    private bool LoseBall;
-    private bool isDestroy;
+    private bool collected, ballIsLanded, LoseBall, isDestroy;
+
     private Rigidbody2D rigid;
-    private Color spriteColor;
+    private GameController gameContr;
     private GameObject Space2D;
+    private Animator anim;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        GetComponent<Image>().color = spriteColor;
+        anim = GetComponent<Animator>();
+        //GetComponent<Image>().color = spriteColor;
         Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
         collected = false;
         ballIsLanded = false;
         LoseBall = false;
         isDestroy = true;
+
     }
 
     private void Start()
     {
         gameContr = GameController.Instance;
-        spriteColor = BallOrg.Instance.GetComponent<Image>().color;
 
-        if(isByBonus)
+        if (isByBonus)
         {
-            EventManager.evMoveDown += CollectByBons;
+            anim.SetTrigger("BonON");
+            EventManager.EvMoveDownM += CollectByBons;
         }
+        else
+            anim.SetTrigger("BonOFF");
     }
 
     private void Update()
@@ -59,25 +61,11 @@ public class CollectBall : MonoSingleton<CollectBall>
         }
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        if(isByBonus)
-        {
-            return;
-        }
-        else
-        {
-            if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine))
-                Collect();
-            else if (coll.gameObject.CompareTag(Tags.EndLevel))
-                DeathLevel();
-        }
-    }
-
     private void CollectByBons()
     {
         isByBonus = false;
-        EventManager.evMoveDown -= CollectByBons;
+        anim.SetTrigger("BonOFF");
+        EventManager.EvMoveDownM -= CollectByBons;
     }
 
     private void Collect()
@@ -88,7 +76,9 @@ public class CollectBall : MonoSingleton<CollectBall>
             gameContr.amountCollectBallsLeft++;
             GameObject go = Instantiate(AddBallEFX, gameObject.transform) as GameObject;
             Destroy(go, 2f);
-            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
+
+            GetComponentInParent<Container>().AddInListFreeConts();
+
             GetComponentInParent<Row>().nrSpace++;
             StartFalling();
             if (isDestroy)
@@ -102,9 +92,9 @@ public class CollectBall : MonoSingleton<CollectBall>
                 isDestroy = false;
             }
             rigid.velocity = new Vector2(0, 0.5f) * 2.0f;
-            spriteColor.a = 0.8f;
+            //spriteColor.a = 0.8f;
             transform.SetParent(Space2D.transform);
-            GetComponent<Image>().color = spriteColor;
+            //GetComponent<Image>().color = spriteColor;
             Ball.Instance.CollectBall();
             Destroy(Sprite);
         }
@@ -131,11 +121,28 @@ public class CollectBall : MonoSingleton<CollectBall>
         if(LoseBall)
         {
             Destroy(this.gameObject);
+            if (!LevelManager.Instance.listFreeConts.Contains(GetComponentInParent<Container>().gameObject))
+                LevelManager.Instance.listFreeConts.Remove(GetComponentInParent<Container>().gameObject);
         }
         else
         {
             ballIsLanded = true;
             transform.position = new Vector2(transform.position.x, transform.position.y);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (isByBonus)
+        {
+            return;
+        }
+        else
+        {
+            if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine))
+                Collect();
+            else if (coll.gameObject.CompareTag(Tags.EndLevel))
+                DeathLevel();
         }
     }
 }

@@ -61,7 +61,9 @@ public class Block_Boss : MonoBehaviour
             main.startColor = GetComponent<SpriteRenderer>().color;
 
             GetComponentInParent<Row>().nrSpace++;
-            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
+
+            GetComponentInParent<Container>().AddInListFreeConts();
+
             Destroy(go, 1f);
             Destroy(gameObject, 3);
             if (isDestroy)

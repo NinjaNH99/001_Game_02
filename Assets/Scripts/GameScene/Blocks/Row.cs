@@ -47,9 +47,9 @@ public class Row : MonoBehaviour
         {
             for (int i = 0; i < containers.Length; i++)
             {
-                if (i == 3 || i == 5)
+                if (i == 3 || i == 5 || i == 6)
                 {
-                    containers[i].SpawnType(BlType.space, false);
+                    containers[i].SpawnType(BlType.space, false, false);
                     nrSpace++;
                 }
                 else if (i == 4)
@@ -70,8 +70,8 @@ public class Row : MonoBehaviour
         {
             if (!spawnRows)
             {
-                if (i == 3 || i == 4 || i == 5)
-                    containers[i].SpawnType(BlType.space, false);
+                if (i == 3 || i == 4 || i == 5 || i == 6)
+                    containers[i].SpawnType(BlType.space, false, false);
                 else
                     containers[i].SpawnType(BlType.space);
                 nrSpace++;
@@ -195,29 +195,9 @@ public class Row : MonoBehaviour
 
     public void DeSpawn()
     {
-        Debug.Log("NrSpace: " + nrSpace);
-        /*
-        containers = GetComponentsInChildren<Container>();
-        for (int i = 0; i < containers.Length;)
-        {
-            if (containers[i].DeSpawnBlock())
-                i++;
-        }*/
-
-        //Debug.Log( " RowID :" + rowID + "  containers.Length :" + nrBlock);
-        if (nrSpace >= 9)
-        {
-            evDeSpawnContainer();
-            LevelManager.Instance.listRows.Remove(this.gameObject);
-            /*
-            containers = GetComponentsInChildren<Container>();
-            for (int i = 0; i < containers.Length; i++)
-                containers[i].DeSpawnBlock();
-            */
-
-            Debug.Log("DeSpawnRow");
-            Destroy(this.gameObject);
-        }
-
+        evDeSpawnContainer();
+        Debug.LogWarning("DeSpawnRow[" + rowID + "]");
+        LevelManager.Instance.listRows.Remove(this.gameObject);
+        Destroy(this.gameObject);
     }
 }

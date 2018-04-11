@@ -78,7 +78,8 @@ public class Block : MonoSingleton<Block>
                 main.startColor = GetComponent<SpriteRenderer>().color;
 
             GetComponentInParent<Row>().nrSpace++;
-            LevelManager.Instance.listFreeConts.Add(GetComponentInParent<Container>().gameObject);
+            if (!isBonus)
+                GetComponentInParent<Container>().AddInListFreeConts();
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
             if (isDestroy)

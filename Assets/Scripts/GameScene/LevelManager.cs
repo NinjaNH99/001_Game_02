@@ -41,12 +41,14 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        GenerateRow();
-        EventManager.evSpawnRand += SpawnRandom;
+        for (int i = 0; i < gameContr.nrRows; i++)
+            GenerateRow();
+        EventManager.EvSpawnRandomM += SpawnRandom;
     }
 
     public void GenerateRow()
     {
+        EventManager.StartEvDeSpawn();
         EventManager.StartEvMoveDown();
 
         if (CheckData())
@@ -56,12 +58,16 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
-            curPosY -= DISTANCE_BETWEEN_BLOCKS;
+            curPosY -= DISTANCE_BETWEEN_BLOCKS; 
 
-            EventManager.StartEvSpawn();
-            EventManager.StartEvRotate();
+            if(gameContr.score_Rows > 6 && gameContr.score_Rows < 12)
+            {
+                EventManager.StartEvSpawn();
+            }
+
+            //nrRows++;
         }
-
+        //Debug.LogWarning(" Rows[0] : " + listRows[0].GetComponent<Row>().rowID);
     }
 
     public void ApplyBallBonus(int contID, int rowID)
@@ -112,41 +118,66 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         //Debug.Log("listFreeConts[0].RowID : " + listFreeConts[0].GetComponentInParent<Row>().rowID);
         //Debug.Log("listFreeConts[listFreeConts.Count - 1].RowID : " + listFreeConts[listFreeConts.Count - 1].GetComponentInParent<Row>().rowID);
-        int maxObj = 1;
-        int posTelep = -1, posTelep2 = -1, posLiser = -1, posLiser2 = -1;
+        Debug.Log("SpawnRandom");
 
-        if (gameContr.score_Rows > 5)
-            maxObj = 2;
+        int posTelep = -1, posTelep2 = -1, posLiser = -1;
+        int rowPosTelep = -1, rowPosLiser = -1, contPosLiser = -1;
 
-        if (maxObj == 1)
+        // Spawn Teleport1
+        posTelep = Random.Range(0, listFreeConts.Count);
+        rowPosTelep = listFreeConts[posTelep].GetComponent<Container>().rowID;
+        listFreeConts[posTelep].GetComponent<Container>().SpawnType(BlType.square_Teleport);
+
+        // Spawn Teleport2
+        posTelep2 = SpawnTelep2(rowPosTelep);
+
+        // Spawn Liser1
+        SpawnLiser1(posTelep, posTelep2, out posLiser, out rowPosLiser, out contPosLiser);
+
+        // Spawn Liser2
+        SpawnLiser2(posTelep, posTelep2, rowPosLiser, contPosLiser);
+    }
+
+    private int SpawnLiser2(int posTelep, int posTelep2, int rowPosLiser, int contPosLiser)
+    {
+        int k = 0, option = 3;
+        int posLiser2;
+        do
         {
+            k++;
+            posLiser2 = Random.Range(0, listFreeConts.Count);
+            if (k > listFreeConts.Count)
+                option = 1;
+        }
+        while (Mathf.Abs(listFreeConts[posLiser2].GetComponent<Container>().rowID - rowPosLiser) < option || listFreeConts[posLiser2].GetComponent<Container>().visualIndex == contPosLiser || posLiser2 == posTelep || posLiser2 == posTelep2);
+        listFreeConts[posLiser2].GetComponent<Container>().SpawnType(BlType.square_Line);
+        return posLiser2;
+    }
+
+    private void SpawnLiser1(int posTelep, int posTelep2, out int posLiser, out int rowPosLiser, out int contPosLiser)
+    {
+        do
             posLiser = Random.Range(0, listFreeConts.Count);
-            listFreeConts[posLiser].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
-        }
-        else
+        while (posLiser == posTelep || posLiser == posTelep2);
+        rowPosLiser = listFreeConts[posLiser].GetComponent<Container>().rowID;
+        contPosLiser = listFreeConts[posLiser].GetComponent<Container>().visualIndex;
+        listFreeConts[posLiser].GetComponent<Container>().SpawnType(BlType.square_Line);
+    }
+
+    private int SpawnTelep2(int rowPosTelep)
+    {
+        int k = 0, option = 4;
+        int posTelep2;
+        do
         {
-            // Spawn Teleport1
-            posTelep = Random.Range(0, listFreeConts.Count);
-            listFreeConts[posTelep].GetComponentInParent<Container>().SpawnType(BlType.square_Teleport);
-            // Spawn Teleport2
-            do
-                posTelep2 = Random.Range(0, listFreeConts.Count);
-            while (Mathf.Abs(posTelep2 - posLiser) < 4);
-            listFreeConts[posTelep2].GetComponentInParent<Container>().SpawnType(BlType.square_Teleport);
-
-            // Spawn Liser1
-            do
-                posLiser = Random.Range(0, listFreeConts.Count);
-            while (Mathf.Abs(posLiser - posTelep) < 4 || Mathf.Abs(posLiser - posTelep2) < 4);
-            listFreeConts[posLiser].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
-            // Spawn Liser2
-            do
-                posLiser2 = Random.Range(0, listFreeConts.Count);
-            while (Mathf.Abs(posLiser2 - posTelep) < 4 || Mathf.Abs(posLiser2 - posTelep2) < 4 || Mathf.Abs(posTelep2 - posLiser) < 4);
-            listFreeConts[posLiser2].GetComponentInParent<Container>().SpawnType(BlType.square_Line);
+            k++;
+            posTelep2 = Random.Range(0, listFreeConts.Count);
+            if (k > listFreeConts.Count)
+                option = 2;
         }
-
-
+        while (Mathf.Abs(listFreeConts[posTelep2].GetComponent<Container>().rowID - rowPosTelep) < option);
+        listFreeConts[posTelep2].GetComponent<Container>().SpawnType(BlType.square_Teleport);
+        return posTelep2;
     }
 
     private bool CheckData()

@@ -18,6 +18,7 @@ public class UpdatePauseMenu : MonoBehaviour {
     { 
         score.GetComponent<TextMeshProUGUI>().text = gameContr.score_Rows.ToString();
         bonus.GetComponent<TextMeshProUGUI>().text = Bonus.Instance.Bonus_01.ToString();
+        bestScore.GetComponent<TextMeshProUGUI>().text = gameContr.maxScore.ToString();
     }
 	
 }

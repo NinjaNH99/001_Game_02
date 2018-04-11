@@ -8,8 +8,8 @@ public class Tags
 {
     public const string Floor = "Floor";
     public const string Square = "Square";
-    public const string Square_01 = "Square_01";
-    public const string Square_Line = "Square_Line";
+    public const string Square_Teleport = "Square_Teleport";
+    public const string Square_Liser = "Square_Liser";
     public const string Bonus = "Bonus";
     public const string Wall = "Wall";
     public const string WallR = "WallR";
@@ -81,7 +81,9 @@ public class GameController : MonoSingleton<GameController>
     public bool isBreakingStuff, updateInputs, allBallLanded, bonus_02IsReady, firstBallLanded;
     public Vector2 targetBallPosLanded;
 
-    public int amountBalls;
+    public int amountBalls = 1;
+
+    public int nrRows = 1;
 
     private Vector2 sd;
     private float timeWaitBoostSpeed;
@@ -89,27 +91,54 @@ public class GameController : MonoSingleton<GameController>
     // For UI Show
     public bool onBoostSpeed;
     [HideInInspector]
-    public int score_Rows, scoreLevel, amountBallsLeft, amountCollectBallsLeft, AddBallUI;
+    public int score_Rows = 1, amountBallsLeft, amountCollectBallsLeft, AddBallUI, maxScore = 1, nrBonus_01;
     private int amountBallsBack;
     private bool showsABExit;
     private TextMeshProUGUI amountBallsText;
     public LineRenderer lineRend;
-    public GameObject scoreText, amountBallsTextPr;
+    public GameObject scoreText, maxScoreText, amountBallsTextPr;
     public Button BoostSpeedButton;
     public Transform ballLaser;
 
     //For the new method of spawning the ball
     private List<GameObject> BallsList;
-    private int nrBallINeed;
+    public int nrBallINeed;
+
+    private void OnApplicationQuit()
+    {
+        SaveLoadManager.SaveDataCloseApp(this);
+    }
+
+    public void SaveDataRestart()
+    {
+        SaveLoadManager.SaveDataRestartApp(this);
+    }
+
+    public void ResetData()
+    {
+        SaveLoadManager.ResetData();
+        GetComponent<ButtonController>().OnRestartClick();
+    }
+
+    public void LoadData()
+    {
+        int[] loadedData = SaveLoadManager.LoadData();
+
+        amountBalls = loadedData[0];
+        score_Rows = loadedData[1];
+        maxScore = loadedData[2];
+        nrBallINeed = loadedData[3];
+        nrRows = loadedData[4];
+        nrBonus_01 = loadedData[5];
+    }
 
     private void Awake()
     {
         //Application.targetFrameRate = 60;
-
+        LoadData();
         Time.timeScale = 1;
-        score_Rows = 1;
-        amountBalls = 1;                                                                // std = 1
-        scoreLevel = 0;
+        //score_Rows = 1;
+        //amountBalls = 1;                                                                // std = 1
         amountBallsBack = amountCollectBallsLeft = 0;
         isBreakingStuff = allBallLanded = firstBallLanded = false;
         showsABExit = true;
@@ -121,7 +150,7 @@ public class GameController : MonoSingleton<GameController>
         sd.Set(-sd.x, -sd.y);
         BallsList = new List<GameObject>();
         BallsList.Add(ballOr);
-        nrBallINeed = amountBalls - 1;
+        //nrBallINeed = amountBalls - 1;
         GenerateBalls(nrBallINeed, false);
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
@@ -140,6 +169,7 @@ public class GameController : MonoSingleton<GameController>
         //ballCopyColor.a = 0.8f;
         UpdateUIText();
         ShowAmBallsExitText(amountBalls);
+        GenerateBalls(nrBallINeed, false);
     }
 
     private void Update()
@@ -152,6 +182,7 @@ public class GameController : MonoSingleton<GameController>
             {
                 GenerateBalls(nrBallINeed, false);
                 score_Rows++;
+                maxScore = score_Rows;
                 onBoostSpeed = false;
                 timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
                 BoostSpeedButtonAnim(true);
@@ -340,6 +371,7 @@ public class GameController : MonoSingleton<GameController>
     public void UpdateUIText()
     {
         scoreText.GetComponent<TextMeshProUGUI>().text = score_Rows.ToString();
+        maxScoreText.GetComponent<TextMeshProUGUI>().text = maxScore.ToString();
         Bonus.Instance.UpdateUIText();
     }
 
@@ -353,19 +385,6 @@ public class GameController : MonoSingleton<GameController>
         loseMenu.GetComponent<Animator>().SetTrigger("PanelON");
         Time.timeScale = 0f;
     }
-
-    /*
-    public void OnEndMenu()
-    {
-        canvas2.SetActive(true);
-        loseMenu.SetActive(false);
-        statusBar.SetActive(false);
-        endMenu.SetActive(true);
-        score_Rows--;
-        endMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
-        endMenu.GetComponent<Animator>().SetTrigger("PanelON");
-        Time.timeScale = 0f;
-    }*/
 
     public Color ChangeColor(int hp)
     {

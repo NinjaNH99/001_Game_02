@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 114200176989093460}
   m_Layer: 17
   m_Name: Square_01
-  m_TagString: Square_01
+  m_TagString: Square_Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 114033707786910048}
   m_Layer: 17
   m_Name: Square_Teleport
-  m_TagString: Square_01
+  m_TagString: Square_Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
