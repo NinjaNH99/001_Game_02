@@ -14,16 +14,18 @@ public class Row : MonoBehaviour
     public delegate void EvDeSpawnContainer();
     public event EvDeSpawnContainer evDeSpawnContainer;
 
-    private GameController gameContr;
-
     private void Awake()
     {
-        gameContr = GameController.Instance;
-        rowID = gameContr.score_Rows;
-        nrSpace = 0;
         containers = GetComponentsInChildren<Container>();
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
+    }
+
+    private void Start()
+    {
+        rowID = GameData.score_Rows;
+        nrSpace = 0;
+        //containers = GetComponentsInChildren<Container>();
     }
 
     public Block GetContIDBlock(int ID)
@@ -196,8 +198,9 @@ public class Row : MonoBehaviour
     public void DeSpawn()
     {
         evDeSpawnContainer();
-        Debug.LogWarning("DeSpawnRow[" + rowID + "]");
+        //Debug.LogWarning("DeSpawnRow[" + rowID + "]");
         LevelManager.Instance.listRows.Remove(this.gameObject);
+        GameData.nrRows--;
         Destroy(this.gameObject);
     }
 }

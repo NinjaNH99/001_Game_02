@@ -13,8 +13,6 @@ public class ButtonController : MonoBehaviour
     public GameObject statusBar;
     public GameObject tutorialBar;
 
-    private GameController gameContr;
-
     private float time;
 
     private void Awake()
@@ -24,7 +22,6 @@ public class ButtonController : MonoBehaviour
         pauseMenu.SetActive(false);
         statusBar.SetActive(true);
         tutorialBar.SetActive(true);
-        gameContr = GameController.Instance;
     }
 
     public void OnPlayClick()
@@ -71,13 +68,14 @@ public class ButtonController : MonoBehaviour
 
     public void OnRestartClick()
     {
-        gameContr.SaveDataRestart();
-        LevelLoader.Instance.LoadLevel("Game");
+        GameData.SaveDataRestart();
+        //LevelLoader.Instance.LoadLevel("Game");
     }
 
     public void OnMenuClick()
     {
-        LevelLoader.Instance.LoadLevel("Main");
+        GameData.ResetData();
+        //LevelLoader.Instance.LoadLevel("Main");
     }
 
     public void OnSoundClick()
@@ -89,7 +87,7 @@ public class ButtonController : MonoBehaviour
 
     public void OnBoostSpeed()
     {
-        Time.timeScale = 2f + (gameContr.amountBalls / 80f);
+        Time.timeScale = 2f + (GameData.amountBalls / 80f);
         boostSpeedButton.interactable = false;
         boostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Exit");
     }

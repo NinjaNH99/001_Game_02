@@ -103,7 +103,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
 
     private void ChangeColor()
     {
-        var colorScore = gameContr.score_Rows;
+        var colorScore = GameData.score_Rows;
 
         timerImg.color = gameContr.ChangeColor(colorScore);
         timerImg.SetTransparency(0.4f);

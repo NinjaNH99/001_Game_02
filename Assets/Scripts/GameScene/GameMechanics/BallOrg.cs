@@ -24,8 +24,8 @@ public class BallOrg : Ball
         {
             if (gameContr.firstBallLanded)
             {
-                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, gameContr.ballOrgYPos), gameContr.targetBallPosLanded, Time.deltaTime * speed);
-                if ((Vector2)gameObject.transform.position == gameContr.targetBallPosLanded)
+                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos), BallInit.Instance.targetBallPosLanded, Time.deltaTime * speed);
+                if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
                 {
                     gameContr.IsAllBallLanded();
                     ResetSpeed();

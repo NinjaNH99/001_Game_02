@@ -24,27 +24,32 @@ public class Bonus : MonoSingleton<Bonus>
     private GameController gameContr;
     private int bonus_01, bonus_02;
 
-    public int Bonus_01 { get { return bonus_01; } }
-    public int Bonus_02 { get { return bonus_02; } }
+    public int Bonus_01 { get { return bonus_01; } set { } }
+    public int Bonus_02 { get { return bonus_02; } set { } }
 
     private bool firstBonus_02;
     private bool ballIsReady;
 
     private void Awake()
     {
-        gameContr = GameController.Instance;
-        bonus_01 = 0;
-        bonus_02 = 0;
+        //gameContr = GameController.Instance;
         AddBallUI = 0;
         firstBonus_02 = ballIsReady = true;
         isReadyForLaunch = false;
         //ActivateButton(false);
     }
 
+    private void Start()
+    {
+        gameContr = GameController.Instance;
+        bonus_01 = GameData.maxBonus_01;
+        bonus_02 = GameData.maxBonus_02;
+    }
+
     public void UpdateUIText()
     {
-        bonus_01Text.GetComponent<TextMeshProUGUI>().text = bonus_01.ToString();
-        bonus_02_text.GetComponent<TextMeshProUGUI>().text = 'x' + bonus_02.ToString();
+        bonus_01Text.GetComponent<TextMeshProUGUI>().text = Bonus_01.ToString();
+        bonus_02_text.GetComponent<TextMeshProUGUI>().text = 'x' + Bonus_02.ToString();
     }
 
     public void AddBonus_01()
@@ -56,7 +61,8 @@ public class Bonus : MonoSingleton<Bonus>
         main.startColor = bonus_01Icon.GetComponent<Image>().color;
         Destroy(go, 1f);
 
-        UpdateUIText();
+        gameContr.IncreaseMaxScore();
+        //UpdateUIText();
     }
 
     public void AddBonus_02()
@@ -73,7 +79,8 @@ public class Bonus : MonoSingleton<Bonus>
         main.startColor = bonus_02Icon.GetComponent<Image>().color;
         Destroy(go, 1f);
 
-        UpdateUIText();
+        gameContr.IncreaseMaxScore();
+        //UpdateUIText();
     }
 
     public void Remove_02()
@@ -87,7 +94,7 @@ public class Bonus : MonoSingleton<Bonus>
                 firstBonus_02 = true;
                 bonus_02UI.GetComponent<Animator>().SetTrigger("RmBonus_02");
             }
-            gameContr.bonus_02IsReady = true;
+            BallInit.Instance.bonus_02IsReady = true;
             UpdateUIText();
             ballIsReady = false;
         }

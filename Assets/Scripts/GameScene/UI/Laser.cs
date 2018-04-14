@@ -15,7 +15,7 @@ public class Laser : MonoBehaviour
         rectTransf = GetComponent<RectTransform>();
         lineRend.SetPosition(0, rectTransf.position);
         lineRend.SetPosition(1, rectTransf.position);
-        laserCol = GameController.Instance.ChangeColor(GameController.Instance.score_Rows);
+        laserCol = GameController.Instance.ChangeColor(GameData.score_Rows);
         lineRend.startColor = laserCol;
         lineRend.endColor = laserCol;
     }

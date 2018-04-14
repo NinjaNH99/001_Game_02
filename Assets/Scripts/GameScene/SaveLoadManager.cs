@@ -5,26 +5,29 @@ using UnityEngine;
 
 public static class SaveLoadManager
 {
-    public static void SaveDataCloseApp(GameController gameController)
+    public static void SaveDataCloseApp()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream stream = new FileStream(Application.persistentDataPath + "/Data.sav", FileMode.Create);
 
-        GameData data = new GameData(gameController, 1);
+        GameDataForFile newData = new GameDataForFile();
 
-        bf.Serialize(stream, data);
+        bf.Serialize(stream, newData.CloseApp());
         stream.Close();
+
     }
 
-    public static void SaveDataRestartApp(GameController gameController)
+    public static void SaveDataRestartScene()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream stream = new FileStream(Application.persistentDataPath + "/Data.sav", FileMode.Create);
 
-        GameData data = new GameData(gameController, 2);
+        GameDataForFile newData = new GameDataForFile();
 
-        bf.Serialize(stream, data);
+        bf.Serialize(stream, newData.RestartGameScene());
         stream.Close();
+
+        LevelLoader.Instance.LoadLevel("Game");
     }
 
     public static void ResetData()
@@ -32,76 +35,139 @@ public static class SaveLoadManager
         BinaryFormatter bf = new BinaryFormatter();
         FileStream stream = new FileStream(Application.persistentDataPath + "/Data.sav", FileMode.Create);
 
-        GameData data = new GameData(null, 3);
+        GameDataForFile data = new GameDataForFile();
 
-        bf.Serialize(stream, data);
+        bf.Serialize(stream, data.ResetGameDataF());
         stream.Close();
+
+        LevelLoader.Instance.LoadLevel("Game");
     }
 
-    public static int[] LoadData()
+    public static float[] LoadData()
     {
         if (File.Exists(Application.persistentDataPath + "/Data.sav"))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream stream = new FileStream(Application.persistentDataPath + "/Data.sav", FileMode.Open);
 
-            GameData data = bf.Deserialize(stream) as GameData;
+            GameDataForFile data = bf.Deserialize(stream) as GameDataForFile;
 
             stream.Close();
+
+            Debug.Log(" Data load:");
+            Debug.Log(" data[0] amountBalls : " + data.data[0]);
+            Debug.Log(" data[1] score_Rows  : " + data.data[1]);
+            Debug.Log(" data[2] maxScore    : " + data.data[2]);
+            Debug.Log(" data[3] nrRows      : " + data.data[3]);
+            Debug.Log(" data[4] maxBonus_01 : " + data.data[4]);
+            Debug.Log(" data[5] maxBonus_02 : " + data.data[5]);
+            Debug.LogWarning(" data[6] posXBall : " + data.data[6]);
+
             return data.data;
         }
         else
         {
-            GameData data = new GameData(null, 3);
-            return data.data;
+            GameDataForFile newData = new GameDataForFile();
+
+            return newData.ResetGameData();
         }
     }
 }
 
 [Serializable]
-public class GameData
+public class GameDataForFile
 {
-    public int[] data;
+    public float[] data = new float[7];
 
-    public GameData(GameController gameController, int mode)       // mode: true - close app ; false restart scene
+    public GameDataForFile()
+    {   }
+
+    public GameDataForFile RestartGameScene()
     {
-        data = new int[6];
-        switch (mode)
-        {
-            case 1:
-                {
-                    data[0] = gameController.amountBalls;
-                    data[1] = gameController.score_Rows;
-                    data[2] = gameController.maxScore;
-                    data[3] = gameController.nrBallINeed;
-                    data[4] = gameController.nrRows;
-                    data[5] = gameController.nrBonus_01;
-                    break;
-                }
-            case 2:
-                {
-                    data[0] = 1;
-                    data[1] = 1;
-                    data[2] = gameController.maxScore;
-                    data[3] = 1;
-                    data[4] = 1;
-                    data[5] = gameController.nrBonus_01;
-                    break;
-                }
-            case 3:
-                {
-                    data[0] = 1;
-                    data[1] = 1;
-                    data[2] = 1;
-                    data[3] = 1;
-                    data[4] = 1;
-                    data[5] = 0;
-                    break;
-                }
-            default:
-                break;
-        }
-       
-    }
-}
+        data[0] = 1;
+        data[1] = 1;
+        if (GameData.maxScore > GameData.score_Rows)
+            data[2] = GameData.maxScore;
+        else
+            data[2] = GameData.score_Rows;
+        data[3] = 1;
+        if (GameData.maxBonus_01 > Bonus.Instance.Bonus_01)
+            data[4] = GameData.maxBonus_01;
+        else
+            data[4] = Bonus.Instance.Bonus_01;
+        data[5] = 0;
+        data[6] = 0;
 
+        Debug.LogWarning(" Data restart:");
+        Debug.LogWarning(" data[0] amountBalls : " + data[0]);
+        Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
+        Debug.LogWarning(" data[2] maxScore    : " + data[2]);
+        Debug.LogWarning(" data[3] nrRows      : " + data[3]);
+        Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
+        Debug.LogWarning(" data[5] maxBonus_02 : " + data[5]);
+        Debug.LogWarning(" data[6] posXBall : " + data[6]);
+
+        return this;
+    }
+
+    public GameDataForFile CloseApp()
+    {
+        if (GameData.amountBalls > data[0])
+            data[0] = GameData.amountBalls;
+
+        if (GameData.score_Rows > data[1])
+            data[1] = GameData.score_Rows;
+
+        if (GameData.maxScore > data[2])
+            data[2] = GameData.maxScore;
+
+        if (GameData.nrRows > data[3])
+            data[3] = GameData.nrRows;
+
+        if (GameData.maxBonus_01 > data[4])
+            data[4] = GameData.maxBonus_01;
+
+        if (GameData.maxBonus_02 > data[5])
+            data[5] = GameData.maxBonus_02;
+
+        data[6] = GameData.posXBall;
+
+        Debug.LogWarning(" Data create close app:");
+        Debug.LogWarning(" data[0] amountBalls : " + data[0]);
+        Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
+        Debug.LogWarning(" data[2] maxScore    : " + data[2]);
+        Debug.LogWarning(" data[3] nrRows      : " + data[3]);
+        Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
+        Debug.LogWarning(" data[5] maxBonus_02 : " + data[5]);
+        Debug.LogWarning(" data[6] posXBall : " + data[6]);
+
+        return this;
+    }
+
+    public float[] ResetGameData()
+    {
+        data[0] = 1;
+        data[1] = 1;
+        data[2] = 1;
+        data[3] = 0;
+        data[4] = 0;
+        data[5] = 0;
+        data[6] = 0;
+
+        return data;
+    }
+
+    public GameDataForFile ResetGameDataF()
+    {
+        data[0] = 1;
+        data[1] = 1;
+        data[2] = 1;
+        data[3] = 0;
+        data[4] = 0;
+        data[5] = 0;
+        data[6] = 0;
+
+        return this;
+    }
+
+}

@@ -28,8 +28,8 @@ public class Block_Boss : MonoBehaviour
     {
         hpBossText = hpBossObj.GetComponent<TextMeshProUGUI>();
         hpShieldText = shieldHPObj.GetComponent<TextMeshProUGUI>();
-        hpBoss = gameContr.score_Rows * 2;
-        hpShieldReset = hpShield = gameContr.score_Rows;
+        hpBoss = GameData.score_Rows * 2;
+        hpShieldReset = hpShield = GameData.score_Rows;
         hpBossText.text = hpBoss.ToString();
         hpShieldText.text = hpShield.ToString();
         isDestroy = shieldOn = true;

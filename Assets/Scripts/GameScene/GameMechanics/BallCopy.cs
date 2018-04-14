@@ -14,7 +14,7 @@ public class BallCopy : Ball
     protected override void Awake()
     {
         base.Awake();
-        gameObject.GetComponent<Image>().color = gameContr.ballCopyColor;
+        gameObject.GetComponent<Image>().color = BallInit.Instance.ballCopyColor;
         ballIsLanded = false;
     }
 
@@ -33,8 +33,8 @@ public class BallCopy : Ball
         {
             if (gameContr.firstBallLanded)
             {
-                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, gameContr.ballOrgYPos), gameContr.targetBallPosLanded, Time.deltaTime * speed);
-                if ((Vector2)gameObject.transform.position == gameContr.targetBallPosLanded)
+                gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos), BallInit.Instance.targetBallPosLanded, Time.deltaTime * speed);
+                if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
                 {
                     gameContr.IsAllBallLanded();
                     ResetSpeed();
@@ -54,7 +54,7 @@ public class BallCopy : Ball
     protected override void TouchFloor()
     {
         base.TouchFloor();
-        rectPos.position = new Vector2(rectPos.position.x, gameContr.ballOrgYPos);
+        rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
         DisplayAtFloor = gameContr.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
         ballIsLanded = true;
         ResetSpeed();

@@ -558,6 +558,7 @@ MonoBehaviour:
   canvas2: {fileID: 0}
   boostSpeedButton: {fileID: 0}
   pauseMenu: {fileID: 0}
+  loseMenu: {fileID: 0}
   statusBar: {fileID: 0}
   tutorialBar: {fileID: 0}
 --- !u!1 &951422980

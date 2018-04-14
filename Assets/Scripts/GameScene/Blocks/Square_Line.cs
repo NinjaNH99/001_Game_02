@@ -45,7 +45,7 @@ public class Square_Line : MonoBehaviour
 
     public void Change()
     {
-        var colorScore = gameContr.score_Rows;
+        var colorScore = GameData.score_Rows;
         Img1.color = Img2.color = Img3.color = gameContr.ChangeColor(colorScore);
     }
 
@@ -77,7 +77,7 @@ public class Square_Line : MonoBehaviour
         //LevelManager.Instance.listSquareLine.Remove(this);
         EventManager.EvDeSpawnM -= Despawn;
         GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
-        Debug.Log("LiserDied.RowID[" + GetComponentInParent<Row>().rowID + "]");
+        //Debug.Log("LiserDied.RowID[" + GetComponentInParent<Row>().rowID + "]");
         //GetComponentInParent<Row>().nrSpace++;
         Destroy(Square_Img);
         Destroy(goEFX, 1f);

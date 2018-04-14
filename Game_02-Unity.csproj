@@ -95,7 +95,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Bonus.cs" />
     <Compile Include="Assets\Scripts\ButtonController.cs" />
+    <Compile Include="Assets\Scripts\Extensions.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\GameData.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\BallSQLine.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\Block.cs" />
     <Compile Include="Assets\Scripts\GameScene\Blocks\BlockType.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Assets\Scripts\GameScene\EventManager.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\Ball.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\BallCopy.cs" />
+    <Compile Include="Assets\Scripts\GameScene\GameMechanics\BallInit.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\BallOrg.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\Ball_Bonus_02.cs" />
     <Compile Include="Assets\Scripts\GameScene\GameMechanics\CollectBall.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="Assets\Scripts\LevelLoader.cs" />
     <Compile Include="Assets\Scripts\MobileInputs.cs" />
     <Compile Include="Assets\Scripts\MonoSingleton.cs" />
+    <Compile Include="Assets\Scripts\Tags.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

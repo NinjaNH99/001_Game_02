@@ -12,12 +12,13 @@ public class Container : MonoBehaviour
     private void Awake()
     {
         levelManager = LevelManager.Instance;
-        rowID = GetComponentInParent<Row>().rowID;
+        GetComponentInParent<Row>().evDeSpawnContainer += DeSpawnBlock;
     }
 
     private void Start()
     {
-        GetComponentInParent<Row>().evDeSpawnContainer += DeSpawnBlock;
+        rowID = GetComponentInParent<Row>().rowID;
+        
     }
 
     public void SpawnType(BlType type , bool applayBonus = false, bool addInListFC = true)
@@ -64,7 +65,7 @@ public class Container : MonoBehaviour
         GetComponentInParent<Row>().evDeSpawnContainer -= DeSpawnBlock;
         if (visualIndex == 8)
         {
-            Debug.Log("DeSpawn last block");
+            //Debug.Log("DeSpawn last block");
             EventManager.StartEvSpawn();
         }
     }

@@ -30,20 +30,29 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Awake()
     {
-        gameContr = GameController.Instance;
+        listRows = new List<GameObject>();
+        listTelep = new List<GameObject>();
+        listFreeConts = new List<GameObject>();
+
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
         resBLMAX = resBNMAX = resSQBON = resBOS = resSpawnRows = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
         spawnRows = true;
         spawnBoss = false;
+        EventManager.EvSpawnRandomM += SpawnRandom;
     }
 
     private void Start()
     {
-        for (int i = 0; i < gameContr.nrRows; i++)
+        int nrRows = GameData.nrRows;
+
+        if (nrRows <= 0)
+            nrRows = 1;
+
+        for (int i = 0; i < 1; i++)
             GenerateRow();
-        EventManager.EvSpawnRandomM += SpawnRandom;
+        //EventManager.EvSpawnRandomM += SpawnRandom;
     }
 
     public void GenerateRow()
@@ -60,12 +69,13 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS; 
 
-            if(gameContr.score_Rows > 6 && gameContr.score_Rows < 12)
+            if(GameData.score_Rows > 6 && GameData.score_Rows < 12)
             {
                 EventManager.StartEvSpawn();
             }
 
             //nrRows++;
+            GameData.nrRows++;
         }
         //Debug.LogWarning(" Rows[0] : " + listRows[0].GetComponent<Row>().rowID);
     }
@@ -118,7 +128,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         //Debug.Log("listFreeConts[0].RowID : " + listFreeConts[0].GetComponentInParent<Row>().rowID);
         //Debug.Log("listFreeConts[listFreeConts.Count - 1].RowID : " + listFreeConts[listFreeConts.Count - 1].GetComponentInParent<Row>().rowID);
-        Debug.Log("SpawnRandom");
+        //Debug.Log("SpawnRandom");
 
         int posTelep = -1, posTelep2 = -1, posLiser = -1;
         int rowPosTelep = -1, rowPosLiser = -1, contPosLiser = -1;
@@ -187,7 +197,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             resBLMAX++;
             if (resBLMAX >= RESETDATA - 1)
             {
-                if (gameContr.score_Rows - gameContr.amountBalls > 3)
+                if (GameData.score_Rows - GameData.amountBalls > 3)
                     LBLMAX = 4;
                 else
                     LBLMAX = 1;

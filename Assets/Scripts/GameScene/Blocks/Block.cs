@@ -31,7 +31,7 @@ public class Block : MonoSingleton<Block>
     {
         //float rtime = Random.Range(2f, 5f);
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        hp = gameContr.score_Rows * hpx2;
+        hp = GameData.score_Rows * hpx2;
         hpText.text = hp.ToString();
         isDestroy = isApplBonus = true;
         if (isBonus)

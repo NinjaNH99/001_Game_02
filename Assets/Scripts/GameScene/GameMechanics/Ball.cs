@@ -47,7 +47,7 @@ public abstract class Ball : MonoSingleton<Ball>
     {
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
-        rectPos.position = new Vector2(rectPos.position.x, gameContr.ballOrgYPos);
+        rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
         checkPosX = 5;
         ResetSpeed();
     }
@@ -84,7 +84,7 @@ public abstract class Ball : MonoSingleton<Ball>
 
     public virtual void CollectBall()
     {
-        gameContr.amountBalls++;
+        GameData.amountBalls++;
     }
     
     protected virtual void OnCollisionEnter2D(Collision2D coll)

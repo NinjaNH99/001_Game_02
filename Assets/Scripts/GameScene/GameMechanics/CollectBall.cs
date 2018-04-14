@@ -48,11 +48,11 @@ public class CollectBall : MonoSingleton<CollectBall>
         {
             if (gameContr.firstBallLanded)
             {
-                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, gameContr.ballOrgYPos, 0), gameContr.targetBallPosLanded, Time.deltaTime * 4.0f);
+                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos, 0), BallInit.Instance.targetBallPosLanded, Time.deltaTime * 4.0f);
             }
             else
-                gameObject.transform.position = new Vector3(transform.position.x, gameContr.ballOrgYPos, 0);
-            if ((Vector2)gameObject.transform.position == gameContr.targetBallPosLanded)
+                gameObject.transform.position = new Vector3(transform.position.x, BallInit.Instance.ballOrgYPos, 0);
+            if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
             {
                 gameContr.amountCollectBallsLeft--;
                 gameContr.IsAllBallLanded();
@@ -84,7 +84,7 @@ public class CollectBall : MonoSingleton<CollectBall>
             if (isDestroy)
             {
                 gameContr.AddBallUI++;
-                var AmountBallUIPos = gameContr.amountBallsTextPr.transform;
+                var AmountBallUIPos = BallInit.Instance.amountBallsTextPr.transform;
                 GameObject goEFX = Instantiate(AddBallUIPr, AmountBallUIPos) as GameObject;
                 goEFX.GetComponent<RectTransform>().localPosition = new Vector2(-95, -95);
                 Destroy(goEFX, 1f);

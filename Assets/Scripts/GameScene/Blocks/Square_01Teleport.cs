@@ -20,7 +20,7 @@ public class Square_01Teleport : MonoBehaviour
     
     public void ChangeColor()
     {
-        var colorScore = gameContr.score_Rows;
+        var colorScore = GameData.score_Rows;
         imgSign.color = gameContr.ChangeColor(colorScore);
     }
 
