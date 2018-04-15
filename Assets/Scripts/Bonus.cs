@@ -43,7 +43,9 @@ public class Bonus : MonoSingleton<Bonus>
     {
         gameContr = GameController.Instance;
         bonus_01 = GameData.maxBonus_01;
-        bonus_02 = GameData.maxBonus_02;
+        bonus_02 = GameData.bonus_02;
+        if(bonus_02 > 0)
+            bonus_02UI.GetComponent<Animator>().SetTrigger("IsBonus_02");
     }
 
     public void UpdateUIText()
@@ -62,12 +64,12 @@ public class Bonus : MonoSingleton<Bonus>
         Destroy(go, 1f);
 
         gameContr.IncreaseMaxScore();
-        //UpdateUIText();
     }
 
     public void AddBonus_02()
     {
         bonus_02++;
+        GameData.bonus_02++;
         if (firstBonus_02)
         {
             bonus_02UI.GetComponent<Animator>().SetTrigger("IsBonus_02");
@@ -80,7 +82,6 @@ public class Bonus : MonoSingleton<Bonus>
         Destroy(go, 1f);
 
         gameContr.IncreaseMaxScore();
-        //UpdateUIText();
     }
 
     public void Remove_02()
@@ -88,6 +89,7 @@ public class Bonus : MonoSingleton<Bonus>
         if (bonus_02 > 0 && ballIsReady)
         {
             bonus_02--;
+            GameData.bonus_02--;
             if (bonus_02 < 1)
             {
                 bonus_02 = 0;

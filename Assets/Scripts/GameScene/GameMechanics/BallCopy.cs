@@ -8,7 +8,7 @@ public class BallCopy : Ball
     public Vector2 ballPos;
 
     private RectTransform statePos;
-    private bool ballIsLanded, DisplayAtFloor;
+    private bool ballIsLanded = false, DisplayAtFloor = false;
     private Collider2D ballCopyCol;
 
     protected override void Awake()

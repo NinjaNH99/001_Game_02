@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class GameController : MonoSingleton<GameController>
 {
@@ -10,84 +11,42 @@ public class GameController : MonoSingleton<GameController>
     private const float TIMEWAITBOOSTSPEED = 2f; // 1.5
 
     public Transform Canvas1, Space2D;
-    //public RectTransform ballContainer;
-    public GameObject tutorialContainer/*, ballCopyPr ballOr*/;
+    public GameObject tutorialContainer;
 
     // Canvas 2
     public GameObject canvas2, loseMenu, statusBar, bonus_02Pr;
-
-    //public Color ballColor;
-    //public Color ballCopyColor;
     public Color[] blockColor;
 
-    private BallInit ballInit;
-
-    //public float ballOrgYPos;
-
     [HideInInspector]
-    public bool isBreakingStuff = false, updateInputs, allBallLanded, firstBallLanded;
-    //public Vector2 targetBallPosLanded;
-
-    //public int amountBalls = 1;
-
-    //private Vector2 sd;
-    private float timeWaitBoostSpeed;
-
-    // For UI Show
-    public bool onBoostSpeed;
+    public bool isBreakingStuff = false, updateInputs = true, allBallLanded = false, firstBallLanded = false, onBoostSpeed = false;
     [HideInInspector]
-    public int amountBallsLeft, amountCollectBallsLeft, AddBallUI;
-    private int amountBallsBack;
-    //private bool showsABExit;
-    //private TextMeshProUGUI amountBallsText;
-    //public LineRenderer lineRend;
-    public GameObject scoreText, maxScoreText/*, amountBallsTextPr*/;
+    public int amountBallsLeft = 0, amountCollectBallsLeft = 0, AddBallUI = 0;
+
+    public GameObject scoreText, maxScoreText, ballInitObj;
     public Button BoostSpeedButton;
-    //public Transform ballLaser;
 
-    //For the new method of spawning the ball
-    //private List<GameObject> BallsList;
-    public int nrBallINeed;
+    private BallInit ballInit;
+    private int amountBallsBack = 0;
+    private float timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
 
     private void Awake()
     {
-        //Application.targetFrameRate = 60;
+        ballInit = ballInitObj.GetComponent<BallInit>();
+
+        amountBallsLeft = GameData.amountBalls;
         amountBallsBack = amountCollectBallsLeft = 0;
         isBreakingStuff = allBallLanded = firstBallLanded = false;
-        //showsABExit = true;
-        AddBallUI = 0;
-        //score_Rows = 1;
-        //amountBalls = 1;                                                                // std = 1
-        //lineRend.enabled = false;
-
-        //sd = MobileInputs.Instance.swipeDelta;
-        //sd.Set(-sd.x, -sd.y);
-        //BallsList = new List<GameObject>();
-        //BallsList.Add(ballOr);
-        //nrBallINeed = amountBalls - 1;
-        //GenerateBalls(nrBallINeed, false);
-        //amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
-        timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
-        //ballLaser.gameObject.SetActive(false);
-        //amountBallsLeft = ballInit.amountBalls;
-        //ballOrgYPos = ballOr.transform.position.y;
-        onBoostSpeed = BoostSpeedButton.interactable = false;
-        //targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
-        //amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
+        ballInit.showsABExit = true;
         updateInputs = true;
+        AddBallUI = 0;
+
+        timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
+        onBoostSpeed = BoostSpeedButton.interactable = false;
         tutorialContainer.SetActive(true);
     }
 
     private void Start()
     {
-        ballInit = GetComponent<BallInit>();
-        //ballColor = Ball.Instance.GetComponent<Image>().color;
-        //ballCopyColor = ballColor;
-        //ballCopyColor.a = 0.8f;
-        //UpdateUIText();
-        //amountBallsLeft = ballInit.amountBalls;
-        ballInit.ShowAmBallsExitText(GameData.amountBalls);
-        ballInit.GenerateBalls(GameData.amountBalls - 1, false);
         IncreaseMaxScore();
     }
 
@@ -99,7 +58,8 @@ public class GameController : MonoSingleton<GameController>
                 ballInit.PoolInput();
             if (allBallLanded)
             {
-                ballInit.GenerateBalls(nrBallINeed, false);
+                Time.timeScale = 1f;
+                ballInit.GenerateBalls(false);
                 GameData.score_Rows++;
                 IncreaseMaxScore();
                 onBoostSpeed = false;
@@ -108,7 +68,7 @@ public class GameController : MonoSingleton<GameController>
                 //UpdateUIText();
                 ballInit.ShowAmBallsExitText(GameData.amountBalls);
                 allBallLanded = false;
-                LevelManager.Instance.GenerateRow();
+                LevelManager.Instance.GenerateRow(false);
             }
             if (onBoostSpeed)
             {
@@ -129,8 +89,6 @@ public class GameController : MonoSingleton<GameController>
             GameData.maxScore = GameData.score_Rows;
         if (Bonus.Instance.Bonus_01 > GameData.maxBonus_01)
             GameData.maxBonus_01 = Bonus.Instance.Bonus_01;
-        if (Bonus.Instance.Bonus_02 > GameData.maxBonus_02)
-            GameData.maxBonus_02 = Bonus.Instance.Bonus_02;
         UpdateUIText();
     }
 
@@ -164,14 +122,13 @@ public class GameController : MonoSingleton<GameController>
         isBreakingStuff = false;
         firstBallLanded = false;
         amountBallsLeft = GameData.amountBalls;
-        nrBallINeed = AddBallUI;
+        ballInit.nrBallINeed = AddBallUI;
         AddBallUI = 0;
         amountBallsBack = amountCollectBallsLeft = 0;
         ballInit.targetBallPosLanded = ballInit.ballOr.transform.position;
         ScoreLEVEL.Instance.ResetSetting();
         Bonus.Instance.ActivateButton(true);
         ballInit.showsABExit = true;
-        Time.timeScale = 1f;
         allBallLanded = updateInputs = true;
     }
     
@@ -184,10 +141,11 @@ public class GameController : MonoSingleton<GameController>
 
     public void OnLoseMenu()
     {
+        GameData.score_Rows--;
+        GameData.LoseGameSaveData();
         canvas2.SetActive(true);
         loseMenu.SetActive(true);
         statusBar.SetActive(false);
-        GameData.score_Rows--;
         loseMenu.GetComponent<UpdateLoseMenu>().UpdateGameStatus();
         loseMenu.GetComponent<Animator>().SetTrigger("PanelON");
         Time.timeScale = 0f;

@@ -20,6 +20,7 @@ public abstract class Ball : MonoSingleton<Ball>
     protected virtual void Awake()
     {
         gameContr = GameController.Instance;
+        rectPos = GetComponent<RectTransform>();
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0;
         rigid.simulated = true;
@@ -32,7 +33,7 @@ public abstract class Ball : MonoSingleton<Ball>
         Awake();
         //firstBallLanded = false;
         startFall = false;
-        rectPos = GetComponent<RectTransform>();
+        //rectPos = GetComponent<RectTransform>();
         ResetSpeed();
     }
 

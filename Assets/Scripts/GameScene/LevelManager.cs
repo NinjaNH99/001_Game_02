@@ -19,14 +19,14 @@ public class LevelManager : MonoSingleton<LevelManager>
     public List<GameObject> listFreeConts = new List<GameObject>();
 
     // Max obj 
-    public bool spawnRows, spawnBoss;
+    public bool spawnRows = true, spawnBoss = false;
     [HideInInspector]
-    public int LBLMAX, LBNMAX , SQBON, nrRowsInGame;
+    public int LBLMAX = 3, LBNMAX = 0, SQBON = 3;
     [HideInInspector]
-    private int resBLMAX, resBNMAX, resSQBON, resBOS, resSpawnRows;
+    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resBOS = 0, resSpawnRows = 0;
 
-    private float curPosY;
-    private float desiredPosition;
+    private float curPosY = 0;
+    private float desiredPosition = -130.0f;
 
     private void Awake()
     {
@@ -46,30 +46,40 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Start()
     {
         int nrRows = GameData.nrRows;
+        GameData.nrRows = 0;
 
         if (nrRows <= 0)
             nrRows = 1;
 
-        for (int i = 0; i < 1; i++)
-            GenerateRow();
-        //EventManager.EvSpawnRandomM += SpawnRandom;
+        for (int i = nrRows - 1; i > 0; i--)
+            GenerateRow(true, GameData.score_Rows - i);
+
+        GenerateRow(false);
     }
 
-    public void GenerateRow()
+    public void GenerateRow(bool contPlay, int k = 0)
     {
-        EventManager.StartEvDeSpawn();
-        EventManager.StartEvMoveDown();
+        int rowID;
+
+        if (contPlay)
+            rowID = k;
+        else
+        {
+            rowID = GameData.score_Rows;
+            EventManager.StartEvDeSpawn();
+            EventManager.StartEvMoveDown();
+        }
 
         if (CheckData())
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
+            go_row.GetComponent<Row>().SpawnCont(rowID, spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS; 
 
-            if(GameData.score_Rows > 6 && GameData.score_Rows < 12)
+            if(listRows.Count > 6 && listRows.Count < 12 && !contPlay)
             {
                 EventManager.StartEvSpawn();
             }
@@ -157,7 +167,10 @@ public class LevelManager : MonoSingleton<LevelManager>
             k++;
             posLiser2 = Random.Range(0, listFreeConts.Count);
             if (k > listFreeConts.Count)
+            {
                 option = 1;
+                k = 0;
+            }
         }
         while (Mathf.Abs(listFreeConts[posLiser2].GetComponent<Container>().rowID - rowPosLiser) < option || listFreeConts[posLiser2].GetComponent<Container>().visualIndex == contPosLiser || posLiser2 == posTelep || posLiser2 == posTelep2);
         listFreeConts[posLiser2].GetComponent<Container>().SpawnType(BlType.square_Line);
@@ -167,7 +180,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void SpawnLiser1(int posTelep, int posTelep2, out int posLiser, out int rowPosLiser, out int contPosLiser)
     {
         do
+        {
             posLiser = Random.Range(0, listFreeConts.Count);
+        }
         while (posLiser == posTelep || posLiser == posTelep2);
         rowPosLiser = listFreeConts[posLiser].GetComponent<Container>().rowID;
         contPosLiser = listFreeConts[posLiser].GetComponent<Container>().visualIndex;
@@ -183,7 +198,10 @@ public class LevelManager : MonoSingleton<LevelManager>
             k++;
             posTelep2 = Random.Range(0, listFreeConts.Count);
             if (k > listFreeConts.Count)
+            {
                 option = 2;
+                k = 0;
+            }
         }
         while (Mathf.Abs(listFreeConts[posTelep2].GetComponent<Container>().rowID - rowPosTelep) < option);
         listFreeConts[posTelep2].GetComponent<Container>().SpawnType(BlType.square_Teleport);

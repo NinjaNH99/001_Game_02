@@ -15,14 +15,14 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     public Material timerMat0, timerMat1;
 
     [Range(0f, 1f), HideInInspector]
-    public float i;
+    public float i = 0;
     [HideInInspector]
-    public int nrBlDestroy;
+    public int nrBlDestroy = 0;
 
     private GameController gameContr;
     private Image timerImg, timerBGimg;
-    private bool checkTimer, addTimer;
-    private float x, spidT;
+    private bool checkTimer = false, addTimer = false;
+    private float x = (1000f / MAXSCore) / 50f, spidT = 0;
 
     private void Awake()
     {
@@ -33,11 +33,11 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         i = nrBlDestroy = 0;
         spidT = 0;
         timerImg.fillAmount = i;
+        gameContr = GameController.Instance;
     }
 
     private void Start()
     {
-        gameContr = GameController.Instance;
         ResetSetting();
         ChangeColor();
     }

@@ -9,52 +9,55 @@ public class BallInit : MonoSingleton<BallInit>
     public const float BALLSPEED = 4f;
 
     public RectTransform ballContainer;
-    public GameObject ballCopyPr, bonus_02Pr, amountBallsTextPr, ballOr;
+    public GameObject gameControllerObj, ballCopyPr, bonus_02Pr, amountBallsTextPr, ballOr;
     public Transform Space2D, ballLaser;
     public LineRenderer lineRend;
 
     public Color ballColor;
     public Color ballCopyColor;
-    public Vector2 targetBallPosLanded;
+    public Vector2 targetBallPosLanded = new Vector2(GameData.posXBall, -1.5f);
 
-    public bool bonus_02IsReady, showsABExit = true;
+    public int nrBallINeed = GameData.amountBalls - 1;
+    public bool bonus_02IsReady = false, showsABExit = true;
     public float ballOrgYPos;
 
     private TextMeshProUGUI amountBallsText;
     private GameController gameController;
-    private List<GameObject> BallsList;
+    public List<GameObject> BallsList = new List<GameObject>();
 
-    private Vector2 sd;
+    public Vector2 sd;
 
     private void Awake()
     {
-        gameController = GetComponent<GameController>();
+        gameController = gameControllerObj.GetComponent<GameController>();
         Debug.Log("Awake BallInit");
         BallsList = new List<GameObject>();
-        //ballOrgYPos = ballOr.transform.position.y;
-        //targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
+        ballOrgYPos = ballOr.transform.position.y;
 
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
-        //amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
 
         showsABExit = true;
-        
+        lineRend.enabled = true;
         BallsList.Add(ballOr);
         ballLaser.gameObject.SetActive(false);
-        bonus_02IsReady = lineRend.enabled = false;
+        bonus_02IsReady = false;
+
+        nrBallINeed = GameData.amountBalls - 1;
+
+        GenerateBalls(false);
+        AlignAmBalTextPr();
     }
 
     private void Start()
     {
         ballColor = Ball.Instance.GetComponent<Image>().color;
         ballCopyColor = ballColor;
-        ballOrgYPos = ballOr.transform.position.y;
         targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
         amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
-        //GenerateBalls(amountBalls - 1, false);
-        //ShowAmBallsExitText(GameData.amountBalls);
+
+        ShowAmBallsExitText(GameData.amountBalls);
     }
 
     public void PoolInput()
@@ -81,7 +84,7 @@ public class BallInit : MonoSingleton<BallInit>
                     MobileInputs.Instance.Reset();
                     if (bonus_02IsReady)
                     {
-                        GenerateBalls(1, true);
+                        GenerateBalls(true);
                     }
                     lineRend.enabled = false;
                     ballLaser.gameObject.SetActive(false);
@@ -92,7 +95,7 @@ public class BallInit : MonoSingleton<BallInit>
         }
     }
 
-    public void GenerateBalls(int nrBallINeed, bool isBonBall)
+    public void GenerateBalls(bool isBonBall)
     {
         if (!isBonBall)
         {
@@ -105,7 +108,7 @@ public class BallInit : MonoSingleton<BallInit>
         }
         else
         {
-            for (int i = 0; i < nrBallINeed; i++)
+            for (int i = 0; i < 1; i++)
             {
                 GameObject go = Instantiate(bonus_02Pr, Space2D) as GameObject;
                 go.SetActive(false);
@@ -121,7 +124,6 @@ public class BallInit : MonoSingleton<BallInit>
         int AmountBalls = BallsList.Count - 1;
 
         Vector2 posIn = targetBallPosLanded;
-        //Vector2 posIn = new Vector2(GameData.posXBall, ballOrgYPos);
 
         for (int i = BallsList.Count - 1; i > 0; i--)
         {
@@ -174,13 +176,16 @@ public class BallInit : MonoSingleton<BallInit>
 
             if (amountBallsShowEnter >= GameData.amountBalls)
                 amountBallsTextPr.GetComponentInChildren<Animator>().SetTrigger("Enter");
-
-            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
-            if (amountBallsTextPr.GetComponent<RectTransform>().position.x >= 0.9f)
-                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(-0.2f, 0.1f);
-            else if (amountBallsTextPr.GetComponent<RectTransform>().position.x <= -0.7f)
-                amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.3f, 0.1f);
+            AlignAmBalTextPr();
         }
     }
-    
+
+    private void AlignAmBalTextPr()
+    {
+        amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
+        if (amountBallsTextPr.GetComponent<RectTransform>().position.x >= 0.9f)
+            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(-0.2f, 0.1f);
+        else if (amountBallsTextPr.GetComponent<RectTransform>().position.x <= -0.7f)
+            amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.3f, 0.1f);
+    }
 }

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class DeathLevel : MonoBehaviour
 {
-    private bool isLose;
+    private bool isLose = false;
 
     private void Awake()
     {

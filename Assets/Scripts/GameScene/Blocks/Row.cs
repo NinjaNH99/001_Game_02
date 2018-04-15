@@ -5,9 +5,9 @@ using UnityEngine;
 public class Row : MonoBehaviour
 {
     public int rowID;
-    public int nrSpace;
+    public int nrSpace = 0;
 
-    protected int  BLMAX, BONMAX, SPMAX = 3;
+    protected int  SPMAX = 3;
 
     public Container[] containers = new Container[9];
 
@@ -19,18 +19,18 @@ public class Row : MonoBehaviour
         containers = GetComponentsInChildren<Container>();
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
+        nrSpace = 0;
+        //rowID = GameData.score_Rows;
     }
 
     private void Start()
     {
-        rowID = GameData.score_Rows;
-        nrSpace = 0;
         //containers = GetComponentsInChildren<Container>();
     }
 
     public Block GetContIDBlock(int ID)
     {
-        Debug.Log("ID: " + ID);
+        //Debug.Log("ID: " + ID);
         if(containers[ID].GetComponentInChildren<Block>())
             return containers[ID].GetComponentInChildren<Block>();
         else
@@ -38,8 +38,10 @@ public class Row : MonoBehaviour
     }
 
     // Spawn random blockType from Cont in row
-    public void SpawnCont(bool spawnRows, bool SPBOSS, int BLMAX, int BONMAX, int SQBON)
+    public void SpawnCont(int rowIDP, bool spawnRows, bool SPBOSS, int BLMAX, int BONMAX, int SQBON)
     {
+        rowID = rowIDP;
+
         var kBL = true;
         var kHPX2 = true;
         var god = false;
@@ -98,19 +100,6 @@ public class Row : MonoBehaviour
                                 }
                                 break;
                             }
-                        case 1:
-                            {
-                                /*
-                                if (SQ1MAX > 0 && kSQ1)
-                                {
-                                    containers[i].SpawnType(BlType.square_Teleport);
-                                    kSQ1 = false;
-                                    LevelManager.Instance.LTelepMAX--;
-                                    nrSpace++;
-                                    god = true;
-                                }*/
-                                break;
-                            }
                         case 3:
                             {
                                 if (BONMAX > 0)
@@ -134,20 +123,6 @@ public class Row : MonoBehaviour
                                     LevelManager.Instance.SQBON--;
                                     god = true;
                                 }
-                                break;
-                            }
-                        case 5:
-                            {
-                                /*
-                                if (SQLINE > 0 && kSQLINE && (Random.Range(0, 4) != 1))
-                                {
-                                    containers[i].SpawnType(BlType.square_Line);
-                                    SQLINE--;
-                                    kSQLINE = false;
-                                    nrSpace++;
-                                    LevelManager.Instance.LSQLINE--;
-                                    god = true;
-                                }*/
                                 break;
                             }
                         case 6:

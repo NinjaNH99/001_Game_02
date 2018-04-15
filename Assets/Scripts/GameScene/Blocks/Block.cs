@@ -24,14 +24,16 @@ public class Block : MonoSingleton<Block>
         GetComponent<RectTransform>().localScale = new Vector2(75, 75);
         anim = GetComponent<Animator>();
         visualIndexCont = GetComponentInParent<Container>().visualIndex;
-        rowID = GetComponentInParent<Row>().rowID - 1;
+        //rowID = GetComponentInParent<Row>().rowID - 1;
     }
 
     private void Start()
     {
         //float rtime = Random.Range(2f, 5f);
+        rowID = GetComponentInParent<Row>().rowID - 1;
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        hp = GameData.score_Rows * hpx2;
+        //hp = GameData.score_Rows * hpx2;
+        hp = (rowID + 1) * hpx2;
         hpText.text = hp.ToString();
         isDestroy = isApplBonus = true;
         if (isBonus)

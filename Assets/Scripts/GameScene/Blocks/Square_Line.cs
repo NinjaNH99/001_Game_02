@@ -26,6 +26,7 @@ public class Square_Line : MonoBehaviour
         if (Random.Range(0f, 1f) > 0.5f)
         {
             square_LineAnim.SetTrigger("Rotate90");
+            //Debug.Log("Rotate");
             shootDirL = Vector2.up;
             shootDirR = Vector2.down;
         }

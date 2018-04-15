@@ -74,8 +74,13 @@ public class ButtonController : MonoBehaviour
 
     public void OnMenuClick()
     {
+        //GameData.ResetData();
+        LevelLoader.Instance.LoadLevel("Main");
+    }
+
+    public void ResetDataClick()
+    {
         GameData.ResetData();
-        //LevelLoader.Instance.LoadLevel("Main");
     }
 
     public void OnSoundClick()

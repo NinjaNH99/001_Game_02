@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameData : MonoSingleton<GameData>
 {
-    public static int amountBalls, score_Rows, maxScore, nrRows, maxBonus_01, maxBonus_02;
-    public static float posXBall;
+    public static int amountBalls = 1, score_Rows = 1, maxScore = 1, nrRows = 0, maxBonus_01 = 0, bonus_02 = 0;
+    public static float posXBall = 0;
     public static bool loadDataDone = false;
 
     private static bool restartScene = false;
@@ -24,17 +24,19 @@ public class GameData : MonoSingleton<GameData>
         else
             nrRows = (int)loadedData[3];
         maxBonus_01 = (int)loadedData[4];
-        maxBonus_02 = (int)loadedData[5];
+        bonus_02 = (int)loadedData[5];
         posXBall = loadedData[6];
 
         loadDataDone = true;
+
+        if (restartScene)
+            restartScene = false;
     }
 
     private void OnApplicationQuit()
     {
         if (restartScene)
         {
-            restartScene = false;
             return;
         }
         SaveLoadManager.SaveDataCloseApp();
@@ -44,13 +46,17 @@ public class GameData : MonoSingleton<GameData>
     {
         restartScene = true;
         SaveLoadManager.SaveDataRestartScene();
-        //LevelLoader.Instance.LoadLevel("Game");
+    }
+
+    public static void LoseGameSaveData()
+    {
+        restartScene = true;
+        SaveLoadManager.SaveDataLoseGame();
     }
 
     public static void ResetData()
     {
         restartScene = true;
         SaveLoadManager.ResetData();
-        //LevelLoader.Instance.LoadLevel("Game");
     }
 }

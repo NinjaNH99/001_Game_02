@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1571568307901506}
+  m_IsPrefabParent: 1
+--- !u!1 &1571568307901506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4676277597433298}
+  - component: {fileID: 114704704683178416}
+  m_Layer: 0
+  m_Name: BallInit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4676277597433298
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571568307901506}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6787868, y: 0.00015361048, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114704704683178416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571568307901506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ea94510393850488a7dc09430f0462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballContainer: {fileID: 0}
+  gameControllerObj: {fileID: 0}
+  ballCopyPr: {fileID: 1502800115187544, guid: 111d7c2748d716d4e8a6ef4e13296bf0, type: 2}
+  bonus_02Pr: {fileID: 1151160829602452, guid: 96191fea3a883fd41bc4434c3a4a9572, type: 2}
+  amountBallsTextPr: {fileID: 0}
+  ballOr: {fileID: 0}
+  Space2D: {fileID: 0}
+  ballLaser: {fileID: 0}
+  lineRend: {fileID: 0}
+  ballColor: {r: 1, g: 1, b: 1, a: 0}
+  ballCopyColor: {r: 1, g: 1, b: 1, a: 0}
+  targetBallPosLanded: {x: 0, y: 0}
+  nrBallINeed: 0
+  bonus_02IsReady: 0
+  showsABExit: 0
+  ballOrgYPos: 0
+  BallsList: []
+  sd: {x: 0, y: 0}

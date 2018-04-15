@@ -13,16 +13,12 @@ public class Container : MonoBehaviour
     {
         levelManager = LevelManager.Instance;
         GetComponentInParent<Row>().evDeSpawnContainer += DeSpawnBlock;
-    }
-
-    private void Start()
-    {
-        rowID = GetComponentInParent<Row>().rowID;
-        
+        //rowID = GetComponentInParent<Row>().rowID;
     }
 
     public void SpawnType(BlType type , bool applayBonus = false, bool addInListFC = true)
     {
+        rowID = GetComponentInParent<Row>().rowID;
         if (type == BlType.space && addInListFC)
         {
             AddInListFreeConts();

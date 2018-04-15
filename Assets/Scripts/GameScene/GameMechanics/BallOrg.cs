@@ -4,13 +4,14 @@ using UnityEngine;
 public class BallOrg : Ball
 {
     public GameObject circleAnim;
-    public static Vector2 ballPosFolled;
+    //public static Vector2 ballPosFolled;
 
-    private bool ballIsLanded;
+    private bool ballIsLanded = false;
 
     protected override void Awake()
     {
         base.Awake();
+        rectPos.position = new Vector2(GameData.posXBall, -1.5f);
     }
 
     protected override void Start()
