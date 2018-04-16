@@ -15,7 +15,6 @@ TagManager:
   - EndLevel
   - Background
   - AddBallUI
-  - Bonus_02
   - WallT
   - ballSQLine
   - LaserSq
@@ -23,6 +22,7 @@ TagManager:
   - Row
   - Square_Teleport
   - Square_Liser
+  - BallBomb
   layers:
   - Default
   - TransparentFX

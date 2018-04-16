@@ -16,7 +16,7 @@ public class DeathZone : MonoBehaviour
             coll.transform.parent.GetComponent<Container>().EndLevel(coll.gameObject);
             gameContr.isBreakingStuff = true;
         }
-        else if (!coll.gameObject.CompareTag(Tags.Row) && !coll.gameObject.CompareTag(Tags.Square_Liser) && !coll.gameObject.CompareTag(Tags.Square_Teleport))
+        else if (!coll.gameObject.CompareTag(Tags.Row) && !coll.gameObject.CompareTag(Tags.Square_Liser) && !coll.gameObject.CompareTag(Tags.Square_Teleport) && !coll.gameObject.CompareTag(Tags.BallBomb))
         {
             coll.gameObject.SendMessage("DeathZone");
             //Debug.Log("coll.gameObject.tag : " + coll.gameObject.tag);

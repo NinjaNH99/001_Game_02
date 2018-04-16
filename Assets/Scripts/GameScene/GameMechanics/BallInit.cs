@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class BallInit : MonoSingleton<BallInit>
 {
-    public const float BALLSPEED = 4f;
+    private const float BALLSPEED = 4f;
+
+    public float ballSpeedGet { get { return BALLSPEED; } }
 
     public RectTransform ballContainer;
     public GameObject gameControllerObj, ballCopyPr, bonus_02Pr, amountBallsTextPr, ballOr;
@@ -16,37 +18,39 @@ public class BallInit : MonoSingleton<BallInit>
     public Color ballColor;
     public Color ballCopyColor;
     public Vector2 targetBallPosLanded = new Vector2(GameData.posXBall, -1.5f);
+    public Vector2 shootDir;
 
     public int nrBallINeed = GameData.amountBalls - 1;
-    public bool bonus_02IsReady = false, showsABExit = true;
+    public bool createBallBomb = false, showsABExit = true, ballBambReady = false;
     public float ballOrgYPos;
 
     private TextMeshProUGUI amountBallsText;
-    private GameController gameController;
+    //private GameController gameController;
     public List<GameObject> BallsList = new List<GameObject>();
 
-    public Vector2 sd;
+    private Vector2 sd;
 
     private void Awake()
     {
-        gameController = gameControllerObj.GetComponent<GameController>();
-        Debug.Log("Awake BallInit");
+        //gameController = gameControllerObj.GetComponent<GameController>();
         BallsList = new List<GameObject>();
+        ballOr.GetComponent<RectTransform>().position = new Vector2(GameData.posXBall, -1.5f);
         ballOrgYPos = ballOr.transform.position.y;
 
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
         sd = MobileInputs.Instance.swipeDelta;
         sd.Set(-sd.x, -sd.y);
+        shootDir = sd.normalized;
 
         showsABExit = true;
         lineRend.enabled = true;
         BallsList.Add(ballOr);
         ballLaser.gameObject.SetActive(false);
-        bonus_02IsReady = false;
+        createBallBomb = ballBambReady = false;
 
         nrBallINeed = GameData.amountBalls - 1;
 
-        GenerateBalls(false);
+        GenerateBalls();
         AlignAmBalTextPr();
     }
 
@@ -78,26 +82,25 @@ public class BallInit : MonoSingleton<BallInit>
                 lineRend.enabled = true;
                 if (MobileInputs.Instance.release)
                 {
-                    gameController.tutorialContainer.SetActive(false);
-                    gameController.isBreakingStuff = gameController.onBoostSpeed = true;
-                    gameController.updateInputs = false;
+                    GameController.Instance.tutorialContainer.SetActive(false);
+                    GameController.Instance.isBreakingStuff = GameController.Instance.onBoostSpeed = true;
+                    GameController.Instance.updateInputs = false;
                     MobileInputs.Instance.Reset();
-                    if (bonus_02IsReady)
-                    {
-                        GenerateBalls(true);
-                    }
+                    //if (bonus_02IsReady)
+                        //GenerateBalls(true);
                     lineRend.enabled = false;
                     ballLaser.gameObject.SetActive(false);
-                    StartCoroutine(FireBalls(sd.normalized));
+                    shootDir = sd.normalized;
+                    StartCoroutine(FireBalls());
                     Bonus.Instance.ActivateButton(false);
                 }
             }
         }
     }
 
-    public void GenerateBalls(bool isBonBall)
+    public void GenerateBalls()
     {
-        if (!isBonBall)
+        if (!createBallBomb)
         {
             for (int i = 0; i < nrBallINeed; i++)
             {
@@ -108,50 +111,53 @@ public class BallInit : MonoSingleton<BallInit>
         }
         else
         {
-            for (int i = 0; i < 1; i++)
-            {
-                GameObject go = Instantiate(bonus_02Pr, Space2D) as GameObject;
-                go.SetActive(false);
-                BallsList.Add(go);
-            }
-            bonus_02IsReady = false;
+            GameObject go = Instantiate(bonus_02Pr, Space2D) as GameObject;
+            go.SetActive(false);
+            BallsList.Add(go);
+            createBallBomb = false;
+            ballBambReady = true;
         }
         nrBallINeed = 0;
     }
 
-    public IEnumerator FireBalls(Vector2 sd)
+    public IEnumerator FireBalls()
     {
         int AmountBalls = BallsList.Count - 1;
-
-        Vector2 posIn = targetBallPosLanded;
+        //shootDir = sd;
+        //Vector2 posIn = targetBallPosLanded;
 
         for (int i = BallsList.Count - 1; i > 0; i--)
         {
-            if (BallsList[i].GetComponent<BallCopy>())
+            if(ballBambReady)
             {
-                BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
-                ballCopy.ballPos = posIn;
-                ballCopy.speed = BALLSPEED;
+                //Ball_Bonus_02 ballCopy = BallsList[i].GetComponent<Ball_Bonus_02>();
+                //ballCopy.ballPos = posIn;
+                //ballCopy.speed = BALLSPEED;
                 BallsList[i].SetActive(true);
-                ballCopy.SendBallInDirection(sd);
+                //ballCopy.SendBallInDirection(sd);
                 AmountBalls--;
+                BallsList.RemoveAt(i);
+
+                ballBambReady = false;
                 yield return new WaitForSeconds(0.1f);
             }
             else
             {
-                Ball_Bonus_02 ballCopy = BallsList[i].GetComponent<Ball_Bonus_02>();
-                ballCopy.ballPos = posIn;
-                ballCopy.speed = BALLSPEED;
+                //BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
+                //ballCopy.ballPos = posIn;
+                //ballCopy.speed = BALLSPEED;
                 BallsList[i].SetActive(true);
-                ballCopy.SendBallInDirection(sd);
+                //ballCopy.SendBallInDirection(sd);
                 AmountBalls--;
-                BallsList.RemoveAt(i);
                 yield return new WaitForSeconds(0.1f);
             }
+
             ShowAmBallsExitText(AmountBalls);
         }
-        BallsList[0].GetComponent<BallOrg>().speed = BALLSPEED;
-        BallsList[0].GetComponent<BallOrg>().SendBallInDirection(sd);
+
+        BallsList[0].GetComponent<BallOrg>().speed = ballSpeedGet;
+        BallsList[0].GetComponent<BallOrg>().SendBallInDirection(shootDir);
+
         ShowAmBallsExitText(AmountBalls);
         if (AmountBalls <= 0)
         {
@@ -159,7 +165,7 @@ public class BallInit : MonoSingleton<BallInit>
         }
         yield return new WaitForSeconds(0.1f);
     }
-
+    
     public void ShowAmBallsExitText(int amountBallsShowExit)
     {
         amountBallsText.text = 'x' + amountBallsShowExit.ToString();

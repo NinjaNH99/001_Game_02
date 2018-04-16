@@ -13,26 +13,26 @@ public abstract class Ball : MonoSingleton<Ball>
 
     public Rigidbody2D rigid;
     protected RectTransform rectPos;
-    protected GameController gameContr;
-    protected float currentSpawnY;
-    protected int checkPosX;
+    //protected float currentSpawnY;
+   // protected int checkPosX;
 
     protected virtual void Awake()
     {
-        gameContr = GameController.Instance;
         rectPos = GetComponent<RectTransform>();
         rigid = GetComponent<Rigidbody2D>();
-        rigid.gravityScale = 0;
+        rigid.gravityScale = 0.001f;
         rigid.simulated = true;
         enterTeleport = true;
-        checkPosX = 5;
+        startFall = false;
+        //checkPosX = 5;
+        //Start();
     }
 
     protected virtual void Start()
     {
-        Awake();
+        //Awake();
         //firstBallLanded = false;
-        startFall = false;
+        //startFall = false;
         //rectPos = GetComponent<RectTransform>();
         ResetSpeed();
     }
@@ -40,7 +40,7 @@ public abstract class Ball : MonoSingleton<Ball>
     public virtual void SendBallInDirection(Vector2 dir)
     {
         rigid.simulated = true;
-        rigid.gravityScale = 0;
+        rigid.gravityScale = 0.001f;
         rigid.AddForce(dir * speed, ForceMode2D.Impulse);
     }
 
@@ -49,10 +49,11 @@ public abstract class Ball : MonoSingleton<Ball>
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
-        checkPosX = 5;
+        //checkPosX = 5;
         ResetSpeed();
     }
 
+    /*
     protected virtual void StartFall()
     {
         checkPosX--;
@@ -76,7 +77,7 @@ public abstract class Ball : MonoSingleton<Ball>
             rigid.gravityScale = 0.1f;
             startFall = false;
         }
-    }
+    }*/
 
     protected virtual void ResetSpeed()
     {
@@ -99,13 +100,13 @@ public abstract class Ball : MonoSingleton<Ball>
         {
             StartFall();
         }*/
-        if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR))
-        {
-            rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
-        }
+        //if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR))
+        //{
+            //rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
+        //}
 
         enterTeleport = true;
-        StartFall();
+        //StartFall();
         ResetSpeed();
     }
 

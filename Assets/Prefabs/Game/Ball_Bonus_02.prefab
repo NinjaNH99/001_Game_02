@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114831963359696036}
   m_Layer: 13
   m_Name: Ball_Bonus_02
-  m_TagString: Bonus_02
+  m_TagString: BallBomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allBallLanded: 0
   startFall: 0
+  enterTeleport: 0
   speed: 0
   rigid: {fileID: 50631606909117336}
   DeathEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}

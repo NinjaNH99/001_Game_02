@@ -111,7 +111,7 @@ public class Block : MonoSingleton<Block>
     {
         if (coll.gameObject.CompareTag(Tags.Player) || coll.gameObject.CompareTag(Tags.ballCopy) || coll.gameObject.CompareTag(Tags.ballSQLine) || coll.gameObject.CompareTag(Tags.LaserSq))
             ReceiveHit(false);
-        if (coll.gameObject.CompareTag(Tags.Bonus_02))
+        if (coll.gameObject.CompareTag(Tags.BallBomb))
         {
             ReciveHitByBonus();
             //GetComponentInParent<Row>().RunBonus_02();

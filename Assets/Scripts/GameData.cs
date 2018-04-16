@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameData : MonoSingleton<GameData>
 {
-    public static int amountBalls = 1, score_Rows = 1, maxScore = 1, nrRows = 0, maxBonus_01 = 0, bonus_02 = 0;
+    public static int amountBalls = 1, score_Rows = 1, maxScore = 1, nrRows = 0, maxBonus_01 = 0, ballBomb = 0;
     public static float posXBall = 0;
     public static bool loadDataDone = false;
 
@@ -24,7 +24,7 @@ public class GameData : MonoSingleton<GameData>
         else
             nrRows = (int)loadedData[3];
         maxBonus_01 = (int)loadedData[4];
-        bonus_02 = (int)loadedData[5];
+        ballBomb = (int)loadedData[5];
         posXBall = loadedData[6];
 
         loadDataDone = true;
@@ -40,6 +40,17 @@ public class GameData : MonoSingleton<GameData>
             return;
         }
         SaveLoadManager.SaveDataCloseApp();
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        #region Mobile Inputs
+        if (restartScene)
+        {
+            return;
+        }
+        SaveLoadManager.SaveDataCloseApp();
+        #endregion
     }
 
     public static void SaveDataRestart()

@@ -6,16 +6,26 @@ public class Ball_Bonus_02 : Ball
 {
     public GameObject DeathEFX;
     public GameObject DestroyEFX;
-    public Vector2 ballPos;
 
     private GameObject Space2D;
+    private bool onDestroy = false;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
-        rectPos.position = ballPos;
+        base.Awake();
         Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
+
+        speed = BallInit.Instance.ballSpeedGet;
+
+        rectPos.position = BallInit.Instance.targetBallPosLanded;
+
+        onDestroy = false;
+        SendBallInDirection(BallInit.Instance.shootDir);
+        ResetSpeed();
     }
+
+    private void OnEnable()
+    { Awake(); }
 
     public override void SendBallInDirection(Vector2 dir)
     {
@@ -59,7 +69,10 @@ public class Ball_Bonus_02 : Ball
         }
         if(coll.gameObject.CompareTag(Tags.EndLevel))
         {
-            Death(false);
+            if (!onDestroy)
+                onDestroy = true;
+            else
+                Death(false);
         }
     }
 

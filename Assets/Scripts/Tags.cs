@@ -18,7 +18,7 @@ public static class Tags
     public const string EndLevel = "EndLevel";
     public const string Background = "Background";
     public const string Space2D = "2DSpace";
-    public const string Bonus_02 = "Bonus_02";
+    public const string BallBomb = "BallBomb";
     public const string LaserSq = "LaserSq";
     public const string Block_Boss = "Block_Boss";
     public const string Row = "Row";

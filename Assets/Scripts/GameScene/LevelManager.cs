@@ -23,7 +23,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     [HideInInspector]
     public int LBLMAX = 3, LBNMAX = 0, SQBON = 3;
     [HideInInspector]
-    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resBOS = 0, resSpawnRows = 0;
+    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resSpawnRows = 0;
 
     private float curPosY = 0;
     private float desiredPosition = -130.0f;
@@ -35,7 +35,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         listFreeConts = new List<GameObject>();
 
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
-        resBLMAX = resBNMAX = resSQBON = resBOS = resSpawnRows = 0;
+        resBLMAX = resBNMAX = resSQBON = resSpawnRows = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
         spawnRows = true;
@@ -62,7 +62,14 @@ public class LevelManager : MonoSingleton<LevelManager>
         int rowID;
 
         if (contPlay)
+        {
             rowID = k;
+            if (k / 10f == 1f)
+            {
+                spawnBoss = true;
+                spawnRows = false;
+            }
+        }
         else
         {
             rowID = GameData.score_Rows;
@@ -241,12 +248,10 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
 
-        resBOS++;
-        if (resBOS >= ( RESETDATA * 2 ) + 2)
+        if ((GameData.score_Rows) / 10f == 1f)
         {
             spawnBoss = true;
             spawnRows = false;
-            resBOS = 0;
         }
 
         if (!spawnRows)

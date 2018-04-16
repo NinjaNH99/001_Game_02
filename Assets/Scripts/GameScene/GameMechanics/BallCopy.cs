@@ -4,46 +4,53 @@ using UnityEngine.UI;
 
 public class BallCopy : Ball
 {
-    [HideInInspector]
-    public Vector2 ballPos;
-
-    private RectTransform statePos;
-    private bool ballIsLanded = false, DisplayAtFloor = false;
-    private Collider2D ballCopyCol;
+    private bool ballIsLanded = false;
 
     protected override void Awake()
     {
         base.Awake();
+        EventManager.EvMoveDownM += TurnOFFBall;
         gameObject.GetComponent<Image>().color = BallInit.Instance.ballCopyColor;
         ballIsLanded = false;
+        speed = BallInit.Instance.ballSpeedGet;
+
+        rectPos.position = BallInit.Instance.targetBallPosLanded;
+        Start();
     }
 
     protected override void Start()
     {
-        base.Start();
-        rectPos.position = ballPos;
+        SendBallInDirection(BallInit.Instance.shootDir);
+        ResetSpeed();
+        //rectPos.position = ballPos;
     }
 
     private void OnEnable()
-    {        Start();    }
+    {        Awake();    }
 
     private void Update()
     {
         if (ballIsLanded)
         {
-            if (gameContr.firstBallLanded)
+            if (GameController.Instance.firstBallLanded)
             {
                 gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos), BallInit.Instance.targetBallPosLanded, Time.deltaTime * speed);
                 if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
                 {
-                    gameContr.IsAllBallLanded();
+                    GameController.Instance.IsAllBallLanded();
                     ResetSpeed();
                     ballIsLanded = false;
-                    if(!DisplayAtFloor)
-                        gameObject.SetActive(false);
+                    //if(!DisplayAtFloor)
+                       // gameObject.SetActive(false);
                 }
             }
         }
+    }
+
+    private void TurnOFFBall()
+    {
+        EventManager.EvMoveDownM -= TurnOFFBall;
+        gameObject.SetActive(false);
     }
 
     public override void SendBallInDirection(Vector2 dir)
@@ -55,7 +62,7 @@ public class BallCopy : Ball
     {
         base.TouchFloor();
         rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
-        DisplayAtFloor = gameContr.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
+        GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
         ballIsLanded = true;
         ResetSpeed();
     }
@@ -63,11 +70,6 @@ public class BallCopy : Ball
     public override void CollectBall()
     {
         base.CollectBall();
-    }
-
-    protected override void StartFall()
-    {
-        base.StartFall();
     }
 
     protected override void ResetSpeed()

@@ -11,7 +11,8 @@ public class BallOrg : Ball
     protected override void Awake()
     {
         base.Awake();
-        rectPos.position = new Vector2(GameData.posXBall, -1.5f);
+        ballIsLanded = false;
+        //rectPos.position = new Vector2(GameData.posXBall, -1.5f);
     }
 
     protected override void Start()
@@ -23,12 +24,12 @@ public class BallOrg : Ball
     {
         if (ballIsLanded)
         {
-            if (gameContr.firstBallLanded)
+            if (GameController.Instance.firstBallLanded)
             {
                 gameObject.transform.position = Vector2.MoveTowards(new Vector2(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos), BallInit.Instance.targetBallPosLanded, Time.deltaTime * speed);
                 if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
                 {
-                    gameContr.IsAllBallLanded();
+                    GameController.Instance.IsAllBallLanded();
                     ResetSpeed();
                     ballIsLanded = false;
                 }
@@ -46,14 +47,9 @@ public class BallOrg : Ball
     {
         base.TouchFloor();
         circleAnim.GetComponent<Animator>().SetTrigger("isFell");
-        gameContr.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
+        GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
         ballIsLanded = true;
         ResetSpeed();
-    }
-
-    protected override void StartFall()
-    {
-        base.StartFall();
     }
 
     protected override void ResetSpeed()

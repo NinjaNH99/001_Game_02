@@ -22,10 +22,10 @@ public class Bonus : MonoSingleton<Bonus>
 
 
     private GameController gameContr;
-    private int bonus_01, bonus_02;
+    private int bonus_01, ballBomb;
 
     public int Bonus_01 { get { return bonus_01; } set { } }
-    public int Bonus_02 { get { return bonus_02; } set { } }
+    public int BallBomb { get { return ballBomb; } set { } }
 
     private bool firstBonus_02;
     private bool ballIsReady;
@@ -43,15 +43,15 @@ public class Bonus : MonoSingleton<Bonus>
     {
         gameContr = GameController.Instance;
         bonus_01 = GameData.maxBonus_01;
-        bonus_02 = GameData.bonus_02;
-        if(bonus_02 > 0)
+        ballBomb = GameData.ballBomb;
+        if(ballBomb > 0)
             bonus_02UI.GetComponent<Animator>().SetTrigger("IsBonus_02");
     }
 
     public void UpdateUIText()
     {
         bonus_01Text.GetComponent<TextMeshProUGUI>().text = Bonus_01.ToString();
-        bonus_02_text.GetComponent<TextMeshProUGUI>().text = 'x' + Bonus_02.ToString();
+        bonus_02_text.GetComponent<TextMeshProUGUI>().text = 'x' + BallBomb.ToString();
     }
 
     public void AddBonus_01()
@@ -68,8 +68,8 @@ public class Bonus : MonoSingleton<Bonus>
 
     public void AddBonus_02()
     {
-        bonus_02++;
-        GameData.bonus_02++;
+        ballBomb++;
+        GameData.ballBomb++;
         if (firstBonus_02)
         {
             bonus_02UI.GetComponent<Animator>().SetTrigger("IsBonus_02");
@@ -86,17 +86,18 @@ public class Bonus : MonoSingleton<Bonus>
 
     public void Remove_02()
     {
-        if (bonus_02 > 0 && ballIsReady)
+        if (ballBomb > 0 && ballIsReady)
         {
-            bonus_02--;
-            GameData.bonus_02--;
-            if (bonus_02 < 1)
+            ballBomb--;
+            GameData.ballBomb--;
+            if (ballBomb < 1)
             {
-                bonus_02 = 0;
+                ballBomb = 0;
                 firstBonus_02 = true;
                 bonus_02UI.GetComponent<Animator>().SetTrigger("RmBonus_02");
             }
-            BallInit.Instance.bonus_02IsReady = true;
+            BallInit.Instance.createBallBomb = true;
+            BallInit.Instance.GenerateBalls();
             UpdateUIText();
             ballIsReady = false;
         }

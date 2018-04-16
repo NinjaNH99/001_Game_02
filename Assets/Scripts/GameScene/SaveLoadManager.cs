@@ -67,12 +67,12 @@ public static class SaveLoadManager
 
             Debug.Log(" Data load:");
             //Debug.Log(" data[0] amountBalls : " + data.data[0]);
-            Debug.Log(" data[1] score_Rows  : " + data.data[1]);
+            //Debug.Log(" data[1] score_Rows  : " + data.data[1]);
             //Debug.Log(" data[2] maxScore    : " + data.data[2]);
-            Debug.Log(" data[3] nrRows      : " + data.data[3]);
+            //Debug.Log(" data[3] nrRows      : " + data.data[3]);
             //Debug.Log(" data[4] maxBonus_01 : " + data.data[4]);
-            //Debug.Log(" data[5] bonus_02 : " + data.data[5]);
-            //Debug.LogWarning(" data[6] posXBall : " + data.data[6]);
+            //Debug.Log(" data[5] ballBomb : " + data.data[5]);
+            Debug.LogWarning(" data[6] posXBall : " + data.data[6]);
 
             return data.data;
         }
@@ -108,12 +108,12 @@ public class GameDataForFile
 
         Debug.LogWarning(" Data restart:");
         //Debug.LogWarning(" data[0] amountBalls : " + data[0]);
-        Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
+        //Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
         //Debug.LogWarning(" data[2] maxScore    : " + data[2]);
-        Debug.LogWarning(" data[3] nrRows      : " + data[3]);
+        //Debug.LogWarning(" data[3] nrRows      : " + data[3]);
         //Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
-        //Debug.LogWarning(" data[5] bonus_02 : " + data.data[5]);
-        //Debug.LogWarning(" data[6] posXBall : " + data[6]);
+        //Debug.LogWarning(" data[5] ballBomb : " + data.data[5]);
+        Debug.LogWarning(" data[6] posXBall : " + data[6]);
 
         return this;
     }
@@ -130,17 +130,17 @@ public class GameDataForFile
 
         data[3] = GameData.nrRows;
         data[4] = GameData.maxBonus_01;
-        data[5] = GameData.bonus_02;
+        data[5] = GameData.ballBomb;
         data[6] = GameData.posXBall;
 
         Debug.LogWarning(" Data create close app:");
         //Debug.LogWarning(" data[0] amountBalls : " + data[0]);
-        Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
+        //Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
         //Debug.LogWarning(" data[2] maxScore    : " + data[2]);
-        Debug.LogWarning(" data[3] nrRows      : " + data[3]);
+        //Debug.LogWarning(" data[3] nrRows      : " + data[3]);
         //Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
-        //Debug.LogWarning(" data[5] bonus_02 : " + data[5]);
-        //Debug.LogWarning(" data[6] posXBall : " + data[6]);
+        //Debug.LogWarning(" data[5] ballBomb : " + data[5]);
+        Debug.LogWarning(" data[6] posXBall : " + data[6]);
 
         return this;
     }
@@ -160,12 +160,12 @@ public class GameDataForFile
 
         Debug.LogWarning(" Data lose game:");
         //Debug.LogWarning(" data[0] amountBalls : " + data[0]);
-        Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
+        //Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
         //Debug.LogWarning(" data[2] maxScore    : " + data[2]);
-        Debug.LogWarning(" data[3] nrRows      : " + data[3]);
+        //Debug.LogWarning(" data[3] nrRows      : " + data[3]);
         //Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
-        //Debug.LogWarning(" data[5] bonus_02 : " + data.data[5]);
-        //Debug.LogWarning(" data[6] posXBall : " + data[6]);
+        //Debug.LogWarning(" data[5] ballBomb : " + data.data[5]);
+        Debug.LogWarning(" data[6] posXBall : " + data[6]);
 
         return this;
     }
@@ -177,7 +177,7 @@ public class GameDataForFile
         data[2] = 1;
         data[3] = 0;
         data[4] = 0;
-        data[5] = 0;
+        data[5] = 2;
         data[6] = 0;
 
         return data;
@@ -190,7 +190,7 @@ public class GameDataForFile
         data[2] = 1;
         data[3] = 0;
         data[4] = 0;
-        data[5] = 0;
+        data[5] = 2;
         data[6] = 0;
 
         return this;

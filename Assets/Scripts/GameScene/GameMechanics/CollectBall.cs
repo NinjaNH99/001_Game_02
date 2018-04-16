@@ -12,7 +12,6 @@ public class CollectBall : MonoSingleton<CollectBall>
     private bool collected, ballIsLanded, LoseBall, isDestroy;
 
     private Rigidbody2D rigid;
-    private GameController gameContr;
     private GameObject Space2D;
     private Animator anim;
 
@@ -31,8 +30,6 @@ public class CollectBall : MonoSingleton<CollectBall>
 
     private void Start()
     {
-        gameContr = GameController.Instance;
-
         if (isByBonus)
         {
             anim.SetTrigger("BonON");
@@ -46,7 +43,7 @@ public class CollectBall : MonoSingleton<CollectBall>
     {
         if (ballIsLanded)
         {
-            if (gameContr.firstBallLanded)
+            if (GameController.Instance.firstBallLanded)
             {
                 gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos, 0), BallInit.Instance.targetBallPosLanded, Time.deltaTime * 4.0f);
             }
@@ -54,8 +51,8 @@ public class CollectBall : MonoSingleton<CollectBall>
                 gameObject.transform.position = new Vector3(transform.position.x, BallInit.Instance.ballOrgYPos, 0);
             if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
             {
-                gameContr.amountCollectBallsLeft--;
-                gameContr.IsAllBallLanded();
+                GameController.Instance.amountCollectBallsLeft--;
+                GameController.Instance.IsAllBallLanded();
                 Destroy(this.gameObject);
             }
         }
@@ -73,7 +70,7 @@ public class CollectBall : MonoSingleton<CollectBall>
         if (!collected)
         {
             collected = true;
-            gameContr.amountCollectBallsLeft++;
+            GameController.Instance.amountCollectBallsLeft++;
             GameObject go = Instantiate(AddBallEFX, gameObject.transform) as GameObject;
             Destroy(go, 2f);
 
@@ -83,12 +80,12 @@ public class CollectBall : MonoSingleton<CollectBall>
             StartFalling();
             if (isDestroy)
             {
-                gameContr.AddBallUI++;
+                GameController.Instance.AddBallUI++;
                 var AmountBallUIPos = BallInit.Instance.amountBallsTextPr.transform;
                 GameObject goEFX = Instantiate(AddBallUIPr, AmountBallUIPos) as GameObject;
                 goEFX.GetComponent<RectTransform>().localPosition = new Vector2(-95, -95);
                 Destroy(goEFX, 1f);
-                gameContr.amountBallsLeft++;
+                GameController.Instance.amountBallsLeft++;
                 isDestroy = false;
             }
             rigid.velocity = new Vector2(0, 0.5f) * 2.0f;

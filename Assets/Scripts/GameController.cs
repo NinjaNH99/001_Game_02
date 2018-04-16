@@ -59,7 +59,7 @@ public class GameController : MonoSingleton<GameController>
             if (allBallLanded)
             {
                 Time.timeScale = 1f;
-                ballInit.GenerateBalls(false);
+                ballInit.GenerateBalls();
                 GameData.score_Rows++;
                 IncreaseMaxScore();
                 onBoostSpeed = false;
@@ -92,17 +92,14 @@ public class GameController : MonoSingleton<GameController>
         UpdateUIText();
     }
 
-    public bool FirstBallLanded(Vector2 ballPosX)
+    public void FirstBallLanded(Vector2 ballPosX)
     {
-        bool DisplayAtFloor = false;
         if (!firstBallLanded)
         {
             GameData.posXBall = ballPosX.x;
             ballInit.targetBallPosLanded = ballPosX;
-            DisplayAtFloor = true;
         }
         firstBallLanded = true;
-        return DisplayAtFloor;
     }
 
     public void IsAllBallLanded()
