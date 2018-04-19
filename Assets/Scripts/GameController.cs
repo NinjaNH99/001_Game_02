@@ -28,6 +28,7 @@ public class GameController : MonoSingleton<GameController>
     private BallInit ballInit;
     private int amountBallsBack = 0;
     private float timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
+    private Vector2 posBallFolled;
 
     private void Awake()
     {
@@ -39,7 +40,7 @@ public class GameController : MonoSingleton<GameController>
         ballInit.showsABExit = true;
         updateInputs = true;
         AddBallUI = 0;
-
+        posBallFolled = new Vector2(GameData.posXBall, 0);
         timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
         onBoostSpeed = BoostSpeedButton.interactable = false;
         tutorialContainer.SetActive(true);
@@ -63,7 +64,7 @@ public class GameController : MonoSingleton<GameController>
                 GameData.score_Rows++;
                 IncreaseMaxScore();
                 onBoostSpeed = false;
-                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;//TIMEWAITBOOSTSPEED + (amountBalls / 5f);
+                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
                 BoostSpeedButtonAnim(true);
                 //UpdateUIText();
                 ballInit.ShowAmBallsExitText(GameData.amountBalls);
@@ -97,6 +98,7 @@ public class GameController : MonoSingleton<GameController>
         if (!firstBallLanded)
         {
             GameData.posXBall = ballPosX.x;
+            posBallFolled = ballPosX;
             ballInit.targetBallPosLanded = ballPosX;
         }
         firstBallLanded = true;
@@ -118,6 +120,8 @@ public class GameController : MonoSingleton<GameController>
         Time.timeScale = 1f;
         isBreakingStuff = false;
         firstBallLanded = false;
+        ballInit.targetBallPosLanded = ballInit.shootBallPos = posBallFolled;
+        //GameData.posXBall = ballInit.targetBallPosLanded.x;
         amountBallsLeft = GameData.amountBalls;
         ballInit.nrBallINeed = AddBallUI;
         AddBallUI = 0;

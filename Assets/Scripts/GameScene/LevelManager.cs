@@ -131,12 +131,12 @@ public class LevelManager : MonoSingleton<LevelManager>
         try
         {
             ball.GetComponent<RectTransform>().position = listTelep[index + 1].gameObject.GetComponent<RectTransform>().position;
-            ball.GetComponent<Ball>().enterTeleport = false;
+            //ball.GetComponent<Ball>().enterTeleport = false;
         }
         catch (System.Exception)
         {
             ball.GetComponent<RectTransform>().position = listTelep[0].gameObject.GetComponent<RectTransform>().position;
-            ball.GetComponent<Ball>().enterTeleport = false;
+            //ball.GetComponent<Ball>().enterTeleport = false;
         }
 
     }

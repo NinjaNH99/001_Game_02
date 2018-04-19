@@ -17,7 +17,7 @@ public class Ball_Bonus_02 : Ball
 
         speed = BallInit.Instance.ballSpeedGet;
 
-        rectPos.position = BallInit.Instance.targetBallPosLanded;
+        rectPos.position = BallInit.Instance.shootBallPos;
 
         onDestroy = false;
         SendBallInDirection(BallInit.Instance.shootDir);

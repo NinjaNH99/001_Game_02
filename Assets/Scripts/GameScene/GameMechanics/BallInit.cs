@@ -18,6 +18,7 @@ public class BallInit : MonoSingleton<BallInit>
     public Color ballColor;
     public Color ballCopyColor;
     public Vector2 targetBallPosLanded = new Vector2(GameData.posXBall, -1.5f);
+    public Vector2 shootBallPos;
     public Vector2 shootDir;
 
     public int nrBallINeed = GameData.amountBalls - 1;
@@ -35,7 +36,8 @@ public class BallInit : MonoSingleton<BallInit>
         //gameController = gameControllerObj.GetComponent<GameController>();
         BallsList = new List<GameObject>();
         ballOr.GetComponent<RectTransform>().position = new Vector2(GameData.posXBall, -1.5f);
-        ballOrgYPos = ballOr.transform.position.y;
+        //ballOrgYPos = ballOr.transform.position.y;
+        ballOrgYPos = -1.5f;
 
         amountBallsText = amountBallsTextPr.GetComponentInChildren<TextMeshProUGUI>();
         sd = MobileInputs.Instance.swipeDelta;
@@ -58,7 +60,8 @@ public class BallInit : MonoSingleton<BallInit>
     {
         ballColor = Ball.Instance.GetComponent<Image>().color;
         ballCopyColor = ballColor;
-        targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
+        //targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
+        targetBallPosLanded = shootBallPos = new Vector2(GameData.posXBall, -1.5f);
         amountBallsTextPr.GetComponent<RectTransform>().position = targetBallPosLanded + new Vector2(0.12f, 0.12f);
 
         ShowAmBallsExitText(GameData.amountBalls);
@@ -123,31 +126,20 @@ public class BallInit : MonoSingleton<BallInit>
     public IEnumerator FireBalls()
     {
         int AmountBalls = BallsList.Count - 1;
-        //shootDir = sd;
-        //Vector2 posIn = targetBallPosLanded;
 
         for (int i = BallsList.Count - 1; i > 0; i--)
         {
             if(ballBambReady)
             {
-                //Ball_Bonus_02 ballCopy = BallsList[i].GetComponent<Ball_Bonus_02>();
-                //ballCopy.ballPos = posIn;
-                //ballCopy.speed = BALLSPEED;
                 BallsList[i].SetActive(true);
-                //ballCopy.SendBallInDirection(sd);
                 AmountBalls--;
                 BallsList.RemoveAt(i);
-
                 ballBambReady = false;
                 yield return new WaitForSeconds(0.1f);
             }
             else
             {
-                //BallCopy ballCopy = BallsList[i].GetComponent<BallCopy>();
-                //ballCopy.ballPos = posIn;
-                //ballCopy.speed = BALLSPEED;
                 BallsList[i].SetActive(true);
-                //ballCopy.SendBallInDirection(sd);
                 AmountBalls--;
                 yield return new WaitForSeconds(0.1f);
             }

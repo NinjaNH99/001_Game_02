@@ -14,7 +14,7 @@ public class BallCopy : Ball
         ballIsLanded = false;
         speed = BallInit.Instance.ballSpeedGet;
 
-        rectPos.position = BallInit.Instance.targetBallPosLanded;
+        rectPos.position = BallInit.Instance.shootBallPos;
         Start();
     }
 

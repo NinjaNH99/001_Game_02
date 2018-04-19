@@ -6,15 +6,16 @@ using System;
 public abstract class Ball : MonoSingleton<Ball>
 {
     [HideInInspector]
-    public bool allBallLanded, startFall, enterTeleport;//, firstBallLanded = false;
+    public bool allBallLanded, startFall, enterTeleport;
     [HideInInspector]
     public float speed;
     [HideInInspector]
 
     public Rigidbody2D rigid;
     protected RectTransform rectPos;
-    //protected float currentSpawnY;
-   // protected int checkPosX;
+
+    public float lastPosXTop;
+    public int countContactPosXTop; 
 
     protected virtual void Awake()
     {
@@ -24,16 +25,13 @@ public abstract class Ball : MonoSingleton<Ball>
         rigid.simulated = true;
         enterTeleport = true;
         startFall = false;
+        lastPosXTop = 0;
+        countContactPosXTop = 5;
         //checkPosX = 5;
-        //Start();
     }
 
     protected virtual void Start()
     {
-        //Awake();
-        //firstBallLanded = false;
-        //startFall = false;
-        //rectPos = GetComponent<RectTransform>();
         ResetSpeed();
     }
 
@@ -49,7 +47,7 @@ public abstract class Ball : MonoSingleton<Ball>
         rigid.velocity = Vector2.zero;
         rigid.simulated = false;
         rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
-        //checkPosX = 5;
+        enterTeleport = true;
         ResetSpeed();
     }
 
@@ -79,6 +77,31 @@ public abstract class Ball : MonoSingleton<Ball>
         }
     }*/
 
+    protected virtual void DeblockOnPosX(float concatctPOs)
+    {
+        if(lastPosXTop != concatctPOs)
+        {
+            lastPosXTop = concatctPOs;
+            return;
+        }
+
+        countContactPosXTop--;
+        if(concatctPOs <= 0)
+        {
+            if (rectPos.position.x > 0)
+            {
+                rigid.AddForce(new Vector2(-0.01f, 0) * speed, ForceMode2D.Impulse);
+                concatctPOs = 5;
+            }
+            else
+            {
+                rigid.AddForce(new Vector2(0.01f, 0) * speed, ForceMode2D.Impulse);
+                concatctPOs = 5;
+            }
+            ResetSpeed();
+        }
+    }
+
     protected virtual void ResetSpeed()
     {
         rigid.velocity = rigid.velocity.normalized * speed;
@@ -95,22 +118,30 @@ public abstract class Ball : MonoSingleton<Ball>
         {
             TouchFloor();
         }
-        /*
+        
         if (coll.gameObject.CompareTag(Tags.WallT))
         {
-            StartFall();
-        }*/
+            DeblockOnPosX(rectPos.position.x);
+        }
         //if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR))
         //{
-            //rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
+        //rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
         //}
 
-        enterTeleport = true;
+        //enterTeleport = true;
         //StartFall();
         ResetSpeed();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D coll)
-    {        ResetSpeed();    }
+    {
+        if (coll.gameObject.CompareTag(Tags.Square_Teleport))
+        {
+            if (enterTeleport)
+                LevelManager.Instance.Teleports(coll.GetComponentInParent<Square_01>().gameObject, this.gameObject);
+            enterTeleport = false;
+        }
+        ResetSpeed();
+    }
 
 }
