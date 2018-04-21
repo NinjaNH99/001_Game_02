@@ -10,14 +10,14 @@ public class Square_01 : MonoBehaviour
     private void Start()
     {
         levelManager = LevelManager.Instance;
-        levelManager.listTelep.Add(this.gameObject);
+        levelManager.listTelep.Add(this.GetComponent<RectTransform>());
         EventManager.EvDeSpawnM += Despawn;
     }
 
     public void Despawn()
     {
         EventManager.EvDeSpawnM -= Despawn;
-        levelManager.listTelep.Remove(this.gameObject);
+        levelManager.listTelep.Remove(this.GetComponent<RectTransform>());
         DeathZone();
     }
 

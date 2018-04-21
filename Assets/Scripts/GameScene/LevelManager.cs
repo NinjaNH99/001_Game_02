@@ -14,9 +14,9 @@ public class LevelManager : MonoSingleton<LevelManager>
     // List of rows
     public List<GameObject> listRows = new List<GameObject>();
     // List of teleports
-    public List<GameObject> listTelep = new List<GameObject>();
+    public List<RectTransform> listTelep = new List<RectTransform>();
     // List of free containers
-    public List<GameObject> listFreeConts = new List<GameObject>();
+    public List<Container> listFreeConts = new List<Container>();
 
     // Max obj 
     public bool spawnRows = true, spawnBoss = false;
@@ -31,8 +31,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         listRows = new List<GameObject>();
-        listTelep = new List<GameObject>();
-        listFreeConts = new List<GameObject>();
+        listTelep = new List<RectTransform>();
+        listFreeConts = new List<Container>();
 
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
         resBLMAX = resBNMAX = resSQBON = resSpawnRows = 0;
@@ -91,10 +91,8 @@ public class LevelManager : MonoSingleton<LevelManager>
                 EventManager.StartEvSpawn();
             }
 
-            //nrRows++;
             GameData.nrRows++;
         }
-        //Debug.LogWarning(" Rows[0] : " + listRows[0].GetComponent<Row>().rowID);
     }
 
     public void ApplyBallBonus(int contID, int rowID)
@@ -120,25 +118,21 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
-    public void Teleports(GameObject currTeleport,GameObject ball)
+    public Vector2 Teleports(RectTransform currTeleport)
     {
-        if (listTelep.Count <= 1)
-            return;
-
-        var index = listTelep.FindIndex(x => x.gameObject == currTeleport);
-        //Debug.Log("ID Teleport: " + index);
+        Vector2 ballPos;
+        var index = listTelep.FindIndex(x => x == currTeleport);
 
         try
         {
-            ball.GetComponent<RectTransform>().position = listTelep[index + 1].gameObject.GetComponent<RectTransform>().position;
-            //ball.GetComponent<Ball>().enterTeleport = false;
+            ballPos = listTelep[index + 1].position;
         }
         catch (System.Exception)
         {
-            ball.GetComponent<RectTransform>().position = listTelep[0].gameObject.GetComponent<RectTransform>().position;
-            //ball.GetComponent<Ball>().enterTeleport = false;
+            ballPos = listTelep[0].position;
         }
 
+        return ballPos;
     }
 
     public void SpawnRandom()
@@ -152,8 +146,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         // Spawn Teleport1
         posTelep = Random.Range(0, listFreeConts.Count);
-        rowPosTelep = listFreeConts[posTelep].GetComponent<Container>().rowID;
-        listFreeConts[posTelep].GetComponent<Container>().SpawnType(BlType.square_Teleport);
+        rowPosTelep = listFreeConts[posTelep].rowID;
+        listFreeConts[posTelep].SpawnType(BlType.square_Teleport);
 
         // Spawn Teleport2
         posTelep2 = SpawnTelep2(rowPosTelep);
@@ -179,8 +173,8 @@ public class LevelManager : MonoSingleton<LevelManager>
                 k = 0;
             }
         }
-        while (Mathf.Abs(listFreeConts[posLiser2].GetComponent<Container>().rowID - rowPosLiser) < option || listFreeConts[posLiser2].GetComponent<Container>().visualIndex == contPosLiser || posLiser2 == posTelep || posLiser2 == posTelep2);
-        listFreeConts[posLiser2].GetComponent<Container>().SpawnType(BlType.square_Line);
+        while (Mathf.Abs(listFreeConts[posLiser2].rowID - rowPosLiser) < option || listFreeConts[posLiser2].visualIndex == contPosLiser || posLiser2 == posTelep || posLiser2 == posTelep2);
+        listFreeConts[posLiser2].SpawnType(BlType.square_Line);
         return posLiser2;
     }
 
@@ -191,9 +185,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             posLiser = Random.Range(0, listFreeConts.Count);
         }
         while (posLiser == posTelep || posLiser == posTelep2);
-        rowPosLiser = listFreeConts[posLiser].GetComponent<Container>().rowID;
-        contPosLiser = listFreeConts[posLiser].GetComponent<Container>().visualIndex;
-        listFreeConts[posLiser].GetComponent<Container>().SpawnType(BlType.square_Line);
+        rowPosLiser = listFreeConts[posLiser].rowID;
+        contPosLiser = listFreeConts[posLiser].visualIndex;
+        listFreeConts[posLiser].SpawnType(BlType.square_Line);
     }
 
     private int SpawnTelep2(int rowPosTelep)
@@ -210,8 +204,8 @@ public class LevelManager : MonoSingleton<LevelManager>
                 k = 0;
             }
         }
-        while (Mathf.Abs(listFreeConts[posTelep2].GetComponent<Container>().rowID - rowPosTelep) < option);
-        listFreeConts[posTelep2].GetComponent<Container>().SpawnType(BlType.square_Teleport);
+        while (Mathf.Abs(listFreeConts[posTelep2].rowID - rowPosTelep) < option);
+        listFreeConts[posTelep2].SpawnType(BlType.square_Teleport);
         return posTelep2;
     }
 

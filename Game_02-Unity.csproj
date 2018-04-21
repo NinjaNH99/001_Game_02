@@ -93,6 +93,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LunarConsole\Scripts\Actions\CAction.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Actions\CRegistry.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Actions\CVar.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Constants.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Legacy\LunarConsoleLegacyActions.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\LunarConsole.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\LunarConsoleAction.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\BaseList.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\ClassUtils.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\ColorUtils.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\FileUtils.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\Iterator.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\Log.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\ReflectionUtils.cs" />
+    <Compile Include="Assets\LunarConsole\Scripts\Utils\StringUtils.cs" />
     <Compile Include="Assets\Scripts\Bonus.cs" />
     <Compile Include="Assets\Scripts\ButtonController.cs" />
     <Compile Include="Assets\Scripts\Extensions.cs" />
@@ -149,6 +164,7 @@
     <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\LunarConsole\readme.txt" />
     <None Include="Assets\Material\Glow.shader" />
     <None Include="Assets\Material\Mat_Block\Additive Texture.shader" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />

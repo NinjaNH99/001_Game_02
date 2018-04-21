@@ -46,13 +46,13 @@ public class Container : MonoBehaviour
 
     public void AddInListFreeConts()
     {
-        levelManager.listFreeConts.Add(this.gameObject);
+        levelManager.listFreeConts.Add(this);
     }
 
     public void RemoveContInLFC()
     {
-        if(levelManager.listFreeConts.Contains(this.gameObject))
-            levelManager.listFreeConts.Remove(this.gameObject);
+        if(levelManager.listFreeConts.Contains(this))
+            levelManager.listFreeConts.Remove(this);
     }
 
     public void DeSpawnBlock()
@@ -82,15 +82,4 @@ public class Container : MonoBehaviour
         SpawnType(blType, true);
     }
 
-    public void EndLevel(GameObject obj)
-    {
-        if (obj.tag == Tags.Square || obj.tag == Tags.Block_Boss)
-        {
-            obj.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        }
-        else if (obj.tag == Tags.Square_Teleport)
-        {
-            Destroy(obj);
-        }
-    }
 }

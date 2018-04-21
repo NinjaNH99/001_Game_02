@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class Bonus : MonoSingleton<Bonus>
 {
     public GameObject bonus_01Text;
-    public RectTransform bonus_01Icon;
+    public UnityEngine.RectTransform bonus_01Icon;
 
     // Bonus 02 
     public GameObject bonus_02_text;
     public GameObject bonus_02UI;
-    public RectTransform bonus_02Icon;
+    public UnityEngine.RectTransform bonus_02Icon;
 
     public Button bonus_02Button;
     public GameObject EFX;

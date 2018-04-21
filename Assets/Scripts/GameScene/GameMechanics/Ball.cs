@@ -51,32 +51,6 @@ public abstract class Ball : MonoSingleton<Ball>
         ResetSpeed();
     }
 
-    /*
-    protected virtual void StartFall()
-    {
-        checkPosX--;
-        if (checkPosX <= 0)
-        {
-            if (rectPos.position.x > 0)
-            {
-                rigid.AddForce(new Vector2(-0.01f, -0.01f) * speed, ForceMode2D.Impulse);
-                checkPosX = 5;
-            }
-            else
-            {
-                rigid.AddForce(new Vector2(0.01f, -0.01f) * speed, ForceMode2D.Impulse);
-                checkPosX = 5;
-            }
-            ResetSpeed();
-        }
-
-        if (startFall)
-        {
-            rigid.gravityScale = 0.1f;
-            startFall = false;
-        }
-    }*/
-
     protected virtual void DeblockOnPosX(float concatctPOs)
     {
         if(lastPosXTop != concatctPOs)
@@ -86,17 +60,20 @@ public abstract class Ball : MonoSingleton<Ball>
         }
 
         countContactPosXTop--;
-        if(concatctPOs <= 0)
+        if(countContactPosXTop <= 0)
         {
+            Debug.Log("Ball block on pos X");
             if (rectPos.position.x > 0)
             {
                 rigid.AddForce(new Vector2(-0.01f, 0) * speed, ForceMode2D.Impulse);
-                concatctPOs = 5;
+                countContactPosXTop = 5;
+                Debug.Log("AddForce(-0.01f, 0)");
             }
             else
             {
                 rigid.AddForce(new Vector2(0.01f, 0) * speed, ForceMode2D.Impulse);
-                concatctPOs = 5;
+                countContactPosXTop = 5;
+                Debug.Log("AddForce(0.01f, 0)");
             }
             ResetSpeed();
         }
@@ -123,13 +100,6 @@ public abstract class Ball : MonoSingleton<Ball>
         {
             DeblockOnPosX(rectPos.position.x);
         }
-        //if (coll.gameObject.CompareTag(Tags.Wall) || coll.gameObject.CompareTag(Tags.WallR))
-        //{
-        //rigid.AddForce(new Vector2(0, -0.0005f) * speed, ForceMode2D.Impulse);
-        //}
-
-        //enterTeleport = true;
-        //StartFall();
         ResetSpeed();
     }
 
@@ -138,7 +108,7 @@ public abstract class Ball : MonoSingleton<Ball>
         if (coll.gameObject.CompareTag(Tags.Square_Teleport))
         {
             if (enterTeleport)
-                LevelManager.Instance.Teleports(coll.GetComponentInParent<Square_01>().gameObject, this.gameObject);
+                rectPos.position = LevelManager.Instance.Teleports(coll.GetComponentInParent<Square_01>().gameObject.GetComponent<RectTransform>());
             enterTeleport = false;
         }
         ResetSpeed();

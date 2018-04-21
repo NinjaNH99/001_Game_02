@@ -76,8 +76,8 @@ public class CollectBonus : MonoBehaviour
         if (!isCollected)
         {
             Destroy(this.gameObject);
-            if (!LevelManager.Instance.listFreeConts.Contains(GetComponentInParent<Container>().gameObject))
-                LevelManager.Instance.listFreeConts.Remove(GetComponentInParent<Container>().gameObject);
+            if (!LevelManager.Instance.listFreeConts.Contains(GetComponentInParent<Container>()))
+                LevelManager.Instance.listFreeConts.Remove(GetComponentInParent<Container>());
         }
     }
 }

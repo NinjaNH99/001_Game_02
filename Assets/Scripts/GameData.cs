@@ -44,13 +44,11 @@ public class GameData : MonoSingleton<GameData>
 
     private void OnApplicationPause(bool pause)
     {
-        #region Mobile Inputs
         if (restartScene)
         {
             return;
         }
         SaveLoadManager.SaveDataCloseApp();
-        #endregion
     }
 
     public static void SaveDataRestart()

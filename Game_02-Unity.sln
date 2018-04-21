@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_02-Unity", "Game_02-Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_02-Unity.Editor.Plugins", "Game_02-Unity.Editor.Plugins.csproj", "{20FC0AC8-B1DF-014D-52A2-30CAB6ED16ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_02-Unity.Editor", "Game_02-Unity.Editor.csproj", "{C6BB9DA1-EDE3-BFAA-6273-3D12D3EEA9DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{20FC0AC8-B1DF-014D-52A2-30CAB6ED16ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20FC0AC8-B1DF-014D-52A2-30CAB6ED16ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20FC0AC8-B1DF-014D-52A2-30CAB6ED16ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6BB9DA1-EDE3-BFAA-6273-3D12D3EEA9DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6BB9DA1-EDE3-BFAA-6273-3D12D3EEA9DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6BB9DA1-EDE3-BFAA-6273-3D12D3EEA9DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6BB9DA1-EDE3-BFAA-6273-3D12D3EEA9DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
