@@ -62,18 +62,19 @@ public abstract class Ball : MonoSingleton<Ball>
         countContactPosXTop--;
         if(countContactPosXTop <= 0)
         {
+            var forceX = UnityEngine.Random.Range(0.01f, 0.05f);
             Debug.Log("Ball block on pos X");
             if (rectPos.position.x > 0)
             {
-                rigid.AddForce(new Vector2(-0.01f, 0) * speed, ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(-forceX, 0) * speed, ForceMode2D.Impulse);
                 countContactPosXTop = 5;
-                Debug.Log("AddForce(-0.01f, 0)");
+                Debug.Log("AddForce(" + (-forceX) + " , 0)");
             }
             else
             {
-                rigid.AddForce(new Vector2(0.01f, 0) * speed, ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(forceX, 0) * speed, ForceMode2D.Impulse);
                 countContactPosXTop = 5;
-                Debug.Log("AddForce(0.01f, 0)");
+                Debug.Log("AddForce(" + forceX + " , 0)");
             }
             ResetSpeed();
         }
