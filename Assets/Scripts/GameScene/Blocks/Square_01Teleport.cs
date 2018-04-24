@@ -5,23 +5,20 @@ using UnityEngine.UI;
 
 public class Square_01Teleport : MonoBehaviour
 {
-    //public Image imgSign;
-    public Material imgSign;
+    public Material portalMaterial;
+    public GameObject teleportImage;
 
-    //private GameController gameContr;
-    //public GameObject parentOBJ;
+    private Transform rectTransform;
 
     private void Start()
     {
-        //gameContr = GameController.Instance;
-        ChangeColor();
-        //parentOBJ = GetComponentInParent<Square_01>().gameObject;
+        rectTransform = teleportImage.GetComponent<Transform>();
+        portalMaterial.color = GameController.Instance.ChangeColor(GameData.score_Rows);
     }
-    
-    public void ChangeColor()
+
+    private void Update()
     {
-        var colorScore = GameData.score_Rows;
-        imgSign.color = GameController.Instance.ChangeColor(colorScore);
+        rectTransform.Rotate(new Vector3(0,0,8) * Time.deltaTime * 20f);
     }
 
 }
