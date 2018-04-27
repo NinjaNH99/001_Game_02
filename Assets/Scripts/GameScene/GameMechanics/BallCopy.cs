@@ -4,14 +4,16 @@ using UnityEngine.UI;
 
 public class BallCopy : Ball
 {
-    private bool ballIsLanded = false;
+    public GameObject despawnEFX;
+
+    //private bool ballIsLanded = false;
 
     protected override void Awake()
     {
         base.Awake();
-        EventManager.EvMoveDownM += TurnOFFBall;
+        //EventManager.EvMoveDownM += TurnOFFBall;
         gameObject.GetComponent<Image>().color = BallInit.Instance.ballCopyColor;
-        ballIsLanded = false;
+        //ballIsLanded = false;
         speed = BallInit.Instance.ballSpeedGet;
 
         rectPos.position = BallInit.Instance.shootBallPos;
@@ -28,6 +30,7 @@ public class BallCopy : Ball
     private void OnEnable()
     {        Awake();    }
 
+    /*
     private void Update()
     {
         if (ballIsLanded)
@@ -51,30 +54,43 @@ public class BallCopy : Ball
     {
         EventManager.EvMoveDownM -= TurnOFFBall;
         gameObject.SetActive(false);
-    }
+    }*/
 
     public override void SendBallInDirection(Vector2 dir)
     {
         base.SendBallInDirection(dir);
     }
 
+    private void Despawn()
+    {
+        rectPos.sizeDelta = new Vector2(17.5f, 17.5f);
+        gameObject.SetActive(false);
+    }
+
     protected override void TouchFloor()
     {
         base.TouchFloor();
         rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
-        GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
-        ballIsLanded = true;
+        //GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
+        //ballIsLanded = true;
         ResetSpeed();
-    }
 
-    public override void CollectBall()
-    {
-        base.CollectBall();
+        GameController.Instance.IsAllBallLanded();
+
+        GameObject go = Instantiate(despawnEFX, this.rectPos) as GameObject;
+        Destroy(go, 1f);
+
+        animator.SetTrigger("Despawn");
     }
 
     protected override void ResetSpeed()
     {
         base.ResetSpeed();
+    }
+
+    protected override void Teleport()
+    {
+        base.Teleport();
     }
 
     protected override void OnCollisionEnter2D(Collision2D coll)

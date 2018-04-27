@@ -53,7 +53,7 @@ TextureImporter:
     filterMode: 0
     aniso: -1
     mipBias: -1
-    wrapMode: 0
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -408,7 +408,7 @@ TextureImporter:
       outline: []
       tessellationDetail: -1
     outline: []
-  spritePackingTag: 
+  spritePackingTag: Pack_01
   userData: 
   assetBundleName: 
   assetBundleVariant: 

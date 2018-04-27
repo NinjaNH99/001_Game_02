@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine.UI;
 
-public class Block : MonoSingleton<Block>
+public class Block : MonoBehaviour
 {
     public GameObject goHpText;
     public GameObject DeathEFX;

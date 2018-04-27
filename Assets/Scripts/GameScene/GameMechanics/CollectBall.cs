@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CollectBall : MonoSingleton<CollectBall>
+public class CollectBall : MonoBehaviour
 {
     public GameObject Sprite;
     public GameObject AddBallUIPr;
-    public GameObject AddBallEFX;
+    public GameObject AddBallEFX, despawnEFX;
 
     public bool isByBonus = false;
 
@@ -14,11 +14,13 @@ public class CollectBall : MonoSingleton<CollectBall>
     private Rigidbody2D rigid;
     private GameObject Space2D;
     private Animator anim;
+    private RectTransform rectPos;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        rectPos = GetComponent<RectTransform>();
         //GetComponent<Image>().color = spriteColor;
         Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
         collected = false;
@@ -38,7 +40,7 @@ public class CollectBall : MonoSingleton<CollectBall>
         else
             anim.SetTrigger("BonOFF");
     }
-
+    /*
     private void Update()
     {
         if (ballIsLanded)
@@ -56,7 +58,7 @@ public class CollectBall : MonoSingleton<CollectBall>
                 Destroy(this.gameObject);
             }
         }
-    }
+    }*/
 
     private void CollectByBons()
     {
@@ -92,7 +94,7 @@ public class CollectBall : MonoSingleton<CollectBall>
             //spriteColor.a = 0.8f;
             transform.SetParent(Space2D.transform);
             //GetComponent<Image>().color = spriteColor;
-            Ball.Instance.CollectBall();
+            GameData.amountBalls++;
             Destroy(Sprite);
         }
     }
@@ -124,7 +126,22 @@ public class CollectBall : MonoSingleton<CollectBall>
         else
         {
             ballIsLanded = true;
-            transform.position = new Vector2(transform.position.x, transform.position.y);
+
+            rigid.simulated = false;
+
+            GameController.Instance.amountCollectBallsLeft--;
+            GameController.Instance.IsAllBallLanded();
+
+            GetComponent<Image>().SetTransparency(0.1f);
+
+            GameObject go = Instantiate(despawnEFX, rectPos) as GameObject;
+            Destroy(go, 1f);
+
+            rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
+
+            //transform.position = new Vector2(transform.position.x, transform.position.y);
+
+            Destroy(this.gameObject, 1f);
         }
     }
 

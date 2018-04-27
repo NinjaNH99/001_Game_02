@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -154,6 +154,7 @@ MonoBehaviour:
   AddBallUIPr: {fileID: 1385928151463188, guid: 3f7117555adfd2849a5c9beab434750c,
     type: 2}
   AddBallEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
+  despawnEFX: {fileID: 1480541713461542, guid: fdfef13d021d7574396093f280a8afbe, type: 2}
   isByBonus: 0
 --- !u!114 &114445626366896622
 MonoBehaviour:
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

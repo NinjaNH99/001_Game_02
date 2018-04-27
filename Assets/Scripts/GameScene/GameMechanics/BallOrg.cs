@@ -6,12 +6,12 @@ public class BallOrg : Ball
     public GameObject circleAnim;
     //public static Vector2 ballPosFolled;
 
-    private bool ballIsLanded = false;
+    //private bool ballIsLanded = false;
 
     protected override void Awake()
     {
         base.Awake();
-        ballIsLanded = false;
+        //ballIsLanded = false;
         //rectPos.position = new Vector2(GameData.posXBall, -1.5f);
     }
 
@@ -20,6 +20,7 @@ public class BallOrg : Ball
         base.Start();
     }
 
+    /*
     private void Update()
     {
         if (ballIsLanded)
@@ -35,7 +36,7 @@ public class BallOrg : Ball
                 }
             }
         }
-    }
+    }*/
 
     public override void SendBallInDirection(Vector2 dir)
     {
@@ -48,7 +49,10 @@ public class BallOrg : Ball
         base.TouchFloor();
         circleAnim.GetComponent<Animator>().SetTrigger("isFell");
         GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
-        ballIsLanded = true;
+        //ballIsLanded = true;
+
+        GameController.Instance.IsAllBallLanded();
+
         ResetSpeed();
     }
 
@@ -57,9 +61,9 @@ public class BallOrg : Ball
         base.ResetSpeed();
     }
 
-    public override void CollectBall()
+    protected override void Teleport()
     {
-        base.CollectBall();
+        base.Teleport();
     }
 
     protected override void OnCollisionEnter2D(Collision2D coll)

@@ -82,9 +82,11 @@ MonoBehaviour:
   enterTeleport: 0
   speed: 0
   rigid: {fileID: 50631606909117336}
+  lastPosXTop: 0
+  countContactPosXTop: 5
+  enterTeleportCount: 10
   DeathEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
   DestroyEFX: {fileID: 1971258555092594, guid: 4c9cd8dd7a91f9a4e9888df7149746f0, type: 2}
-  ballPos: {x: 0, y: 0}
 --- !u!114 &114863635557670698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 2edfb4f206de8ef4c9166f36a2f5e4e0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

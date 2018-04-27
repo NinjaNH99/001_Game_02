@@ -14,7 +14,7 @@ public class DeathLevel : MonoBehaviour
     {
         if (coll.gameObject.CompareTag(Tags.Square) || coll.gameObject.CompareTag(Tags.Block_Boss))
             OnLoadScene();
-        else if (!coll.gameObject.CompareTag(Tags.ballCopy) && !coll.gameObject.CompareTag(Tags.Player) && !coll.gameObject.CompareTag(Tags.Square_Liser) && !coll.gameObject.CompareTag(Tags.Square_Teleport) && !coll.gameObject.CompareTag(Tags.Row) && !coll.gameObject.CompareTag(Tags.BallBomb))
+        else if (!coll.gameObject.CompareTag(Tags.ballCopy) && !coll.gameObject.CompareTag(Tags.Player) && !coll.gameObject.CompareTag(Tags.Square_Liser) && !coll.gameObject.CompareTag(Tags.TeleportIn) && !coll.gameObject.CompareTag(Tags.TeleportOut) && !coll.gameObject.CompareTag(Tags.Row) && !coll.gameObject.CompareTag(Tags.BallBomb))
             coll.gameObject.SendMessage("DeathLevel");
     }
 

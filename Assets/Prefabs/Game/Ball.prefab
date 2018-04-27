@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 2edfb4f206de8ef4c9166f36a2f5e4e0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -190,6 +190,9 @@ MonoBehaviour:
   enterTeleport: 0
   speed: 0
   rigid: {fileID: 0}
+  lastPosXTop: 0
+  countContactPosXTop: 5
+  enterTeleportCount: 10
   circleAnim: {fileID: 1676947660880622}
 --- !u!114 &114496405954802812
 MonoBehaviour:
@@ -204,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 2edfb4f206de8ef4c9166f36a2f5e4e0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -231,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

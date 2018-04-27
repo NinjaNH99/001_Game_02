@@ -24,12 +24,13 @@ GameObject:
   - component: {fileID: 222033178505019390}
   - component: {fileID: 114341535006139434}
   - component: {fileID: 114654961826830890}
+  - component: {fileID: 95549631459029602}
   m_Layer: 10
   m_Name: BallCopy
   m_TagString: ballCopy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!50 &50968083363992132
 Rigidbody2D:
@@ -50,7 +51,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &58329978399020138
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -66,6 +67,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 8.5
+--- !u!95 &95549631459029602
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502800115187544}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 77b2dbe42a4b47e4db210db7d8093eb1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114341535006139434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 2edfb4f206de8ef4c9166f36a2f5e4e0, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -111,6 +129,8 @@ MonoBehaviour:
   rigid: {fileID: 0}
   lastPosXTop: 0
   countContactPosXTop: 0
+  enterTeleportCount: 5
+  despawnEFX: {fileID: 1480541713461542, guid: fdfef13d021d7574396093f280a8afbe, type: 2}
 --- !u!222 &222033178505019390
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -132,6 +152,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -354}
+  m_AnchoredPosition: {x: 34.6, y: -356.9}
   m_SizeDelta: {x: 17.5, y: 17.5}
   m_Pivot: {x: 0.5, y: 0.5}

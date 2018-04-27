@@ -32,6 +32,8 @@ public class GameController : MonoSingleton<GameController>
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+
         ballInit = ballInitObj.GetComponent<BallInit>();
 
         amountBallsLeft = GameData.amountBalls;

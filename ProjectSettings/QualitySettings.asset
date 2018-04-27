@@ -61,7 +61,7 @@ QualitySettings:
     - Standalone
   - serializedVersion: 2
     name: Simple
-    pixelLightCount: 1
+    pixelLightCount: 0
     shadows: 0
     shadowResolution: 0
     shadowProjection: 0
@@ -81,7 +81,7 @@ QualitySettings:
     vSyncCount: 0
     lodBias: 0.7
     maximumLODLevel: 0
-    particleRaycastBudget: 128
+    particleRaycastBudget: 4096
     asyncUploadTimeSlice: 2
     asyncUploadBufferSize: 4
     excludedTargetPlatforms: []

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class BallInit : MonoSingleton<BallInit>
 {
-    private const float BALLSPEED = 4f;
+    private const float BALLSPEED = 3.5f;
 
     public float ballSpeedGet { get { return BALLSPEED; } }
 
@@ -58,7 +58,7 @@ public class BallInit : MonoSingleton<BallInit>
 
     private void Start()
     {
-        ballColor = Ball.Instance.GetComponent<Image>().color;
+        ballColor = ballOr.GetComponent<Image>().color;
         ballCopyColor = ballColor;
         //targetBallPosLanded = ballOr.GetComponent<RectTransform>().position;
         targetBallPosLanded = shootBallPos = new Vector2(GameData.posXBall, -1.5f);

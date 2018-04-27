@@ -5,7 +5,7 @@ public class Container : MonoBehaviour
     public int visualIndex;
     public int rowID;
 
-    public GameObject[] blockTypes = new GameObject[6];
+    public GameObject[] blockTypes = new GameObject[8];
 
     private LevelManager levelManager;
 

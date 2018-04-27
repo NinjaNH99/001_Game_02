@@ -6,7 +6,8 @@ public static class Tags
 {
     public const string Floor = "Floor";
     public const string Square = "Square";
-    public const string Square_Teleport = "Square_Teleport";
+    public const string TeleportIn = "TeleportIn";
+    public const string TeleportOut = "TeleportOut";
     public const string Square_Liser = "Square_Liser";
     public const string Bonus = "Bonus";
     public const string Wall = "Wall";

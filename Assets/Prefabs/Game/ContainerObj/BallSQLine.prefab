@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -109,6 +109,9 @@ MonoBehaviour:
   enterTeleport: 0
   speed: 0
   rigid: {fileID: 0}
+  lastPosXTop: 0
+  countContactPosXTop: 5
+  enterTeleportCount: 10
   ballPos: {x: 0, y: 0}
 --- !u!222 &222629318369838270
 CanvasRenderer:

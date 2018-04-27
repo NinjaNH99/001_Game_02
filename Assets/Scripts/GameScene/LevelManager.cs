@@ -8,13 +8,14 @@ public class LevelManager : MonoSingleton<LevelManager>
     private const int RESETDATA = 4;
 
     public GameObject rowPrefab;
+    [HideInInspector]
+    public RectTransform teleportIn = null, teleportOut = null;
+    [HideInInspector]
     public Block_Boss bossObj = null;
 
     private GameController gameContr;
     // List of rows
     public List<GameObject> listRows = new List<GameObject>();
-    // List of teleports
-    public List<RectTransform> listTelep = new List<RectTransform>();
     // List of free containers
     public List<Container> listFreeConts = new List<Container>();
 
@@ -31,7 +32,6 @@ public class LevelManager : MonoSingleton<LevelManager>
     private void Awake()
     {
         listRows = new List<GameObject>();
-        listTelep = new List<RectTransform>();
         listFreeConts = new List<Container>();
 
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
@@ -118,21 +118,9 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
     }
 
-    public Vector2 Teleports(RectTransform currTeleport)
-    {
-        Vector2 ballPos;
-        var index = listTelep.FindIndex(x => x == currTeleport);
-
-        try
-        {
-            ballPos = listTelep[index + 1].position;
-        }
-        catch (System.Exception)
-        {
-            ballPos = listTelep[0].position;
-        }
-
-        return ballPos;
+    public Vector2 Teleports()
+    {        
+        return teleportOut.position;
     }
 
     public void SpawnRandom()
@@ -147,7 +135,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         // Spawn Teleport1
         posTelep = Random.Range(0, listFreeConts.Count);
         rowPosTelep = listFreeConts[posTelep].rowID;
-        listFreeConts[posTelep].SpawnType(BlType.square_Teleport);
+        listFreeConts[posTelep].SpawnType(BlType.teleportIn);
 
         // Spawn Teleport2
         posTelep2 = SpawnTelep2(rowPosTelep);
@@ -205,7 +193,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
         while (Mathf.Abs(listFreeConts[posTelep2].rowID - rowPosTelep) < option);
-        listFreeConts[posTelep2].SpawnType(BlType.square_Teleport);
+        listFreeConts[posTelep2].SpawnType(BlType.teleportOut);
         return posTelep2;
     }
 

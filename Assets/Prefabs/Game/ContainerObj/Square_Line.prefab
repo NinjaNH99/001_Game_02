@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 114016179430332174}
   - component: {fileID: 114500798731766352}
   m_Layer: 17
-  m_Name: Square_Liser
+  m_Name: Square_Line
   m_TagString: Square_Liser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746820004a76c6408ba8278c2bad2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bltype: 6
+  Bltype: 7
 --- !u!114 &114095211790321772
 MonoBehaviour:
   m_ObjectHideFlags: 1

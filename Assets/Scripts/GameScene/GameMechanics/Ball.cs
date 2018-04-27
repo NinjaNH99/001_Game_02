@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Ball : MonoSingleton<Ball>
+public abstract class Ball : MonoBehaviour
 {
     [HideInInspector]
     public bool allBallLanded, startFall, enterTeleport;
@@ -15,18 +15,22 @@ public abstract class Ball : MonoSingleton<Ball>
     protected RectTransform rectPos;
 
     public float lastPosXTop;
-    public int countContactPosXTop; 
+    public int countContactPosXTop = 5, enterTeleportCount = 10;
+
+    protected Animator animator;
 
     protected virtual void Awake()
     {
         rectPos = GetComponent<RectTransform>();
+        animator = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0.001f;
         rigid.simulated = true;
-        enterTeleport = true;
-        startFall = false;
+        startFall = enterTeleport = false;
         lastPosXTop = 0;
         countContactPosXTop = 5;
+        enterTeleportCount = 10;
+        rectPos.sizeDelta = new Vector2(17.5f, 17.5f);
         //checkPosX = 5;
     }
 
@@ -44,10 +48,11 @@ public abstract class Ball : MonoSingleton<Ball>
 
     protected virtual void TouchFloor()
     {
+        Debug.Log("TouchFloor");
+
         rigid.velocity = Vector2.zero;
-        rigid.simulated = false;
+        rigid.simulated = enterTeleport = false;
         rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
-        enterTeleport = true;
         ResetSpeed();
     }
 
@@ -84,11 +89,6 @@ public abstract class Ball : MonoSingleton<Ball>
     {
         rigid.velocity = rigid.velocity.normalized * speed;
     }
-
-    public virtual void CollectBall()
-    {
-        GameData.amountBalls++;
-    }
     
     protected virtual void OnCollisionEnter2D(Collision2D coll)
     {
@@ -104,14 +104,37 @@ public abstract class Ball : MonoSingleton<Ball>
         ResetSpeed();
     }
 
+    protected virtual void Teleport()
+    {
+        animator.SetTrigger("OutTeleport");
+        rectPos.position = LevelManager.Instance.Teleports();
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag(Tags.Square_Teleport))
+        if (coll.gameObject.CompareTag(Tags.TeleportIn))
+        {
+            if (enterTeleportCount > 0)
+            {
+                enterTeleportCount--;
+                enterTeleport = true;
+                rectPos.position = LevelManager.Instance.Teleports();
+                //animator.SetTrigger("OutTeleport");
+                //animator.SetTrigger("InTeleport");      
+            }
+            else
+                enterTeleportCount = 10;
+        }
+        /*
+        else if(coll.gameObject.CompareTag(Tags.TeleportOut))
         {
             if (enterTeleport)
-                rectPos.position = LevelManager.Instance.Teleports(coll.GetComponentInParent<Square_01>().gameObject.GetComponent<RectTransform>());
-            enterTeleport = false;
-        }
+            {
+                Debug.Log("Out");
+                //animator.SetTrigger("OutTeleport");
+                enterTeleport = false;
+            }
+        }*/
         ResetSpeed();
     }
 

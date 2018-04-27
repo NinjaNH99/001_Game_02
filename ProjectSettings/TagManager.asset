@@ -20,9 +20,10 @@ TagManager:
   - LaserSq
   - Block_Boss
   - Row
-  - Square_Teleport
   - Square_Liser
   - BallBomb
+  - TeleportIn
+  - TeleportOut
   layers:
   - Default
   - TransparentFX
