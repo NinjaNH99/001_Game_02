@@ -54,7 +54,7 @@ public static class SaveLoadManager
         LevelLoader.Instance.LoadLevel("Game");
     }
 
-    public static float[] LoadData()
+    public static float[,] LoadData()
     {
         if (File.Exists(Application.persistentDataPath + "/Data.sav"))
         {
@@ -64,15 +64,6 @@ public static class SaveLoadManager
             GameDataForFile data = bf.Deserialize(stream) as GameDataForFile;
 
             stream.Close();
-
-            //Debug.Log(" Data load:");
-            //Debug.Log(" data[0] amountBalls : " + data.data[0]);
-            //Debug.Log(" data[1] score_Rows  : " + data.data[1]);
-            //Debug.Log(" data[2] maxScore    : " + data.data[2]);
-            //Debug.Log(" data[3] nrRows      : " + data.data[3]);
-            //Debug.Log(" data[4] maxBonus_01 : " + data.data[4]);
-            //Debug.Log(" data[5] ballBomb : " + data.data[5]);
-            //Debug.LogWarning(" data[6] posXBall : " + data.data[6]);
 
             return data.data;
         }
@@ -88,110 +79,87 @@ public static class SaveLoadManager
 [Serializable]
 public class GameDataForFile
 {
-    public float[] data = new float[7];
+    public float[,] data = new float[11,9];
 
     public GameDataForFile()
     {   }
 
     public GameDataForFile RestartGameScene()
     {
-        data[0] = 1;
-        data[1] = 1;
+        data[0,0] = 1;
+        data[0,1] = 1;
         if (GameData.maxScore > GameData.score_Rows)
-            data[2] = GameData.maxScore;
+            data[0, 2] = GameData.maxScore;
         else
-            data[2] = GameData.score_Rows;
-        data[3] = 1;
-        data[4] = Bonus.Instance.Bonus_01;
-        data[5] = 0;
-        data[6] = 0;
-
-        //Debug.LogWarning(" Data restart:");
-        //Debug.LogWarning(" data[0] amountBalls : " + data[0]);
-        //Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
-        //Debug.LogWarning(" data[2] maxScore    : " + data[2]);
-        //Debug.LogWarning(" data[3] nrRows      : " + data[3]);
-        //Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
-        //Debug.LogWarning(" data[5] ballBomb : " + data.data[5]);
-        //Debug.LogWarning(" data[6] posXBall : " + data[6]);
+            data[0, 2] = GameData.score_Rows;
+        data[0, 3] = 1;
+        data[0, 4] = Bonus.Instance.Bonus_01;
+        data[0, 5] = 0;
+        data[0, 6] = 0;
 
         return this;
     }
 
     public GameDataForFile CloseApp()
     {
-        data[0] = GameData.amountBalls;
+        data[0, 0] = GameData.amountBalls;
 
-        if (GameData.score_Rows > data[1])
-            data[1] = GameData.score_Rows;
+        if (GameData.score_Rows > data[0, 1])
+            data[0, 1] = GameData.score_Rows;
 
-        if (GameData.maxScore > data[2])
-            data[2] = GameData.maxScore;
+        if (GameData.maxScore > data[0, 2])
+            data[0, 2] = GameData.maxScore;
 
-        data[3] = GameData.nrRows;
-        data[4] = GameData.maxBonus_01;
-        data[5] = GameData.ballBomb;
-        data[6] = GameData.posXBall;
+        data[0, 3] = GameData.nrRows;
+        data[0, 4] = GameData.maxBonus_01;
+        data[0, 5] = GameData.ballBomb;
+        data[0, 6] = GameData.posXBall;
 
-        //Debug.LogWarning(" Data create close app:");
-        //Debug.LogWarning(" data[0] amountBalls : " + data[0]);
-        //Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
-        //Debug.LogWarning(" data[2] maxScore    : " + data[2]);
-        //Debug.LogWarning(" data[3] nrRows      : " + data[3]);
-        //Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
-        //Debug.LogWarning(" data[5] ballBomb : " + data[5]);
-        //Debug.LogWarning(" data[6] posXBall : " + data[6]);
+        for (int i = 1; i < 10; i++)
+            for (int j = 0; j < 9; j++)
+                data[i, j] = GameData.level[i - 1, j];
 
         return this;
     }
 
     public GameDataForFile LoseGameSaveData()
     {
-        data[0] = 1;
-        data[1] = 1;
+        data[0, 0] = 1;
+        data[0, 1] = 1;
         if (GameData.maxScore > GameData.score_Rows)
-            data[2] = GameData.maxScore;
+            data[0, 2] = GameData.maxScore;
         else
-            data[2] = GameData.score_Rows;
-        data[3] = 1;
-        data[4] = Bonus.Instance.Bonus_01;
-        data[5] = 0;
-        data[6] = 0;
-
-        //Debug.LogWarning(" Data lose game:");
-        //Debug.LogWarning(" data[0] amountBalls : " + data[0]);
-        //Debug.LogWarning(" data[1] score_Rows  : " + data[1]);
-        //Debug.LogWarning(" data[2] maxScore    : " + data[2]);
-        //Debug.LogWarning(" data[3] nrRows      : " + data[3]);
-        //Debug.LogWarning(" data[4] maxBonus_01 : " + data[4]);
-        //Debug.LogWarning(" data[5] ballBomb : " + data.data[5]);
-        //Debug.LogWarning(" data[6] posXBall : " + data[6]);
+            data[0, 2] = GameData.score_Rows;
+        data[0, 3] = 1;
+        data[0, 4] = Bonus.Instance.Bonus_01;
+        data[0, 5] = 0;
+        data[0, 6] = 0;
 
         return this;
     }
 
-    public float[] ResetGameData()
+    public float[,] ResetGameData()
     {
-        data[0] = 1;
-        data[1] = 1;
-        data[2] = 1;
-        data[3] = 0;
-        data[4] = 0;
-        data[5] = 2;
-        data[6] = 0;
+        data[0, 0] = 1;
+        data[0, 1] = 1;
+        data[0, 2] = 1;
+        data[0, 3] = 0;
+        data[0, 4] = 0;
+        data[0, 5] = 2;
+        data[0, 6] = 0;
 
         return data;
     }
 
     public GameDataForFile ResetGameDataF()
     {
-        data[0] = 1;
-        data[1] = 1;
-        data[2] = 1;
-        data[3] = 0;
-        data[4] = 0;
-        data[5] = 2;
-        data[6] = 0;
+        data[0, 0] = 1;
+        data[0, 1] = 1;
+        data[0, 2] = 1;
+        data[0, 3] = 0;
+        data[0, 4] = 0;
+        data[0, 5] = 2;
+        data[0, 6] = 0;
 
         return this;
     }

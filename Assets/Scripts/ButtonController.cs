@@ -92,6 +92,7 @@ public class ButtonController : MonoBehaviour
 
     public void OnBoostSpeed()
     {
+        //EventManager.StartEvMaxSpeedM();
         Time.timeScale = 2f + (GameData.amountBalls / 80f);
         boostSpeedButton.interactable = false;
         boostSpeedButton.GetComponent<Animator>().SetTrigger("BoostSpeed_Exit");

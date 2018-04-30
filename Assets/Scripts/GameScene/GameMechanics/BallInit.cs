@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class BallInit : MonoSingleton<BallInit>
 {
-    private const float BALLSPEED = 3.5f;
+    private const float BALLSPEED = 4f;
 
     public float ballSpeedGet { get { return BALLSPEED; } }
 
@@ -147,7 +147,7 @@ public class BallInit : MonoSingleton<BallInit>
             ShowAmBallsExitText(AmountBalls);
         }
 
-        BallsList[0].GetComponent<BallOrg>().speed = ballSpeedGet;
+        //BallsList[0].GetComponent<BallOrg>().speed = ballSpeedGet;
         BallsList[0].GetComponent<BallOrg>().SendBallInDirection(shootDir);
 
         ShowAmBallsExitText(AmountBalls);

@@ -32,7 +32,7 @@ public class GameController : MonoSingleton<GameController>
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
 
         ballInit = ballInitObj.GetComponent<BallInit>();
 
@@ -71,7 +71,7 @@ public class GameController : MonoSingleton<GameController>
                 //UpdateUIText();
                 ballInit.ShowAmBallsExitText(GameData.amountBalls);
                 allBallLanded = false;
-                LevelManager.Instance.GenerateRow(false);
+                LevelManager.Instance.GenerateRow();
             }
             if (onBoostSpeed)
             {

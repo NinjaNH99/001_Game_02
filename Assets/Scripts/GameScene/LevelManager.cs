@@ -45,37 +45,14 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        int nrRows = GameData.nrRows;
-        GameData.nrRows = 0;
-
-        if (nrRows <= 0)
-            nrRows = 1;
-
-        for (int i = nrRows - 1; i > 0; i--)
-            GenerateRow(true, GameData.score_Rows - i);
-
-        GenerateRow(false);
+        GenerateRow();
     }
 
-    public void GenerateRow(bool contPlay, int k = 0)
+    public void GenerateRow(int k = 0)
     {
-        int rowID;
-
-        if (contPlay)
-        {
-            rowID = k;
-            if (k / 10f == 1f)
-            {
-                spawnBoss = true;
-                spawnRows = false;
-            }
-        }
-        else
-        {
-            rowID = GameData.score_Rows;
-            EventManager.StartEvDeSpawn();
-            EventManager.StartEvMoveDown();
-        }
+        int rowID = GameData.score_Rows;
+        EventManager.StartEvDeSpawn();
+        EventManager.StartEvMoveDown();
 
         if (CheckData())
         {
@@ -84,9 +61,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<Row>().SpawnCont(rowID, spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
-            curPosY -= DISTANCE_BETWEEN_BLOCKS; 
+            curPosY -= DISTANCE_BETWEEN_BLOCKS;
 
-            if(listRows.Count > 6 && listRows.Count < 12 && !contPlay)
+            if (listRows.Count > 6 && listRows.Count < 12)
             {
                 EventManager.StartEvSpawn();
             }
@@ -116,11 +93,6 @@ public class LevelManager : MonoSingleton<LevelManager>
                 conts[i].GetComponentInChildren<Block>().ReceiveHit(true);
             }
         }
-    }
-
-    public Vector2 Teleports()
-    {        
-        return teleportOut.position;
     }
 
     public void SpawnRandom()

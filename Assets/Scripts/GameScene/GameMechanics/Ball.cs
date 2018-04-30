@@ -6,7 +6,7 @@ using System;
 public abstract class Ball : MonoBehaviour
 {
     [HideInInspector]
-    public bool allBallLanded, startFall, enterTeleport;
+    public bool allBallLanded, startFall, enterTeleport, isShoot = false;
     [HideInInspector]
     public float speed;
     [HideInInspector]
@@ -26,12 +26,11 @@ public abstract class Ball : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         rigid.gravityScale = 0.001f;
         rigid.simulated = true;
-        startFall = enterTeleport = false;
+        rigid.velocity = Vector2.zero;
+        startFall = enterTeleport = isShoot = false;
         lastPosXTop = 0;
         countContactPosXTop = 5;
         enterTeleportCount = 10;
-        rectPos.sizeDelta = new Vector2(17.5f, 17.5f);
-        //checkPosX = 5;
     }
 
     protected virtual void Start()
@@ -41,17 +40,17 @@ public abstract class Ball : MonoBehaviour
 
     public virtual void SendBallInDirection(Vector2 dir)
     {
+        speed = BallInit.Instance.ballSpeedGet;
         rigid.simulated = true;
         rigid.gravityScale = 0.001f;
         rigid.AddForce(dir * speed, ForceMode2D.Impulse);
+        isShoot = true;
     }
 
     protected virtual void TouchFloor()
     {
-        Debug.Log("TouchFloor");
-
+        rigid.simulated = enterTeleport = isShoot = false;
         rigid.velocity = Vector2.zero;
-        rigid.simulated = enterTeleport = false;
         rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
         ResetSpeed();
     }
@@ -67,19 +66,15 @@ public abstract class Ball : MonoBehaviour
         countContactPosXTop--;
         if(countContactPosXTop <= 0)
         {
-            var forceX = UnityEngine.Random.Range(0.01f, 0.05f);
-            Debug.Log("Ball block on pos X");
             if (rectPos.position.x > 0)
             {
-                rigid.AddForce(new Vector2(-forceX, 0) * speed, ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(-0.04f, 0) * speed, ForceMode2D.Impulse);
                 countContactPosXTop = 5;
-                Debug.Log("AddForce(" + (-forceX) + " , 0)");
             }
             else
             {
-                rigid.AddForce(new Vector2(forceX, 0) * speed, ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(0.04f, 0) * speed, ForceMode2D.Impulse);
                 countContactPosXTop = 5;
-                Debug.Log("AddForce(" + forceX + " , 0)");
             }
             ResetSpeed();
         }
@@ -104,12 +99,6 @@ public abstract class Ball : MonoBehaviour
         ResetSpeed();
     }
 
-    protected virtual void Teleport()
-    {
-        animator.SetTrigger("OutTeleport");
-        rectPos.position = LevelManager.Instance.Teleports();
-    }
-
     protected virtual void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag(Tags.TeleportIn))
@@ -118,23 +107,11 @@ public abstract class Ball : MonoBehaviour
             {
                 enterTeleportCount--;
                 enterTeleport = true;
-                rectPos.position = LevelManager.Instance.Teleports();
-                //animator.SetTrigger("OutTeleport");
-                //animator.SetTrigger("InTeleport");      
+                rectPos.position = LevelManager.Instance.teleportOut.position;
             }
             else
                 enterTeleportCount = 10;
         }
-        /*
-        else if(coll.gameObject.CompareTag(Tags.TeleportOut))
-        {
-            if (enterTeleport)
-            {
-                Debug.Log("Out");
-                //animator.SetTrigger("OutTeleport");
-                enterTeleport = false;
-            }
-        }*/
         ResetSpeed();
     }
 

@@ -20,21 +20,6 @@ public class Row : MonoBehaviour
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
         nrSpace = 0;
-        //rowID = GameData.score_Rows;
-    }
-
-    private void Start()
-    {
-        //containers = GetComponentsInChildren<Container>();
-    }
-
-    public Block GetContIDBlock(int ID)
-    {
-        //Debug.Log("ID: " + ID);
-        if(containers[ID].GetComponentInChildren<Block>())
-            return containers[ID].GetComponentInChildren<Block>();
-        else
-            return null;
     }
 
     // Spawn random blockType from Cont in row
@@ -51,6 +36,8 @@ public class Row : MonoBehaviour
         {
             for (int i = 0; i < containers.Length; i++)
             {
+                containers[i].rowID = rowID;
+                evDeSpawnContainer += containers[i].DeSpawnBlock;
                 if (i == 3 || i == 5 || i == 6)
                 {
                     containers[i].SpawnType(BlType.space, false, false);
@@ -72,6 +59,8 @@ public class Row : MonoBehaviour
 
         for (int i = 0; i < containers.Length; i++)
         {
+            containers[i].rowID = rowID;
+            evDeSpawnContainer += containers[i].DeSpawnBlock;
             if (!spawnRows)
             {
                 if (i == 3 || i == 4 || i == 5 || i == 6)

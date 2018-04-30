@@ -6,6 +6,7 @@ public class GameData : MonoSingleton<GameData>
 {
     public static int amountBalls = 1, score_Rows = 1, maxScore = 1, nrRows = 0, maxBonus_01 = 0, ballBomb = 0;
     public static float posXBall = 0;
+    public static int[,] level = new int[10, 9];
     public static bool loadDataDone = false;
 
     private static bool restartScene = false;
@@ -14,18 +15,23 @@ public class GameData : MonoSingleton<GameData>
     {
         Time.timeScale = 1;
         loadDataDone = false;
+        level = new int[10, 9];
 
-        float[] loadedData = SaveLoadManager.LoadData();
-        amountBalls = (int)loadedData[0];
-        score_Rows = (int)loadedData[1];
-        maxScore = (int)loadedData[2];
-        if (loadedData[3] >= 10)
+        float[,] loadedData = SaveLoadManager.LoadData();
+        amountBalls = (int)loadedData[0, 0];
+        score_Rows = (int)loadedData[0, 1];
+        maxScore = (int)loadedData[0, 2];
+        if (loadedData[0, 3] >= 10)
             nrRows = 8;
         else
-            nrRows = (int)loadedData[3];
-        maxBonus_01 = (int)loadedData[4];
-        ballBomb = (int)loadedData[5];
-        posXBall = loadedData[6];
+            nrRows = (int)loadedData[0, 3];
+        maxBonus_01 = (int)loadedData[0, 4];
+        ballBomb = (int)loadedData[0, 5];
+        posXBall = loadedData[0, 6];
+
+        for (int i = 1; i < 10; i++)
+            for (int j = 0; j < 9; j++)
+                level[i-1, j] = (int)loadedData[i, j];
 
         loadDataDone = true;
 

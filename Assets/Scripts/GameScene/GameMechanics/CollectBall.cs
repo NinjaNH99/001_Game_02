@@ -9,7 +9,7 @@ public class CollectBall : MonoBehaviour
 
     public bool isByBonus = false;
 
-    private bool collected, ballIsLanded, LoseBall, isDestroy;
+    private bool collected, LoseBall, isDestroy;
 
     private Rigidbody2D rigid;
     private GameObject Space2D;
@@ -24,7 +24,6 @@ public class CollectBall : MonoBehaviour
         //GetComponent<Image>().color = spriteColor;
         Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
         collected = false;
-        ballIsLanded = false;
         LoseBall = false;
         isDestroy = true;
 
@@ -40,25 +39,6 @@ public class CollectBall : MonoBehaviour
         else
             anim.SetTrigger("BonOFF");
     }
-    /*
-    private void Update()
-    {
-        if (ballIsLanded)
-        {
-            if (GameController.Instance.firstBallLanded)
-            {
-                gameObject.transform.position = Vector3.MoveTowards(new Vector3(gameObject.transform.position.x, BallInit.Instance.ballOrgYPos, 0), BallInit.Instance.targetBallPosLanded, Time.deltaTime * 4.0f);
-            }
-            else
-                gameObject.transform.position = new Vector3(transform.position.x, BallInit.Instance.ballOrgYPos, 0);
-            if ((Vector2)gameObject.transform.position == BallInit.Instance.targetBallPosLanded)
-            {
-                GameController.Instance.amountCollectBallsLeft--;
-                GameController.Instance.IsAllBallLanded();
-                Destroy(this.gameObject);
-            }
-        }
-    }*/
 
     private void CollectByBons()
     {
@@ -125,8 +105,6 @@ public class CollectBall : MonoBehaviour
         }
         else
         {
-            ballIsLanded = true;
-
             rigid.simulated = false;
 
             GameController.Instance.amountCollectBallsLeft--;

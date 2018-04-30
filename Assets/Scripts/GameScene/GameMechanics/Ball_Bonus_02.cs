@@ -21,7 +21,7 @@ public class Ball_Bonus_02 : Ball
 
         onDestroy = false;
         SendBallInDirection(BallInit.Instance.shootDir);
-        ResetSpeed();
+        //ResetSpeed();
     }
 
     private void OnEnable()

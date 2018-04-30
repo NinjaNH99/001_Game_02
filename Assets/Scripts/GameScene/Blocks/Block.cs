@@ -60,7 +60,8 @@ public class Block : MonoBehaviour
         {
             if (isBonus)
                 anim.SetBool("IsBonus", true);
-            anim.SetTrigger("Hit");
+            else
+                anim.SetTrigger("Hit");
         }
         else
         {
