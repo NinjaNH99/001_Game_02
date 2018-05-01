@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4237085924407428}
   - component: {fileID: 114025012858723618}
   - component: {fileID: 114156191751693776}
+  - component: {fileID: 114661951595000006}
   m_Layer: 0
   m_Name: GameControler
   m_TagString: GameController
@@ -133,8 +134,8 @@ MonoBehaviour:
   AddBallUI: 0
   scoreText: {fileID: 0}
   maxScoreText: {fileID: 0}
+  ballInitObj: {fileID: 0}
   BoostSpeedButton: {fileID: 0}
-  nrBallINeed: 0
 --- !u!114 &114156191751693776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,3 +155,20 @@ MonoBehaviour:
   bonus_02Button: {fileID: 0}
   EFX: {fileID: 1205517881502708, guid: 8337002902c24b542beaf6de81dbadf3, type: 2}
   isReadyForLaunch: 0
+--- !u!114 &114661951595000006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044803221326956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d029048944858f740a009040e2541f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas2: {fileID: 0}
+  boostSpeedButton: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  loseMenu: {fileID: 0}
+  statusBar: {fileID: 0}
+  tutorialBar: {fileID: 0}

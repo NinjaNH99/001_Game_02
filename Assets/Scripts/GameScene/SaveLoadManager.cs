@@ -96,6 +96,7 @@ public class GameDataForFile
         data[0, 4] = Bonus.Instance.Bonus_01;
         data[0, 5] = 0;
         data[0, 6] = 0;
+        data[0, 7] = 0;
 
         return this;
     }
@@ -114,10 +115,11 @@ public class GameDataForFile
         data[0, 4] = GameData.maxBonus_01;
         data[0, 5] = GameData.ballBomb;
         data[0, 6] = GameData.posXBall;
+        data[0, 7] = 1;
 
         for (int i = 1; i < 10; i++)
             for (int j = 0; j < 9; j++)
-                data[i, j] = GameData.level[i - 1, j];
+                data[i, j] = GameData.levelMap[i - 1, j];
 
         return this;
     }
@@ -134,6 +136,7 @@ public class GameDataForFile
         data[0, 4] = Bonus.Instance.Bonus_01;
         data[0, 5] = 0;
         data[0, 6] = 0;
+        data[0, 7] = 0;
 
         return this;
     }
@@ -147,6 +150,7 @@ public class GameDataForFile
         data[0, 4] = 0;
         data[0, 5] = 2;
         data[0, 6] = 0;
+        data[0, 7] = 0;
 
         return data;
     }
@@ -160,6 +164,7 @@ public class GameDataForFile
         data[0, 4] = 0;
         data[0, 5] = 2;
         data[0, 6] = 0;
+        data[0, 7] = 0;
 
         return this;
     }

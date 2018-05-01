@@ -6,16 +6,19 @@ public class GameData : MonoSingleton<GameData>
 {
     public static int amountBalls = 1, score_Rows = 1, maxScore = 1, nrRows = 0, maxBonus_01 = 0, ballBomb = 0;
     public static float posXBall = 0;
-    public static int[,] level = new int[10, 9];
-    public static bool loadDataDone = false;
+    public static bool restartGame = false;
 
+    [SerializeField]
+    public static int[,] levelMap = new int[10, 9];
+
+    public static bool loadDataDone = false;
     private static bool restartScene = false;
 
     private void Awake()
     {
         Time.timeScale = 1;
         loadDataDone = false;
-        level = new int[10, 9];
+        levelMap = new int[10, 9];
 
         float[,] loadedData = SaveLoadManager.LoadData();
         amountBalls = (int)loadedData[0, 0];
@@ -29,9 +32,13 @@ public class GameData : MonoSingleton<GameData>
         ballBomb = (int)loadedData[0, 5];
         posXBall = loadedData[0, 6];
 
-        for (int i = 1; i < 10; i++)
-            for (int j = 0; j < 9; j++)
-                level[i-1, j] = (int)loadedData[i, j];
+        if (loadedData[0, 7] == 1)
+        {
+            restartGame = false;
+            for (int i = 1; i < 10; i++)
+                for (int j = 0; j < 9; j++)
+                    levelMap[i - 1, j] = (int)loadedData[i, j];
+        }
 
         loadDataDone = true;
 

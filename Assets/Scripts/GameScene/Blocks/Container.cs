@@ -44,6 +44,7 @@ public class Container : MonoBehaviour
 
     public void AddInListFreeConts()
     {
+        GetComponentInParent<Row>().rowMap[visualIndex] = 8;
         levelManager.listFreeConts.Add(this);
     }
 
@@ -70,11 +71,20 @@ public class Container : MonoBehaviour
 
         int r = Random.Range(0, 100);
         if (r >= 60)
+        {
             blType = BlType.ball;
+            GetComponentInParent<Row>().rowMap[visualIndex] = 2;
+        }
         else if (r >= 20)
+        {
             blType = BlType.bonus;
+            GetComponentInParent<Row>().rowMap[visualIndex] = 3;
+        }
         else if (r >= 10)
+        {
             blType = BlType.square;
+            GetComponentInParent<Row>().rowMap[visualIndex] = 1;
+        }
 
         RemoveContInLFC();
         SpawnType(blType, true);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum BlType
 {
+    // 10 - don't add to listFC => Container
     square = 1,
     ball = 2,
     bonus = 3,

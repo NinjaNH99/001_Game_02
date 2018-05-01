@@ -292,9 +292,44 @@ Prefab:
       objectReference: {fileID: 1761355462}
     - target: {fileID: 114025012858723618, guid: bd4179d294facd4479ee0996dad19a06,
         type: 2}
+      propertyPath: ballInitObj
+      value: 
+      objectReference: {fileID: 863096899}
+    - target: {fileID: 114025012858723618, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
       propertyPath: BoostSpeedButton
       value: 
       objectReference: {fileID: 1987723358}
+    - target: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
+      propertyPath: canvas2
+      value: 
+      objectReference: {fileID: 1535527143}
+    - target: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
+      propertyPath: boostSpeedButton
+      value: 
+      objectReference: {fileID: 1987723358}
+    - target: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 315623629}
+    - target: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
+      propertyPath: loseMenu
+      value: 
+      objectReference: {fileID: 609030354}
+    - target: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
+      propertyPath: statusBar
+      value: 
+      objectReference: {fileID: 45077825}
+    - target: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+        type: 2}
+      propertyPath: tutorialBar
+      value: 
+      objectReference: {fileID: 76931587}
     - target: {fileID: 114156191751693776, guid: bd4179d294facd4479ee0996dad19a06,
         type: 2}
       propertyPath: bonus_01Text
@@ -325,16 +360,6 @@ Prefab:
       propertyPath: bonus_02Button
       value: 
       objectReference: {fileID: 1578857744}
-    - target: {fileID: 114025012858723618, guid: bd4179d294facd4479ee0996dad19a06,
-        type: 2}
-      propertyPath: ballInit
-      value: 
-      objectReference: {fileID: 863096900}
-    - target: {fileID: 114025012858723618, guid: bd4179d294facd4479ee0996dad19a06,
-        type: 2}
-      propertyPath: ballInitObj
-      value: 
-      objectReference: {fileID: 863096899}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bd4179d294facd4479ee0996dad19a06, type: 2}
   m_IsPrefabParent: 0
@@ -353,23 +378,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1044803221326956, guid: bd4179d294facd4479ee0996dad19a06,
     type: 2}
   m_PrefabInternal: {fileID: 249305886}
---- !u!114 &374680662
+--- !u!114 &374680662 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 374680661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_PrefabParentObject: {fileID: 114661951595000006, guid: bd4179d294facd4479ee0996dad19a06,
+    type: 2}
+  m_PrefabInternal: {fileID: 249305886}
   m_Script: {fileID: 11500000, guid: d029048944858f740a009040e2541f24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas2: {fileID: 1535527143}
-  boostSpeedButton: {fileID: 1987723358}
-  pauseMenu: {fileID: 315623629}
-  loseMenu: {fileID: 609030354}
-  statusBar: {fileID: 45077825}
-  tutorialBar: {fileID: 76931587}
 --- !u!1001 &409736488
 Prefab:
   m_ObjectHideFlags: 0
@@ -912,12 +926,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1571568307901506, guid: e5e145d0faaccc84ea6368bbb5c9f013,
     type: 2}
   m_PrefabInternal: {fileID: 219474007}
---- !u!114 &863096900 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114704704683178416, guid: e5e145d0faaccc84ea6368bbb5c9f013,
-    type: 2}
-  m_PrefabInternal: {fileID: 219474007}
-  m_Script: {fileID: 11500000, guid: 38ea94510393850488a7dc09430f0462, type: 3}
 --- !u!224 &897364120 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224152892741003828, guid: 0f0e5d8838d96e3408e6e34ac5a4c39b,

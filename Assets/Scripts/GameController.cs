@@ -71,7 +71,7 @@ public class GameController : MonoSingleton<GameController>
                 //UpdateUIText();
                 ballInit.ShowAmBallsExitText(GameData.amountBalls);
                 allBallLanded = false;
-                LevelManager.Instance.GenerateRow();
+                LevelManager.Instance.GenerateMapNewGame();
             }
             if (onBoostSpeed)
             {

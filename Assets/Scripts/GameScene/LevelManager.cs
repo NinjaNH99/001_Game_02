@@ -23,8 +23,10 @@ public class LevelManager : MonoSingleton<LevelManager>
     public bool spawnRows = true, spawnBoss = false;
     [HideInInspector]
     public int LBLMAX = 3, LBNMAX = 0, SQBON = 3;
-    [HideInInspector]
+
     private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resSpawnRows = 0;
+    private int rowIndexMap = 0;
+    private int[] rowMap = new int[9];
 
     private float curPosY = 0;
     private float desiredPosition = -130.0f;
@@ -33,6 +35,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         listRows = new List<GameObject>();
         listFreeConts = new List<Container>();
+
+        rowIndexMap = 0;
 
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
         resBLMAX = resBNMAX = resSQBON = resSpawnRows = 0;
@@ -45,20 +49,37 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void Start()
     {
-        GenerateRow();
+        if (GameData.restartGame)
+            GenerateMapNewGame();
+        else
+            GenerateMapContGame(0);
     }
 
-    public void GenerateRow(int k = 0)
+    public void GenerateMapNewGame()
     {
-        int rowID = GameData.score_Rows;
         EventManager.StartEvDeSpawn();
         EventManager.StartEvMoveDown();
 
         if (CheckData())
         {
+            rowMap = GenerateRowMap();
+            if (rowIndexMap > 9)
+                rowIndexMap = 0;
+
+            GameData.nrRows++;
+
+            for (int i = 0; i < 9; i++)
+                GameData.levelMap[rowIndexMap, i] = rowMap[i];
+
+            rowIndexMap++;
+
+            int rowID = GameData.score_Rows;
+
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(rowID, spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
+            //go_row.GetComponent<Row>().SpawnCont(rowID, spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
+            go_row.GetComponent<Row>().SpawnCont(rowID, rowIndexMap, rowMap);
+
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
@@ -68,8 +89,151 @@ public class LevelManager : MonoSingleton<LevelManager>
                 EventManager.StartEvSpawn();
             }
 
-            GameData.nrRows++;
         }
+    }
+
+    private void GenerateMapContGame(int index)
+    {
+        if (index > 9)
+            return;
+
+        for (int i = 0; i < 9; i++)
+            rowMap[i] = GameData.levelMap[index, i];
+
+        int rowID = GameData.score_Rows;
+
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
+        GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
+        go_row.GetComponent<Row>().SpawnCont(rowID, index, rowMap);
+
+        listRows.Add(go_row);
+        go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
+        curPosY -= DISTANCE_BETWEEN_BLOCKS;
+
+        if (listRows.Count > 6 && listRows.Count < 12)
+            EventManager.StartEvSpawn();
+
+        index++;
+        GenerateMapContGame(index);
+    }
+
+    private int[] GenerateRowMap()
+    {
+        int[] rowMap = new int[9];
+
+        if (spawnBoss)
+        {
+            for (int i = 0; i < rowMap.Length; i++)
+            {
+                if (i == 3 || i == 5 || i == 6)
+                    rowMap[i] = 10;
+                else if (i == 4)
+                {
+                    rowMap[i] = 9;
+                    spawnBoss = false;
+                }
+                else
+                    rowMap[i] = 8;
+            }
+            return rowMap;
+        }
+
+        bool god = false, kBL = true, kHPX2 = true;
+        int SPMAX = 3, randType = 0;
+
+        for (int i = 0; i < rowMap.Length; i++)
+        {
+            if (!spawnRows)
+            {
+                if (i == 3 || i == 4 || i == 5 || i == 6)
+                    rowMap[i] = 10;
+                else
+                    rowMap[i] = 8;
+            }
+            else
+            {
+                while (!god)
+                {
+                    randType = Random.Range(0, 11);
+                    switch (randType)
+                    {
+                        case 0:
+                            {
+                                if (LBLMAX > 0 && kBL)
+                                {
+                                    rowMap[i] = 2;
+                                    if (Random.Range(0, 4) != 1)
+                                        kBL = false;
+                                    LBLMAX--;
+                                    god = true;
+                                }
+                                break;
+                            }
+                        case 3:
+                            {
+                                if (LBNMAX > 0)
+                                {
+                                    rowMap[i] = 3;
+                                    LBNMAX--;
+                                    god = true;
+                                }
+                                break;
+                            }
+                        case 4:
+                            {
+                                if (SQBON > 0 && kHPX2)
+                                {
+                                    rowMap[i] = 6;
+                                    SQBON--;
+                                    kHPX2 = false;
+                                    SQBON--;
+                                    god = true;
+                                }
+                                break;
+                            }
+                        case 6:
+                            {
+                                rowMap[i] = 1;
+                                god = true;
+                                break;
+                            }
+                        case 7:
+                            {
+                                rowMap[i] = 1;
+                                god = true;
+                                break;
+                            }
+                        case 9:
+                            {
+                                if (LBLMAX > 0 && kBL)
+                                {
+                                    rowMap[i] = 2;
+                                    if (Random.Range(0, 4) != 1)
+                                        kBL = false;
+                                    LBLMAX--;
+                                    god = true;
+                                }
+                                break;
+                            }
+                        default:
+                            {
+                                if (SPMAX > 0)
+                                {
+                                    rowMap[i] = 8;
+                                    SPMAX--;
+                                    god = true;
+                                }
+                                break;
+                            }
+                    }
+                }
+
+                god = false;
+
+            }
+        }
+
+        return rowMap;
     }
 
     public void ApplyBallBonus(int contID, int rowID)

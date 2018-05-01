@@ -5,11 +5,13 @@ using UnityEngine;
 public class Row : MonoBehaviour
 {
     public int rowID;
+    public int rowIndexMap;
     public int nrSpace = 0;
 
     protected int  SPMAX = 3;
 
     public Container[] containers = new Container[9];
+    public int[] rowMap;
 
     public delegate void EvDeSpawnContainer();
     public event EvDeSpawnContainer evDeSpawnContainer;
@@ -22,6 +24,45 @@ public class Row : MonoBehaviour
         nrSpace = 0;
     }
 
+    // Spawn containters from rowMap
+    public void SpawnCont(int rowIDP, int rowIndexMap, int[] rowMap)
+    {
+        rowID = rowIDP;
+        this.rowMap = rowMap;
+        this.rowIndexMap = rowIndexMap;
+
+        for (int i = 0; i < containers.Length; i++)
+        {
+            containers[i].rowID = rowID;
+            evDeSpawnContainer += containers[i].DeSpawnBlock;
+            switch (rowMap[i])
+            {
+                case 6:
+                    {
+                        containers[i].SpawnType((BlType)rowMap[i]);
+                        containers[i].GetComponentInChildren<Block>().hpx2 = 2;
+                        containers[i].GetComponentInChildren<Block>().isBonus = true;
+                        break;
+                    }
+
+                case 10:
+                    {
+                        containers[i].SpawnType(BlType.space, false, false);
+                        break;
+                    }
+
+                default:
+                    {
+                        containers[i].SpawnType((BlType)rowMap[i]);
+                        break;
+                    }
+            }
+
+        }
+
+    }
+
+    /*
     // Spawn random blockType from Cont in row
     public void SpawnCont(int rowIDP, bool spawnRows, bool SPBOSS, int BLMAX, int BONMAX, int SQBON)
     {
@@ -158,6 +199,7 @@ public class Row : MonoBehaviour
             }
         }
     }
+    */
 
     public void DeSpawn()
     {
