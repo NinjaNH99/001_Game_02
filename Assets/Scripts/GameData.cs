@@ -8,8 +8,8 @@ public class GameData : MonoSingleton<GameData>
     public static float posXBall = 0;
     public static bool restartGame = false;
 
-    [SerializeField]
     public static int[,] levelMap = new int[10, 9];
+    //public static List<int[]> levelMap = new List<int[]>();
 
     public static bool loadDataDone = false;
     private static bool restartScene = false;
@@ -36,9 +36,13 @@ public class GameData : MonoSingleton<GameData>
         {
             restartGame = false;
             for (int i = 1; i < 10; i++)
+            {
                 for (int j = 0; j < 9; j++)
-                    levelMap[i - 1, j] = (int)loadedData[i, j];
+                    levelMap[i-1,j] = (int)loadedData[i, j];
+            }
         }
+        else
+            restartGame = true;
 
         loadDataDone = true;
 

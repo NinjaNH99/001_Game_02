@@ -50,7 +50,7 @@ public class Container : MonoBehaviour
 
     public void RemoveContInLFC()
     {
-        if(levelManager.listFreeConts.Contains(this))
+        if (levelManager.listFreeConts.Contains(this))
             levelManager.listFreeConts.Remove(this);
     }
 

@@ -19,6 +19,7 @@ public class Row : MonoBehaviour
     private void Awake()
     {
         containers = GetComponentsInChildren<Container>();
+        EventManager.EvMoveDownM += UpdateRowMap;
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
         nrSpace = 0;
@@ -200,6 +201,12 @@ public class Row : MonoBehaviour
         }
     }
     */
+
+    public void UpdateRowMap()
+    {
+        for (int i = 0; i < 9; i++)
+            GameData.levelMap[rowIndexMap, i] = rowMap[i];
+    }
 
     public void DeSpawn()
     {

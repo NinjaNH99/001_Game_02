@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LevelManager : MonoSingleton<LevelManager>
 {
@@ -27,6 +28,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resSpawnRows = 0;
     private int rowIndexMap = 0;
     private int[] rowMap = new int[9];
+    //private List<int>[] rowMap = new List<int>[9];
 
     private float curPosY = 0;
     private float desiredPosition = -130.0f;
@@ -36,7 +38,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         listRows = new List<GameObject>();
         listFreeConts = new List<Container>();
 
-        rowIndexMap = 0;
+        rowIndexMap = GameData.nrRows;
 
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
         resBLMAX = resBNMAX = resSQBON = resSpawnRows = 0;
@@ -52,7 +54,12 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (GameData.restartGame)
             GenerateMapNewGame();
         else
-            GenerateMapContGame(0);
+        {
+            int nrRows = GameData.nrRows;
+            GameData.nrRows = 0;
+            for (int i = 0; i < nrRows; i++)
+                GenerateMapContGame(i);
+        }
     }
 
     public void GenerateMapNewGame()
@@ -66,12 +73,8 @@ public class LevelManager : MonoSingleton<LevelManager>
             if (rowIndexMap > 9)
                 rowIndexMap = 0;
 
-            GameData.nrRows++;
-
             for (int i = 0; i < 9; i++)
-                GameData.levelMap[rowIndexMap, i] = rowMap[i];
-
-            rowIndexMap++;
+                GameData.levelMap[rowIndexMap,i] = rowMap[i];
 
             int rowID = GameData.score_Rows;
 
@@ -89,16 +92,16 @@ public class LevelManager : MonoSingleton<LevelManager>
                 EventManager.StartEvSpawn();
             }
 
+            rowIndexMap++;
+            GameData.nrRows++;
         }
     }
 
     private void GenerateMapContGame(int index)
     {
-        if (index > 9)
-            return;
-
         for (int i = 0; i < 9; i++)
-            rowMap[i] = GameData.levelMap[index, i];
+            //rowMap[i] = GameData.levelMap[index, i];
+            rowMap[i] = GameData.levelMap[index,i];
 
         int rowID = GameData.score_Rows;
 
@@ -113,8 +116,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         if (listRows.Count > 6 && listRows.Count < 12)
             EventManager.StartEvSpawn();
 
-        index++;
-        GenerateMapContGame(index);
+        GameData.nrRows++;
     }
 
     private int[] GenerateRowMap()
@@ -154,7 +156,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             {
                 while (!god)
                 {
-                    randType = Random.Range(0, 11);
+                    randType = UnityEngine.Random.Range(0, 11);
                     switch (randType)
                     {
                         case 0:
@@ -162,7 +164,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                                 if (LBLMAX > 0 && kBL)
                                 {
                                     rowMap[i] = 2;
-                                    if (Random.Range(0, 4) != 1)
+                                    if (UnityEngine.Random.Range(0, 4) != 1)
                                         kBL = false;
                                     LBLMAX--;
                                     god = true;
@@ -208,7 +210,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                                 if (LBLMAX > 0 && kBL)
                                 {
                                     rowMap[i] = 2;
-                                    if (Random.Range(0, 4) != 1)
+                                    if (UnityEngine.Random.Range(0, 4) != 1)
                                         kBL = false;
                                     LBLMAX--;
                                     god = true;
@@ -269,7 +271,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         int rowPosTelep = -1, rowPosLiser = -1, contPosLiser = -1;
 
         // Spawn Teleport1
-        posTelep = Random.Range(0, listFreeConts.Count);
+        posTelep = UnityEngine.Random.Range(0, listFreeConts.Count);
         rowPosTelep = listFreeConts[posTelep].rowID;
         listFreeConts[posTelep].SpawnType(BlType.teleportIn);
 
@@ -290,7 +292,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         do
         {
             k++;
-            posLiser2 = Random.Range(0, listFreeConts.Count);
+            posLiser2 = UnityEngine.Random.Range(0, listFreeConts.Count);
             if (k > listFreeConts.Count)
             {
                 option = 1;
@@ -306,7 +308,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         do
         {
-            posLiser = Random.Range(0, listFreeConts.Count);
+            posLiser = UnityEngine.Random.Range(0, listFreeConts.Count);
         }
         while (posLiser == posTelep || posLiser == posTelep2);
         rowPosLiser = listFreeConts[posLiser].rowID;
@@ -321,7 +323,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         do
         {
             k++;
-            posTelep2 = Random.Range(0, listFreeConts.Count);
+            posTelep2 = UnityEngine.Random.Range(0, listFreeConts.Count);
             if (k > listFreeConts.Count)
             {
                 option = 2;
