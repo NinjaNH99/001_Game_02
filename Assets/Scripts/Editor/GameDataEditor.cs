@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public class GameDataEditor : EditorWindow
 {
@@ -82,14 +83,16 @@ public class GameDataEditor : EditorWindow
     private void UpdateData2Current()
     {
         string res = "";
-        int row = 10, column = 9;
+        int row = GameData.nrRows, column = 9;
         for (int i = 0; i < row; i++)
         {
+            int[] temp = GameData.levelMap.ElementAt(i);
+
             res = res + "[ ";
             for (int j = 0; j < column; j++)
             {
-                if (GameData.levelMap[i, j] != 10)
-                    res = res + GameData.levelMap[i, j] + " ";
+                if(temp[j] != 10)
+                    res = res + temp[j] + " ";
                 else
                     res = res + "X" + " ";
             }
@@ -102,16 +105,16 @@ public class GameDataEditor : EditorWindow
 
     private void UpdateDataSave()
     {
-        float[,] loadedData = SaveLoadManager.LoadData();
         string res = "";
-        int row = 10, column = 9;
+        float[,] loadedData = SaveLoadManager.LoadData();
+        int row = (int)loadedData[0, 3], column = 9;
         for (int i = 0; i < row; i++)
         {
             res = res + "[ ";
             for (int j = 0; j < column; j++)
             {
-                if ((int)loadedData[i + 1, j] != 10)
-                    res = res + (int)loadedData[i + 1, j] + " ";
+                if (loadedData[i + 1,j] != 10)
+                    res = res + loadedData[i + 1, j] + " ";
                 else
                     res = res + "X" + " ";
             }

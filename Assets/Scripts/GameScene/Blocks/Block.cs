@@ -80,7 +80,7 @@ public class Block : MonoBehaviour
             else
                 main.startColor = GetComponent<SpriteRenderer>().color;
 
-            GetComponentInParent<Row>().nrSpace++;
+            //GetComponentInParent<Row>().nrSpace++;
             if (!isBonus)
                 GetComponentInParent<Container>().AddInListFreeConts();
             Destroy(go, 1f);

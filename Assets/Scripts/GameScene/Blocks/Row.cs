@@ -1,17 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Row : MonoBehaviour
 {
     public int rowID;
-    public int rowIndexMap;
-    public int nrSpace = 0;
 
     protected int  SPMAX = 3;
 
     public Container[] containers = new Container[9];
-    public int[] rowMap;
+    public int[] rowMap = new int[9];
 
     public delegate void EvDeSpawnContainer();
     public event EvDeSpawnContainer evDeSpawnContainer;
@@ -19,18 +18,15 @@ public class Row : MonoBehaviour
     private void Awake()
     {
         containers = GetComponentsInChildren<Container>();
-        EventManager.EvMoveDownM += UpdateRowMap;
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
-        nrSpace = 0;
     }
 
     // Spawn containters from rowMap
-    public void SpawnCont(int rowIDP, int rowIndexMap, int[] rowMap)
+    public void SpawnCont(int rowIDP, int[] rowMapP)
     {
         rowID = rowIDP;
-        this.rowMap = rowMap;
-        this.rowIndexMap = rowIndexMap;
+        rowMap = rowMapP;
 
         for (int i = 0; i < containers.Length; i++)
         {
@@ -46,6 +42,12 @@ public class Row : MonoBehaviour
                         break;
                     }
 
+                case 9:
+                    {
+                        containers[i].SpawnType((BlType)rowMap[i]);
+                        LevelManager.Instance.spawnRows = false;
+                        break;
+                    }
                 case 10:
                     {
                         containers[i].SpawnType(BlType.space, false, false);
@@ -202,18 +204,13 @@ public class Row : MonoBehaviour
     }
     */
 
-    public void UpdateRowMap()
-    {
-        for (int i = 0; i < 9; i++)
-            GameData.levelMap[rowIndexMap, i] = rowMap[i];
-    }
-
     public void DeSpawn()
     {
         evDeSpawnContainer();
         //Debug.LogWarning("DeSpawnRow[" + rowID + "]");
         LevelManager.Instance.listRows.Remove(this.gameObject);
         GameData.nrRows--;
+        GameData.levelMap.Dequeue();
         Destroy(this.gameObject);
     }
 }

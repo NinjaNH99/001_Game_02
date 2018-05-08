@@ -58,7 +58,7 @@ public class CollectBall : MonoBehaviour
 
             GetComponentInParent<Container>().AddInListFreeConts();
 
-            GetComponentInParent<Row>().nrSpace++;
+            //GetComponentInParent<Row>().nrSpace++;
             StartFalling();
             if (isDestroy)
             {

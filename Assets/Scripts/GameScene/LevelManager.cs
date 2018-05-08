@@ -1,11 +1,11 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class LevelManager : MonoSingleton<LevelManager>
 {
-    private const float DISTANCE_BETWEEN_BLOCKS = 65.0f; // 83.0
+    private const float DISTANCE_BETWEEN_BLOCKS = 65.0f;
     private const int RESETDATA = 4;
 
     public GameObject rowPrefab;
@@ -25,10 +25,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     [HideInInspector]
     public int LBLMAX = 3, LBNMAX = 0, SQBON = 3;
 
-    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resSpawnRows = 0;
-    private int rowIndexMap = 0;
-    private int[] rowMap = new int[9];
-    //private List<int>[] rowMap = new List<int>[9];
+    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0; /*resSpawnRows = 0;*/
 
     private float curPosY = 0;
     private float desiredPosition = -130.0f;
@@ -38,10 +35,8 @@ public class LevelManager : MonoSingleton<LevelManager>
         listRows = new List<GameObject>();
         listFreeConts = new List<Container>();
 
-        rowIndexMap = GameData.nrRows;
-
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
-        resBLMAX = resBNMAX = resSQBON = resSpawnRows = 0;
+        resBLMAX = resBNMAX = resSQBON = 0; /*resSpawnRows = 0;*/
         curPosY = 0;
         desiredPosition = -130.0f;
         spawnRows = true;
@@ -55,10 +50,13 @@ public class LevelManager : MonoSingleton<LevelManager>
             GenerateMapNewGame();
         else
         {
-            int nrRows = GameData.nrRows;
-            GameData.nrRows = 0;
-            for (int i = 0; i < nrRows; i++)
-                GenerateMapContGame(i);
+            int rowID;
+
+            for(int i = GameData.nrRows - 1, j = 0; i >= 0; i--, j++)
+            {
+                rowID = GameData.nrRows - i;
+                GenerateMapContGame(j, rowID);
+            }
         }
     }
 
@@ -69,19 +67,15 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         if (CheckData())
         {
-            rowMap = GenerateRowMap();
-            if (rowIndexMap > 9)
-                rowIndexMap = 0;
+            int[] rowMap = GenerateRowMap();
 
-            for (int i = 0; i < 9; i++)
-                GameData.levelMap[rowIndexMap,i] = rowMap[i];
+            GameData.levelMap.Enqueue(rowMap);
 
             int rowID = GameData.score_Rows;
 
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
-            GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-            //go_row.GetComponent<Row>().SpawnCont(rowID, spawnRows, spawnBoss, LBLMAX, LBNMAX, SQBON);
-            go_row.GetComponent<Row>().SpawnCont(rowID, rowIndexMap, rowMap);
+            GameObject go_row = Instantiate(rowPrefab, transform) as GameObject;
+            go_row.GetComponent<Row>().SpawnCont(rowID, rowMap);
 
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
@@ -92,31 +86,27 @@ public class LevelManager : MonoSingleton<LevelManager>
                 EventManager.StartEvSpawn();
             }
 
-            rowIndexMap++;
             GameData.nrRows++;
         }
     }
 
-    private void GenerateMapContGame(int index)
+    private void GenerateMapContGame(int index, int rowID)
     {
-        for (int i = 0; i < 9; i++)
-            //rowMap[i] = GameData.levelMap[index, i];
-            rowMap[i] = GameData.levelMap[index,i];
+        int[] rowMap = new int[9];
 
-        int rowID = GameData.score_Rows;
+        rowMap = GameData.levelMap.ElementAt(index);
 
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
-        GameObject go_row = Instantiate(rowPrefab, this.transform) as GameObject;
-        go_row.GetComponent<Row>().SpawnCont(rowID, index, rowMap);
+        GameObject go_row = Instantiate(rowPrefab, transform) as GameObject;
+        go_row.GetComponent<Row>().SpawnCont(rowID, rowMap);
 
         listRows.Add(go_row);
         go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
         curPosY -= DISTANCE_BETWEEN_BLOCKS;
 
-        if (listRows.Count > 6 && listRows.Count < 12)
+        if (listRows.Count > 6 && listRows.Count < 12 && index == GameData.nrRows - 1)
             EventManager.StartEvSpawn();
 
-        GameData.nrRows++;
     }
 
     private int[] GenerateRowMap()
@@ -139,24 +129,36 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
             return rowMap;
         }
-
-        bool god = false, kBL = true, kHPX2 = true;
-        int SPMAX = 3, randType = 0;
-
-        for (int i = 0; i < rowMap.Length; i++)
+        if(!spawnRows)
         {
-            if (!spawnRows)
+            for (int i = 0; i < rowMap.Length; i++)
             {
                 if (i == 3 || i == 4 || i == 5 || i == 6)
                     rowMap[i] = 10;
                 else
                     rowMap[i] = 8;
             }
-            else
-            {
+            spawnRows = true;
+            return rowMap;
+        }
+
+        bool god = false, kBL = true, kHPX2 = true;
+        int SPMAX = 3, randType = 0;
+
+        for (int i = 0; i < rowMap.Length; i++)
+        {
+            //if (!spawnRows)
+            //{
+            //    if (i == 3 || i == 4 || i == 5 || i == 6)
+            //        rowMap[i] = 10;
+            //    else
+            //        rowMap[i] = 8;
+            //}
+            //else
+            //{
                 while (!god)
                 {
-                    randType = UnityEngine.Random.Range(0, 11);
+                    randType = Random.Range(0, 11);
                     switch (randType)
                     {
                         case 0:
@@ -164,7 +166,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                                 if (LBLMAX > 0 && kBL)
                                 {
                                     rowMap[i] = 2;
-                                    if (UnityEngine.Random.Range(0, 4) != 1)
+                                    if (Random.Range(0, 4) != 1)
                                         kBL = false;
                                     LBLMAX--;
                                     god = true;
@@ -210,7 +212,7 @@ public class LevelManager : MonoSingleton<LevelManager>
                                 if (LBLMAX > 0 && kBL)
                                 {
                                     rowMap[i] = 2;
-                                    if (UnityEngine.Random.Range(0, 4) != 1)
+                                    if (Random.Range(0, 4) != 1)
                                         kBL = false;
                                     LBLMAX--;
                                     god = true;
@@ -232,7 +234,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
                 god = false;
 
-            }
+            //}
         }
 
         return rowMap;
@@ -271,7 +273,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         int rowPosTelep = -1, rowPosLiser = -1, contPosLiser = -1;
 
         // Spawn Teleport1
-        posTelep = UnityEngine.Random.Range(0, listFreeConts.Count);
+        posTelep = Random.Range(0, listFreeConts.Count);
         rowPosTelep = listFreeConts[posTelep].rowID;
         listFreeConts[posTelep].SpawnType(BlType.teleportIn);
 
@@ -292,7 +294,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         do
         {
             k++;
-            posLiser2 = UnityEngine.Random.Range(0, listFreeConts.Count);
+            posLiser2 = Random.Range(0, listFreeConts.Count);
             if (k > listFreeConts.Count)
             {
                 option = 1;
@@ -308,7 +310,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         do
         {
-            posLiser = UnityEngine.Random.Range(0, listFreeConts.Count);
+            posLiser = Random.Range(0, listFreeConts.Count);
         }
         while (posLiser == posTelep || posLiser == posTelep2);
         rowPosLiser = listFreeConts[posLiser].rowID;
@@ -323,7 +325,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         do
         {
             k++;
-            posTelep2 = UnityEngine.Random.Range(0, listFreeConts.Count);
+            posTelep2 = Random.Range(0, listFreeConts.Count);
             if (k > listFreeConts.Count)
             {
                 option = 2;
@@ -374,15 +376,15 @@ public class LevelManager : MonoSingleton<LevelManager>
             spawnRows = false;
         }
 
-        if (!spawnRows)
-        {
-            resSpawnRows++;
-            if (resSpawnRows >= 3)
-            {
-                spawnRows = true;
-                resSpawnRows = 0;
-            }
-        }
+        //if (!spawnRows)
+        //{
+        //    resSpawnRows++;
+        //    if (resSpawnRows >= 3)
+        //    {
+        //        spawnRows = true;
+        //        resSpawnRows = 0;
+        //    }
+        //}
 
         if (bossObj != null)
             bossObj.ResetShield();

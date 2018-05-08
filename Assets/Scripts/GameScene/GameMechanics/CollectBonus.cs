@@ -52,7 +52,7 @@ public class CollectBonus : MonoBehaviour
         {
             GetComponentInParent<Container>().AddInListFreeConts();
 
-            GetComponentInParent<Row>().nrSpace++;
+            //GetComponentInParent<Row>().nrSpace++;
             //GameController.Instance.UpdateUIText();
             isDestroy = true;
         }

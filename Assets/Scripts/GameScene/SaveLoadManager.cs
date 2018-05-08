@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
@@ -79,7 +80,7 @@ public static class SaveLoadManager
 [Serializable]
 public class GameDataForFile
 {
-    public float[,] data = new float[11,9];
+    public float[,] data = new float[12,9];
 
     public GameDataForFile()
     {   }
@@ -92,7 +93,7 @@ public class GameDataForFile
             data[0, 2] = GameData.maxScore;
         else
             data[0, 2] = GameData.score_Rows;
-        data[0, 3] = 1;
+        data[0, 3] = 0;
         data[0, 4] = Bonus.Instance.Bonus_01;
         data[0, 5] = 0;
         data[0, 6] = 0;
@@ -117,9 +118,14 @@ public class GameDataForFile
         data[0, 6] = GameData.posXBall;
         data[0, 7] = 1;
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i <= GameData.nrRows; i++)
+        {
+            int[] temp = GameData.levelMap.ElementAt(i - 1);
             for (int j = 0; j < 9; j++)
-                data[i, j] = GameData.levelMap[i - 1, j];
+            {
+                data[i, j] = temp[j];
+            }
+        }
 
         return this;
     }
@@ -132,7 +138,7 @@ public class GameDataForFile
             data[0, 2] = GameData.maxScore;
         else
             data[0, 2] = GameData.score_Rows;
-        data[0, 3] = 1;
+        data[0, 3] = 0;
         data[0, 4] = Bonus.Instance.Bonus_01;
         data[0, 5] = 0;
         data[0, 6] = 0;

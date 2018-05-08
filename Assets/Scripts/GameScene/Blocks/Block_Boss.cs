@@ -60,7 +60,7 @@ public class Block_Boss : MonoBehaviour
             var main = go.GetComponent<ParticleSystem>().main;
             main.startColor = GetComponent<SpriteRenderer>().color;
 
-            GetComponentInParent<Row>().nrSpace++;
+            //GetComponentInParent<Row>().nrSpace++;
 
             GetComponentInParent<Container>().AddInListFreeConts();
 
