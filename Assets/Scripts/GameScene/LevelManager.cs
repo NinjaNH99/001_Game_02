@@ -67,6 +67,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         if (CheckData())
         {
+            Debug.Log("spawnBoss : " + spawnBoss);
+            Debug.Log("spawnRows : " + spawnRows);
             int[] rowMap = GenerateRowMap();
 
             GameData.levelMap.Enqueue(rowMap);
@@ -81,7 +83,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
 
-            if (listRows.Count > 6 && listRows.Count < 12)
+            if (listRows.Count > 6 && listRows.Count < 11)
             {
                 EventManager.StartEvSpawn();
             }
@@ -92,6 +94,8 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void GenerateMapContGame(int index, int rowID)
     {
+        Debug.Log("spawnBoss : " + spawnBoss);
+        Debug.Log("spawnRows : " + spawnRows);
         int[] rowMap = new int[9];
 
         rowMap = GameData.levelMap.ElementAt(index);
@@ -370,7 +374,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
 
-        if ((GameData.score_Rows) / 10f == 1f)
+        if ((GameData.score_Rows) % 10 == 0)
         {
             spawnBoss = true;
             spawnRows = false;
