@@ -41,9 +41,26 @@ public class Container : MonoBehaviour
         
     }
 
+    public ObjInfo LoadData()
+    {
+        return GetComponentInParent<Row>().rowMap[visualIndex];
+    }
+
+    public void UpdateData(int newType, int newHP = -1, int newShield = -1, int shieldON = 1)
+    {
+        ObjInfo objInfo = new ObjInfo
+        {
+            type = newType,
+            hp = newHP,
+            shield = newShield,
+            shieldON = shieldON
+        };
+        GetComponentInParent<Row>().rowMap[visualIndex] = objInfo;
+    }
+
     public void AddInListFreeConts()
     {
-        GetComponentInParent<Row>().rowMap[visualIndex] = 8;
+        UpdateData(8);
         levelManager.listFreeConts.Add(this);
     }
 
@@ -71,17 +88,17 @@ public class Container : MonoBehaviour
         if (r >= 60)
         {
             blType = BlType.ball;
-            GetComponentInParent<Row>().rowMap[visualIndex] = 2;
+            UpdateData(2);
         }
         else if (r >= 20)
         {
             blType = BlType.bonus;
-            GetComponentInParent<Row>().rowMap[visualIndex] = 3;
+            UpdateData(3);
         }
         else if (r >= 10)
         {
             blType = BlType.square;
-            GetComponentInParent<Row>().rowMap[visualIndex] = 1;
+            UpdateData(1);
         }
 
         RemoveContInLFC();

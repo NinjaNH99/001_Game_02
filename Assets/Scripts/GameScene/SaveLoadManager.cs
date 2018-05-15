@@ -55,7 +55,7 @@ public static class SaveLoadManager
         LevelLoader.Instance.LoadLevel("Game");
     }
 
-    public static float[,] LoadData()
+    public static ObjInfo[,] LoadData()
     {
         if (File.Exists(Application.persistentDataPath + "/Data.sav"))
         {
@@ -66,7 +66,7 @@ public static class SaveLoadManager
 
             stream.Close();
 
-            return data.data;
+            return data.Data;
         }
         else
         {
@@ -80,51 +80,72 @@ public static class SaveLoadManager
 [Serializable]
 public class GameDataForFile
 {
-    public float[,] data = new float[12,9];
+    private ObjInfo[,] data = new ObjInfo[12, 9];
 
-    public GameDataForFile()
-    {   }
+    public ObjInfo[,] Data
+    {
+        get
+        {
+            return data;
+        }
+
+        set
+        {
+            data = value;
+        }
+    }
+
+    private ObjInfo SetData(int type, float data, int hp, int shield, int shieldON)
+    {
+        ObjInfo newData = new ObjInfo
+        {
+            type = type,
+            saveData = data,
+            hp = hp,
+            shield = shield,
+            shieldON = shieldON
+        };
+        return newData;
+    }
 
     public GameDataForFile RestartGameScene()
     {
-        data[0,0] = 1;
-        data[0,1] = 1;
+        data[0,0] = SetData(-1, 1, -1, -1, 1);
+        data[0,1] = SetData(-1, 1, -1, -1, 1); 
         if (GameData.maxScore > GameData.score_Rows)
-            data[0, 2] = GameData.maxScore;
+            data[0, 2] = SetData(-1, GameData.maxScore, -1, -1, 1);
         else
-            data[0, 2] = GameData.score_Rows;
-        data[0, 3] = 0;
-        data[0, 4] = Bonus.Instance.Bonus_01;
-        data[0, 5] = 0;
-        data[0, 6] = 0;
-        data[0, 7] = 0;
+            data[0, 2] = SetData(-1, GameData.score_Rows, -1, -1, 1);
+        data[0, 3] = SetData(-1, 0, -1, -1, 1);
+        data[0, 4] = SetData(-1, Bonus.Instance.Bonus_01, -1, -1, 1);
+        data[0, 5] = SetData(-1, 0, -1, -1, 1);
+        data[0, 6] = SetData(-1, 0, -1, -1, 1);
+        data[0, 7] = SetData(-1, 0, -1, -1, 1);
 
         return this;
     }
 
     public GameDataForFile CloseApp()
     {
-        data[0, 0] = GameData.amountBalls;
+        data[0, 0] = SetData(-1, GameData.amountBalls, -1, -1, 1);
 
-        if (GameData.score_Rows > data[0, 1])
-            data[0, 1] = GameData.score_Rows;
+        if (GameData.score_Rows > data[0, 1].saveData)
+            data[0, 1] = SetData(-1, GameData.score_Rows, -1, -1, 1);
 
-        if (GameData.maxScore > data[0, 2])
-            data[0, 2] = GameData.maxScore;
+        if (GameData.maxScore > data[0, 2].saveData)
+            data[0, 2] = SetData(-1, GameData.maxScore, -1, -1, 1);
 
-        data[0, 3] = GameData.nrRows;
-        data[0, 4] = GameData.maxBonus_01;
-        data[0, 5] = GameData.ballBomb;
-        data[0, 6] = GameData.posXBall;
-        data[0, 7] = 1;
+        data[0, 3] = SetData(-1, GameData.nrRows, -1, -1, 1);
+        data[0, 4] = SetData(-1, GameData.maxBonus_01, -1, -1, 1);
+        data[0, 5] = SetData(-1, GameData.ballBomb, -1, -1, 1);
+        data[0, 6] = SetData(-1, GameData.posXBall, -1, -1, 1);
+        data[0, 7] = SetData(-1, 1, -1, -1, 1);
 
         for (int i = 1; i <= GameData.nrRows; i++)
         {
-            int[] temp = GameData.levelMap.ElementAt(i - 1);
+            ObjInfo[] temp = GameData.levelMap.ElementAt(i - 1);
             for (int j = 0; j < 9; j++)
-            {
                 data[i, j] = temp[j];
-            }
         }
 
         return this;
@@ -132,47 +153,57 @@ public class GameDataForFile
 
     public GameDataForFile LoseGameSaveData()
     {
-        data[0, 0] = 1;
-        data[0, 1] = 1;
+        data[0, 0] = SetData(-1, 1, -1, -1, 1);
+        data[0, 1] = SetData(-1, 1, -1, -1, 1);
         if (GameData.maxScore > GameData.score_Rows)
-            data[0, 2] = GameData.maxScore;
+            data[0, 2] = SetData(-1, GameData.maxScore, -1, -1, 1);
         else
-            data[0, 2] = GameData.score_Rows;
-        data[0, 3] = 0;
-        data[0, 4] = Bonus.Instance.Bonus_01;
-        data[0, 5] = 0;
-        data[0, 6] = 0;
-        data[0, 7] = 0;
+            data[0, 2] = SetData(-1, GameData.score_Rows, -1, -1, 1);
+        data[0, 3] = SetData(-1, 0, -1, -1, 1);
+        data[0, 4] = SetData(-1, Bonus.Instance.Bonus_01, -1, -1, 1);
+        data[0, 5] = SetData(-1, 0, -1, -1, 1);
+        data[0, 6] = SetData(-1, 0, -1, -1, 1);
+        data[0, 7] = SetData(-1, 0, -1, -1, 1);
 
         return this;
     }
 
-    public float[,] ResetGameData()
+    public ObjInfo[,] ResetGameData()
     {
-        data[0, 0] = 1;
-        data[0, 1] = 1;
-        data[0, 2] = 1;
-        data[0, 3] = 0;
-        data[0, 4] = 0;
-        data[0, 5] = 2;
-        data[0, 6] = 0;
-        data[0, 7] = 0;
+        data[0, 0] = SetData(-1, 1, -1, -1, 1);
+        data[0, 1] = SetData(-1, 1, -1, -1, 1);
+        data[0, 2] = SetData(-1, 1, -1, -1, 1);
+        data[0, 3] = SetData(-1, 0, -1, -1, 1);
+        data[0, 4] = SetData(-1, 0, -1, -1, 1);
+        data[0, 5] = SetData(-1, 2, -1, -1, 1);
+        data[0, 6] = SetData(-1, 0, -1, -1, 1);
+        data[0, 7] = SetData(-1, 0, -1, -1, 1);
 
         return data;
     }
 
     public GameDataForFile ResetGameDataF()
     {
-        data[0, 0] = 1;
-        data[0, 1] = 1;
-        data[0, 2] = 1;
-        data[0, 3] = 0;
-        data[0, 4] = 0;
-        data[0, 5] = 2;
-        data[0, 6] = 0;
-        data[0, 7] = 0;
+        data[0, 0] = SetData(-1, 1, -1, -1, 1);
+        data[0, 1] = SetData(-1, 1, -1, -1, 1);
+        data[0, 2] = SetData(-1, 1, -1, -1, 1);
+        data[0, 3] = SetData(-1, 0, -1, -1, 1);
+        data[0, 4] = SetData(-1, 0, -1, -1, 1);
+        data[0, 5] = SetData(-1, 2, -1, -1, 1);
+        data[0, 6] = SetData(-1, 0, -1, -1, 1);
+        data[0, 7] = SetData(-1, 0, -1, -1, 1);
 
         return this;
     }
 
+}
+
+[Serializable]
+public struct ObjInfo
+{
+    public int type { get; set; }
+    public float saveData { get; set; }
+    public int hp { get; set; }
+    public int shield { get; set; }
+    public int shieldON { get; set; }
 }

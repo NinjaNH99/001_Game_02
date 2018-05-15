@@ -86,13 +86,13 @@ public class GameDataEditor : EditorWindow
         int row = GameData.nrRows, column = 9;
         for (int i = 0; i < row; i++)
         {
-            int[] temp = GameData.levelMap.ElementAt(i);
+            ObjInfo[] temp = GameData.levelMap.ElementAt(i);
 
             res = res + "[ ";
             for (int j = 0; j < column; j++)
             {
-                if(temp[j] != 10)
-                    res = res + temp[j] + " ";
+                if(temp[j].type != 10)
+                    res = res + temp[j].type + " ";
                 else
                     res = res + "X" + " ";
             }
@@ -106,15 +106,15 @@ public class GameDataEditor : EditorWindow
     private void UpdateDataSave()
     {
         string res = "";
-        float[,] loadedData = SaveLoadManager.LoadData();
-        int row = (int)loadedData[0, 3], column = 9;
+        ObjInfo[,] loadedData = SaveLoadManager.LoadData();
+        int row = (int)loadedData[0, 3].saveData, column = 9;
         for (int i = 0; i < row; i++)
         {
             res = res + "[ ";
             for (int j = 0; j < column; j++)
             {
-                if (loadedData[i + 1,j] != 10)
-                    res = res + loadedData[i + 1, j] + " ";
+                if (loadedData[i + 1,j].type != 10)
+                    res = res + loadedData[i + 1, j].type + " ";
                 else
                     res = res + "X" + " ";
             }

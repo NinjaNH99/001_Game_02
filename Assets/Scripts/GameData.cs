@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameData : MonoSingleton<GameData>
@@ -9,7 +7,7 @@ public class GameData : MonoSingleton<GameData>
     public static float posXBall = 0;
     public static bool restartGame = false;
 
-    public static Queue<int[]> levelMap = new Queue<int[]>();
+    public static Queue<ObjInfo[]> levelMap = new Queue<ObjInfo[]>();
 
     public static bool loadDataDone = false;
     private static bool restartScene = false;
@@ -18,26 +16,29 @@ public class GameData : MonoSingleton<GameData>
     {
         Time.timeScale = 1;
         loadDataDone = false;
-        levelMap = new Queue<int[]>();
+        levelMap = new Queue<ObjInfo[]>();
 
-        float[,] loadedData = SaveLoadManager.LoadData();
-        amountBalls = (int)loadedData[0, 0];
-        score_Rows = (int)loadedData[0, 1];
-        maxScore = (int)loadedData[0, 2];
-        nrRows = (int)loadedData[0, 3];
-        maxBonus_01 = (int)loadedData[0, 4];
-        ballBomb = (int)loadedData[0, 5];
-        posXBall = loadedData[0, 6];
+        ObjInfo[,] loadedData = SaveLoadManager.LoadData();
+        amountBalls = (int)loadedData[0, 0].saveData;
+        score_Rows = (int)loadedData[0, 1].saveData;
+        maxScore = (int)loadedData[0, 2].saveData;
+        nrRows = (int)loadedData[0, 3].saveData;
+        maxBonus_01 = (int)loadedData[0, 4].saveData;
+        ballBomb = (int)loadedData[0, 5].saveData;
+        posXBall = loadedData[0, 6].saveData;
 
-        if (loadedData[0, 7] == 1)
+        if (loadedData[0, 7].saveData == 1)
         {
             restartGame = false;
             for (int i = 0; i < nrRows; i++)
             {
-                int[] temp = new int[9];
+                ObjInfo[] temp = new ObjInfo[9];
                 for (int j = 0; j < 9; j++)
                 {
-                    temp[j] = (int)loadedData[i + 1, j];
+                    temp[j].type = loadedData[i + 1, j].type;
+                    temp[j].hp = loadedData[i + 1, j].hp;
+                    temp[j].shield = loadedData[i + 1, j].shield;
+                    temp[j].shieldON = loadedData[i + 1, j].shieldON;
                 }
                 levelMap.Enqueue(temp);
             }

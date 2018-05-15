@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
     private TextMeshProUGUI hpText;
     private Animator anim;
     private bool isDestroy, isApplBonus;
-    private int visualIndexCont, rowID;
+    private int visualIndexCont, rowHP;
 
     private void Awake()
     {
@@ -24,17 +24,15 @@ public class Block : MonoBehaviour
         GetComponent<RectTransform>().localScale = new Vector2(75, 75);
         anim = GetComponent<Animator>();
         visualIndexCont = GetComponentInParent<Container>().visualIndex;
-        //rowID = GetComponentInParent<Row>().rowID - 1;
     }
 
     private void Start()
     {
-        //float rtime = Random.Range(2f, 5f);
-        rowID = GetComponentInParent<Row>().rowID - 1;
+        rowHP = GetComponentInParent<Row>().rowHP - 1;
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        //hp = GameData.score_Rows * hpx2;
-        hp = (rowID + 1) * hpx2;
-        hpText.text = hp.ToString();
+        EventManager.EvMoveDownM += UpdateHP;
+        LoadHP();
+        
         isDestroy = isApplBonus = true;
         if (isBonus)
         {
@@ -43,17 +41,31 @@ public class Block : MonoBehaviour
         }
         else
             GetComponent<SpriteRenderer>().color = gameContr.ChangeColor(hp);
+        UpdateHP();
+    }
 
-        //InvokeRepeating("AnimState", 0, rtime);
+    private void LoadHP()
+    {
+        int newHP = GetComponentInParent<Container>().LoadData().hp;
+        if (newHP <= 0)
+            hp = (rowHP + 1) * hpx2;
+        else
+            hp = newHP;
+        hpText.text = hp.ToString();
+    }
+
+    private void UpdateHP()
+    {
+        if (isBonus)
+            GetComponentInParent<Container>().UpdateData(6, hp);
+        else
+            GetComponentInParent<Container>().UpdateData(1, hp);
     }
 
     public void ReceiveHit(bool hitBlBon)
     {
         if (hitBlBon)
-        {
             hp = 0;
-            //Debug.Log(hp);
-        }
         else
             hp--;
         if (hp > 0)
@@ -80,9 +92,9 @@ public class Block : MonoBehaviour
             else
                 main.startColor = GetComponent<SpriteRenderer>().color;
 
-            //GetComponentInParent<Row>().nrSpace++;
             if (!isBonus)
                 GetComponentInParent<Container>().AddInListFreeConts();
+            EventManager.EvMoveDownM -= UpdateHP;
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
             if (isDestroy)
@@ -101,11 +113,9 @@ public class Block : MonoBehaviour
 
     public void ReciveHitByBonus()
     {
-        //hp = 1;
-        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID - 1);
-        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID);
-        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID + 1);
-        //ReceiveHit(false);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowHP - 1);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowHP);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowHP + 1);
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
@@ -115,7 +125,6 @@ public class Block : MonoBehaviour
         if (coll.gameObject.CompareTag(Tags.BallBomb))
         {
             ReciveHitByBonus();
-            //GetComponentInParent<Row>().RunBonus_02();
         }
     }
 

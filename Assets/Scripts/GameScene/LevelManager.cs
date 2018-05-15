@@ -20,12 +20,11 @@ public class LevelManager : MonoSingleton<LevelManager>
     // List of free containers
     public List<Container> listFreeConts = new List<Container>();
 
-    // Max obj 
     public bool spawnRows = true, spawnBoss = false;
     [HideInInspector]
     public int LBLMAX = 3, LBNMAX = 0, SQBON = 3;
 
-    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0; /*resSpawnRows = 0;*/
+    private int resBLMAX = 0, resBNMAX = 0, resSQBON = 0, resBoss = 0;
 
     private float curPosY = 0;
     private float desiredPosition = -130.0f;
@@ -36,7 +35,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         listFreeConts = new List<Container>();
 
         LBLMAX = 3; LBNMAX = 0; SQBON = 3;
-        resBLMAX = resBNMAX = resSQBON = 0; /*resSpawnRows = 0;*/
+        resBLMAX = resBNMAX = resSQBON = resBoss = 0;
         curPosY = 0;
         desiredPosition = -130.0f;
         spawnRows = true;
@@ -67,9 +66,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         if (CheckData())
         {
-            Debug.Log("spawnBoss : " + spawnBoss);
-            Debug.Log("spawnRows : " + spawnRows);
-            int[] rowMap = GenerateRowMap();
+            ObjInfo[] rowMap = GenerateRowMap();
 
             GameData.levelMap.Enqueue(rowMap);
 
@@ -77,7 +74,7 @@ public class LevelManager : MonoSingleton<LevelManager>
 
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
             GameObject go_row = Instantiate(rowPrefab, transform) as GameObject;
-            go_row.GetComponent<Row>().SpawnCont(rowID, rowMap);
+            go_row.GetComponent<Row>().SpawnCont(rowID, rowMap, rowID);
 
             listRows.Add(go_row);
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
@@ -94,15 +91,14 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     private void GenerateMapContGame(int index, int rowID)
     {
-        Debug.Log("spawnBoss : " + spawnBoss);
-        Debug.Log("spawnRows : " + spawnRows);
-        int[] rowMap = new int[9];
+        ObjInfo[] rowMap = new ObjInfo[9];
 
         rowMap = GameData.levelMap.ElementAt(index);
+        int rowHP = GameData.score_Rows - index;
 
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0, desiredPosition + curPosY);
         GameObject go_row = Instantiate(rowPrefab, transform) as GameObject;
-        go_row.GetComponent<Row>().SpawnCont(rowID, rowMap);
+        go_row.GetComponent<Row>().SpawnCont(rowID, rowMap, rowHP);
 
         listRows.Add(go_row);
         go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
@@ -113,34 +109,34 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     }
 
-    private int[] GenerateRowMap()
+    private ObjInfo[] GenerateRowMap()
     {
-        int[] rowMap = new int[9];
+        ObjInfo[] rowMap = new ObjInfo[9];
 
         if (spawnBoss)
         {
             for (int i = 0; i < rowMap.Length; i++)
             {
                 if (i == 3 || i == 5 || i == 6)
-                    rowMap[i] = 10;
+                    rowMap[i].type = 10;
                 else if (i == 4)
                 {
-                    rowMap[i] = 9;
-                    spawnBoss = false;
+                    rowMap[i].type = 9;
+                    rowMap[i].shieldON = 1;
                 }
                 else
-                    rowMap[i] = 8;
+                    rowMap[i].type = 8;
             }
             return rowMap;
         }
-        if(!spawnRows)
+        if (!spawnRows)
         {
             for (int i = 0; i < rowMap.Length; i++)
             {
                 if (i == 3 || i == 4 || i == 5 || i == 6)
-                    rowMap[i] = 10;
+                    rowMap[i].type = 10;
                 else
-                    rowMap[i] = 8;
+                    rowMap[i].type = 8;
             }
             spawnRows = true;
             return rowMap;
@@ -151,94 +147,84 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         for (int i = 0; i < rowMap.Length; i++)
         {
-            //if (!spawnRows)
-            //{
-            //    if (i == 3 || i == 4 || i == 5 || i == 6)
-            //        rowMap[i] = 10;
-            //    else
-            //        rowMap[i] = 8;
-            //}
-            //else
-            //{
-                while (!god)
+            while (!god)
+            {
+                randType = Random.Range(0, 11);
+                switch (randType)
                 {
-                    randType = Random.Range(0, 11);
-                    switch (randType)
-                    {
-                        case 0:
+                    case 0:
+                        {
+                            if (LBLMAX > 0 && kBL)
                             {
-                                if (LBLMAX > 0 && kBL)
-                                {
-                                    rowMap[i] = 2;
-                                    if (Random.Range(0, 4) != 1)
-                                        kBL = false;
-                                    LBLMAX--;
-                                    god = true;
-                                }
-                                break;
-                            }
-                        case 3:
-                            {
-                                if (LBNMAX > 0)
-                                {
-                                    rowMap[i] = 3;
-                                    LBNMAX--;
-                                    god = true;
-                                }
-                                break;
-                            }
-                        case 4:
-                            {
-                                if (SQBON > 0 && kHPX2)
-                                {
-                                    rowMap[i] = 6;
-                                    SQBON--;
-                                    kHPX2 = false;
-                                    SQBON--;
-                                    god = true;
-                                }
-                                break;
-                            }
-                        case 6:
-                            {
-                                rowMap[i] = 1;
+                                rowMap[i].type = 2;
+                                if (Random.Range(0, 4) != 1)
+                                    kBL = false;
+                                LBLMAX--;
                                 god = true;
-                                break;
                             }
-                        case 7:
+                            break;
+                        }
+                    case 3:
+                        {
+                            if (LBNMAX > 0)
                             {
-                                rowMap[i] = 1;
+                                rowMap[i].type = 3;
+                                LBNMAX--;
                                 god = true;
-                                break;
                             }
-                        case 9:
+                            break;
+                        }
+                    case 4:
+                        {
+                            if (SQBON > 0 && kHPX2)
                             {
-                                if (LBLMAX > 0 && kBL)
-                                {
-                                    rowMap[i] = 2;
-                                    if (Random.Range(0, 4) != 1)
-                                        kBL = false;
-                                    LBLMAX--;
-                                    god = true;
-                                }
-                                break;
+                                rowMap[i].type = 6;
+                                SQBON--;
+                                kHPX2 = false;
+                                SQBON--;
+                                god = true;
                             }
-                        default:
+                            break;
+                        }
+                    case 6:
+                        {
+                            rowMap[i].type = 1;
+                            god = true;
+                            break;
+                        }
+                    case 7:
+                        {
+                            rowMap[i].type = 1;
+                            god = true;
+                            break;
+                        }
+                    case 9:
+                        {
+                            if (LBLMAX > 0 && kBL)
                             {
-                                if (SPMAX > 0)
-                                {
-                                    rowMap[i] = 8;
-                                    SPMAX--;
-                                    god = true;
-                                }
-                                break;
+                                rowMap[i].type = 2;
+                                if (Random.Range(0, 4) != 1)
+                                    kBL = false;
+                                LBLMAX--;
+                                god = true;
                             }
-                    }
+                            break;
+                        }
+                    default:
+                        {
+                            if (SPMAX > 0)
+                            {
+                                rowMap[i].type = 8;
+                                SPMAX--;
+                                god = true;
+                            }
+                            break;
+                        }
                 }
+            }
 
-                god = false;
+            god = false;
 
-            //}
         }
 
         return rowMap;
@@ -374,21 +360,21 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
 
+        if(spawnBoss)
+        {
+            resBoss++;
+            if(resBoss >= 1)
+            {
+                spawnRows = true;
+                resBoss = 0;
+            }
+        }
+
         if ((GameData.score_Rows) % 10 == 0)
         {
             spawnBoss = true;
             spawnRows = false;
         }
-
-        //if (!spawnRows)
-        //{
-        //    resSpawnRows++;
-        //    if (resSpawnRows >= 3)
-        //    {
-        //        spawnRows = true;
-        //        resSpawnRows = 0;
-        //    }
-        //}
 
         if (bossObj != null)
             bossObj.ResetShield();

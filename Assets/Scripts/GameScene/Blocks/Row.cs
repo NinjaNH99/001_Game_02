@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Row : MonoBehaviour
 {
     public int rowID;
+    public int rowHP;
 
     protected int  SPMAX = 3;
 
     public Container[] containers = new Container[9];
-    public int[] rowMap = new int[9];
+    public ObjInfo[] rowMap = new ObjInfo[9];
 
     public delegate void EvDeSpawnContainer();
     public event EvDeSpawnContainer evDeSpawnContainer;
@@ -23,20 +21,21 @@ public class Row : MonoBehaviour
     }
 
     // Spawn containters from rowMap
-    public void SpawnCont(int rowIDP, int[] rowMapP)
+    public void SpawnCont(int rowIDP, ObjInfo[] rowMapP, int rowHP)
     {
         rowID = rowIDP;
         rowMap = rowMapP;
+        this.rowHP = rowHP;
 
         for (int i = 0; i < containers.Length; i++)
         {
             containers[i].rowID = rowID;
             evDeSpawnContainer += containers[i].DeSpawnBlock;
-            switch (rowMap[i])
+            switch (rowMap[i].type)
             {
                 case 6:
                     {
-                        containers[i].SpawnType((BlType)rowMap[i]);
+                        containers[i].SpawnType((BlType)rowMap[i].type);
                         containers[i].GetComponentInChildren<Block>().hpx2 = 2;
                         containers[i].GetComponentInChildren<Block>().isBonus = true;
                         break;
@@ -44,8 +43,8 @@ public class Row : MonoBehaviour
 
                 case 9:
                     {
-                        containers[i].SpawnType((BlType)rowMap[i]);
-                        LevelManager.Instance.spawnRows = false;
+                        containers[i].SpawnType((BlType)rowMap[i].type);
+                        LevelManager.Instance.spawnBoss = false;
                         break;
                     }
                 case 10:
@@ -56,7 +55,7 @@ public class Row : MonoBehaviour
 
                 default:
                     {
-                        containers[i].SpawnType((BlType)rowMap[i]);
+                        containers[i].SpawnType((BlType)rowMap[i].type);
                         break;
                     }
             }

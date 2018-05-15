@@ -19,24 +19,67 @@ public class Block_Boss : MonoBehaviour
     private void Awake()
     {
         containerPos = GetComponentInParent<Container>().gameObject.GetComponent<RectTransform>();
-        //containerPos = GetComponent<RectTransform>();
         gameContr = GameController.Instance;
         LevelManager.Instance.bossObj = this;
+        shieldObj.SetActive(false);
     }
 
     private void Start()
     {
         hpBossText = hpBossObj.GetComponent<TextMeshProUGUI>();
-        hpShieldText = shieldHPObj.GetComponent<TextMeshProUGUI>();
-        hpBoss = GetComponentInParent<Row>().rowID * 2;
-        hpShieldReset = hpShield = GetComponentInParent<Row>().rowID;
-        hpBossText.text = hpBoss.ToString();
-        hpShieldText.text = hpShield.ToString();
-        isDestroy = shieldOn = true;
+        
+        LoadHP();
+
+        isDestroy = true;
         GetComponent<SpriteRenderer>().color = gameContr.ChangeColor(hpBoss);
-        shieldObj.GetComponent<Image>().color = GetComponent<SpriteRenderer>().color;
+
+        if(shieldOn)
+        {
+            shieldObj.SetActive(true);
+            hpShieldText = shieldHPObj.GetComponent<TextMeshProUGUI>();
+            shieldObj.GetComponent<Image>().color = GetComponent<SpriteRenderer>().color;
+            hpShieldText.text = hpShield.ToString();
+        }
+
         animBoss = GetComponent<Animator>();
-        //animShield = shieldObj.GetComponent<Animator>();
+        EventManager.EvMoveDownM += UpdateStats;
+    }
+
+    private void LoadHP()
+    {
+        int newHP = GetComponentInParent<Container>().LoadData().hp;
+        int shieldON1 = GetComponentInParent<Container>().LoadData().shieldON;
+
+        if (newHP <= 0)
+            hpBoss = GetComponentInParent<Row>().rowHP * 2;
+        else
+            hpBoss = newHP;
+
+        if (shieldON1 == 0)
+            //hpShield = hpShieldReset = GetComponentInParent<Row>().rowID;
+            shieldOn = false;
+        else if (shieldON1 == 1)
+        {
+            hpShield = hpShieldReset = GetComponentInParent<Row>().rowHP;
+            //hpShield = hpShieldReset = newHPShiel;
+            shieldOn = true;
+        }
+        else if (shieldON1 == 2)
+        {
+            //int newHPShiel = GetComponentInParent<Container>().LoadData().shield;
+            hpShield = hpShieldReset = GetComponentInParent<Container>().LoadData().shield;
+            shieldOn = true;
+        }
+        hpBossText.text = hpBoss.ToString();
+        //hpShieldText.text = hpShield.ToString();
+    }
+
+    private void UpdateStats()
+    {
+        if(shieldOn)
+            GetComponentInParent<Container>().UpdateData(9, hpBoss, hpShield, 2);
+        else
+            GetComponentInParent<Container>().UpdateData(9, hpBoss, hpShield, 0);
     }
 
     public void ReceiveHitBoss()
@@ -56,13 +99,13 @@ public class Block_Boss : MonoBehaviour
 
             hpBossText.text = "1";
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
-            //go.GetComponent<Transform>().localScale = new Vector2(33, 33);
             var main = go.GetComponent<ParticleSystem>().main;
             main.startColor = GetComponent<SpriteRenderer>().color;
 
-            //GetComponentInParent<Row>().nrSpace++;
 
             GetComponentInParent<Container>().AddInListFreeConts();
+
+            EventManager.EvMoveDownM -= UpdateStats;
 
             Destroy(go, 1f);
             Destroy(gameObject, 3);
@@ -70,7 +113,6 @@ public class Block_Boss : MonoBehaviour
             {
                 ScoreLEVEL.Instance.AddScoreLevel();
                 ScoreLEVEL.Instance.ShowNrBlock(containerPos);
-                Bonus.Instance.AddBonus_01();
                 Bonus.Instance.AddBonus_01();
                 Bonus.Instance.AddBonus_02();
                 isDestroy = false;
@@ -92,7 +134,7 @@ public class Block_Boss : MonoBehaviour
             shieldOn = false;
             hpShieldText.text = "1";
             GameObject go = Instantiate(DeathEFX, containerPos) as GameObject;
-            //go.GetComponent<Transform>().localScale = new Vector2(2, 2);
+
             var main = go.GetComponent<ParticleSystem>().main;
             main.startColor = GetComponent<SpriteRenderer>().color;
 
@@ -114,6 +156,7 @@ public class Block_Boss : MonoBehaviour
         hpShield = hpShieldReset;
         hpShieldText.text = hpShield.ToString();
         shieldObj.GetComponent<Image>().color = GetComponent<SpriteRenderer>().color;
+        UpdateStats();
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
