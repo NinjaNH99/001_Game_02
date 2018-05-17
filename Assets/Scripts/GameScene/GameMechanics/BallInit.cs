@@ -85,6 +85,8 @@ public class BallInit : MonoSingleton<BallInit>
                 lineRend.enabled = true;
                 if (MobileInputs.Instance.release)
                 {
+                    GameData.loadData = false;
+                    SaveLoadManager.SaveDataCloseApp();
                     GameController.Instance.tutorialContainer.SetActive(false);
                     GameController.Instance.isBreakingStuff = GameController.Instance.onBoostSpeed = true;
                     GameController.Instance.updateInputs = false;

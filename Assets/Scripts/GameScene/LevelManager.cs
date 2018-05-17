@@ -51,7 +51,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             int rowID;
 
-            for(int i = GameData.nrRows - 1, j = 0; i >= 0; i--, j++)
+            for (int i = GameData.nrRows - 1, j = 0; i >= 0; i--, j++)
             {
                 rowID = GameData.nrRows - i;
                 GenerateMapContGame(j, rowID);
@@ -86,6 +86,9 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
 
             GameData.nrRows++;
+
+            GameData.loadData = true;
+            
         }
     }
 
@@ -335,7 +338,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             if (resBLMAX >= RESETDATA - 1)
             {
                 if (GameData.score_Rows - GameData.amountBalls > 3)
-                    LBLMAX = 4;
+                    LBLMAX = 2;
                 else
                     LBLMAX = 1;
                 resBLMAX = 0;

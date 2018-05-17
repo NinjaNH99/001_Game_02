@@ -7,6 +7,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
     public const int MAXSCore = 2000;
 
     public GameObject timerBG;
+    public Animator anim;
 
     public Transform BackgroundPr;
     public GameObject AddScoreUIPr;
@@ -41,8 +42,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         ResetSetting();
         ChangeColor();
     }
-
-
+    
     private void Update()
     {
         if (addTimer)
@@ -68,6 +68,16 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
                 checkTimer = false;
             }
         }
+    }
+
+    public void BGShake(int op)
+    {
+        if(op == 0)
+            anim.SetTrigger("Shake0");
+        else if(op == 1)
+            anim.SetTrigger("Shake1");
+        else
+            anim.SetTrigger("Shake2");
     }
 
     public void AddScoreLevel()

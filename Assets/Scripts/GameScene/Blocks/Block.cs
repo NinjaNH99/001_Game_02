@@ -103,6 +103,8 @@ public class Block : MonoBehaviour
                 ScoreLEVEL.Instance.ShowNrBlock(containerPos);
                 isDestroy = false;
             }
+
+            ScoreLEVEL.Instance.BGShake(0);
             gameObject.SetActive(false);
             return;
         }

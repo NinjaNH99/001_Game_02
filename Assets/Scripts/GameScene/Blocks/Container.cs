@@ -43,7 +43,7 @@ public class Container : MonoBehaviour
 
     public ObjInfo LoadData()
     {
-        return GetComponentInParent<Row>().rowMap[visualIndex];
+        return GetComponentInParent<Row>().rowMapOrg[visualIndex];
     }
 
     public void UpdateData(int newType, int newHP = -1, int newShield = -1, int shieldON = 1)
@@ -55,7 +55,7 @@ public class Container : MonoBehaviour
             shield = newShield,
             shieldON = shieldON
         };
-        GetComponentInParent<Row>().rowMap[visualIndex] = objInfo;
+        GetComponentInParent<Row>().rowMapOrg[visualIndex] = objInfo;
     }
 
     public void AddInListFreeConts()

@@ -130,6 +130,7 @@ public class GameDataForFile
         data[0, 0] = SetData(-1, GameData.amountBalls, -1, -1, 1);
 
         if (GameData.score_Rows > data[0, 1].saveData)
+
             data[0, 1] = SetData(-1, GameData.score_Rows, -1, -1, 1);
 
         if (GameData.maxScore > data[0, 2].saveData)

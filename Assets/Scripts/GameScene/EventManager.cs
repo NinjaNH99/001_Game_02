@@ -8,6 +8,10 @@ public class EventManager : MonoBehaviour
     public delegate void EvLevelMove();
     public static event EvLevelMove EvMoveDownM = null;
 
+    //// Update data
+    //public delegate void EvUpdateData();
+    //public static event EvUpdateData EvUpdateDataM = null;
+
     // Despawn Liser and Teleport
     public delegate void EvDeSpawn();
     public static event EvDeSpawn EvDeSpawnM = null;
@@ -21,6 +25,7 @@ public class EventManager : MonoBehaviour
         EvMoveDownM = null;
         EvSpawnRandomM = null;
         EvDeSpawnM = null;
+        //EvUpdateDataM = null;
     }
 
     public static void StartEvMoveDown()
@@ -28,6 +33,12 @@ public class EventManager : MonoBehaviour
         if (EvMoveDownM != null)
             EvMoveDownM();
     }
+
+    //public static void StartEvUpdateData()
+    //{
+    //    if (EvUpdateDataM != null)
+    //        EvUpdateDataM();
+    //}
 
     public static void StartEvDeSpawn()
     {

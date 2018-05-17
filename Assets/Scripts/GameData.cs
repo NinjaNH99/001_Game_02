@@ -3,20 +3,41 @@ using UnityEngine;
 
 public class GameData : MonoSingleton<GameData>
 {
-    public static int amountBalls = 1, score_Rows = 1, maxScore = 1, nrRows = 0, maxBonus_01 = 0, ballBomb = 0;
-    public static float posXBall = 0;
-    public static bool restartGame = false;
+    #region Proprety
+    public static int amountBalls { get; set; }
+    public static int score_Rows { get; set; }
+    public static int maxScore { get; set; }
+    public static int nrRows { get; set; }
+    public static int maxBonus_01 { get; set; }
+    public static int ballBomb { get; set; }
+    public static float posXBall { get; set; }
+
+    //public static int amountBalls { get; set; }
+    //public static int score_Rows { get; set; }
+    //public static int maxScore { get; set; }
+    //public static int nrRows { get; set; }
+    //public static int maxBonus_01 { get; set; }
+    //public static int ballBomb { get; set; }
+    //public static float posXBall { get; set; }
+    #endregion
 
     public static Queue<ObjInfo[]> levelMap = new Queue<ObjInfo[]>();
+    //public static Queue<ObjInfo[]> levelMap = new Queue<ObjInfo[]>();
 
+    public static bool restartGame = false;
     public static bool loadDataDone = false;
+
     private static bool restartScene = false;
+    public static bool loadData = true;
 
     private void Awake()
     {
         Time.timeScale = 1;
         loadDataDone = false;
+        loadData = true;
+
         levelMap = new Queue<ObjInfo[]>();
+        //levelMap = new Queue<ObjInfo[]>();
 
         ObjInfo[,] loadedData = SaveLoadManager.LoadData();
         amountBalls = (int)loadedData[0, 0].saveData;
@@ -46,34 +67,55 @@ public class GameData : MonoSingleton<GameData>
         else
             restartGame = true;
 
+        //UpdateData();
+
         loadDataDone = true;
 
         if (restartScene)
             restartScene = false;
+
     }
+
+    //private void Start()
+    //{
+    //    EventManager.EvUpdateDataM += UpdateData;
+    //}
+
+    //public static void UpdateData()
+    //{
+    //    amountBalls = amountBallsTemp;
+    //    score_Rows = score_RowsTemp;
+    //    maxScore = maxScoreTemp;
+    //    nrRows = nrRowsTemp;
+    //    maxBonus_01 = maxBonus_01Temp;
+    //    ballBomb = ballBombTemp;
+    //    posXBall = posXBallTemp;
+    //    levelMap = levelMapTemp;
+
+    //    Debug.Log("UpdateData()");
+    //}
 
     private void OnApplicationQuit()
     {
         if (restartScene)
-        {
             return;
-        }
-        SaveLoadManager.SaveDataCloseApp();
+        if (loadData)
+            SaveLoadManager.SaveDataCloseApp();
     }
 
     private void OnApplicationPause(bool pause)
     {
         if (restartScene)
-        {
             return;
-        }
-        SaveLoadManager.SaveDataCloseApp();
+        if (loadData)
+            SaveLoadManager.SaveDataCloseApp();
     }
 
     public static void SaveDataRestart()
     {
         restartScene = true;
-        SaveLoadManager.SaveDataRestartScene();
+        if (loadData)
+            SaveLoadManager.SaveDataRestartScene();
     }
 
     public static void LoseGameSaveData()

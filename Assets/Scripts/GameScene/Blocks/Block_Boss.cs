@@ -117,6 +117,7 @@ public class Block_Boss : MonoBehaviour
                 Bonus.Instance.AddBonus_02();
                 isDestroy = false;
             }
+            ScoreLEVEL.Instance.BGShake(2);
             gameObject.SetActive(false);
             return;
         }
@@ -140,7 +141,7 @@ public class Block_Boss : MonoBehaviour
 
             Destroy(go, 1f);
             Destroy(shieldObj, 1f);
-
+            ScoreLEVEL.Instance.BGShake(0);
             shieldObj.SetActive(false);
             return;
         }

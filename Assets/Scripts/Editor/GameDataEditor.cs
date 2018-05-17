@@ -42,7 +42,6 @@ public class GameDataEditor : EditorWindow
 
 
         GUILayout.BeginArea(new Rect(170f, 50f, 123.5f, 1000f));        // 123.5f
-
         GUILayout.Label("Object type:");
         GUILayout.TextField("1: square");
         GUILayout.TextField("2: ball");
@@ -53,12 +52,10 @@ public class GameDataEditor : EditorWindow
         GUILayout.TextField("7: square_Line");
         GUILayout.TextField("8: space");
         GUILayout.TextField("9: square_Boss");
-
         GUILayout.EndArea();
 
         GUILayout.BeginArea(new Rect(330f, 50f, 150f, 1000f));        // 123.5f
-
-        GUILayout.Label("Data save:");
+        GUILayout.Label("Data:");
         GUILayout.TextField("amountBalls:" + "\t" + GameData.amountBalls);
         GUILayout.TextField("score_Rows:" + "\t" + GameData.score_Rows);
         GUILayout.TextField("maxScore:  " + "\t" + GameData.maxScore);
@@ -66,17 +63,14 @@ public class GameDataEditor : EditorWindow
         GUILayout.TextField("maxBonus_01:" + "\t" + GameData.maxBonus_01);
         GUILayout.TextField("ballBomb:  " + "\t" + GameData.ballBomb);
         GUILayout.TextField("posXBall:      " + "\t" + GameData.posXBall);
-
         GUILayout.EndArea();
 
         GUILayout.EndHorizontal();
 
 
         GUILayout.BeginArea(new Rect(10f, 250f, 123.5f, 1000f));
-
         GUILayout.Label("Saved level map:");
         GUILayout.TextArea(saveLevelMap);
-
         GUILayout.EndArea();
     }
 

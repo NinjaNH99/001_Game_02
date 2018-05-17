@@ -183,7 +183,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1103666761555836
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -662,6 +662,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224518600502697152}
+  - component: {fileID: 95281757058615858}
   m_Layer: 5
   m_Name: Background
   m_TagString: Background
@@ -682,7 +683,6 @@ GameObject:
   - component: {fileID: 58948232668793046}
   - component: {fileID: 114944903984388256}
   - component: {fileID: 114834318750361260}
-  - component: {fileID: 95024090532646846}
   m_Layer: 8
   m_Name: Ball
   m_TagString: Player
@@ -800,11 +800,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103666761555836}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -388, z: 130}
+  m_LocalPosition: {x: 0, y: -388.00003, z: 130}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 1
+  m_Father: {fileID: 224518600502697152}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50763518117240246
 Rigidbody2D:
@@ -991,23 +991,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 500, y: 1}
   m_EdgeRadius: 0
---- !u!95 &95024090532646846
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1714863176943184}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 77b2dbe42a4b47e4db210db7d8093eb1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95065100449252264
 Animator:
   serializedVersion: 3
@@ -1018,6 +1001,23 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 103524ef520db2a4bb200614ae9f5a02, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95281757058615858
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1712984427195808}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e0e6e4c6a22a0f041a39549636297282, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 2
 --- !u!114 &114194844180509294
@@ -2330,6 +2330,7 @@ MonoBehaviour:
   allBallLanded: 0
   startFall: 0
   enterTeleport: 0
+  isShoot: 0
   speed: 0
   rigid: {fileID: 0}
   lastPosXTop: 0
@@ -3250,18 +3251,18 @@ ParticleSystem:
         - serializedVersion: 2
           time: 0
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: -2
+          outSlope: -2
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -3729,7 +3730,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -3739,20 +3740,20 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
+          time: 0.50287247
+          value: 1
+          inSlope: -2
+          outSlope: -2
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 1
-          inSlope: 1
+          value: 0
+          inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -6601,7 +6602,7 @@ RectTransform:
   - {fileID: 224998931831978946}
   - {fileID: 224892488201019488}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6754,7 +6755,7 @@ RectTransform:
   m_LocalScale: {x: 511.99997, y: 511.99997, z: 0}
   m_Children: []
   m_Father: {fileID: 224518600502697152}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6775,7 +6776,7 @@ RectTransform:
   - {fileID: 224890648793024812}
   - {fileID: 224411838022975610}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -6939,11 +6940,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4090812078905390}
   - {fileID: 224707947668528874}
   - {fileID: 224734453095593642}
   - {fileID: 224364967546550526}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6999,11 +7001,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 224031201702241368}
-  - {fileID: 4090812078905390}
   - {fileID: 224518600502697152}
-  - {fileID: 224116540580671794}
   - {fileID: 224390123307647404}
   - {fileID: 224754057852213172}
+  - {fileID: 224116540580671794}
   - {fileID: 224981261209041102}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -7079,7 +7080,7 @@ RectTransform:
   m_Children:
   - {fileID: 224951429553831968}
   m_Father: {fileID: 224518600502697152}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7097,7 +7098,7 @@ RectTransform:
   m_LocalScale: {x: 512, y: 512, z: 0}
   m_Children: []
   m_Father: {fileID: 224518600502697152}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7120,7 +7121,7 @@ RectTransform:
   - {fileID: 224125270203181232}
   - {fileID: 224930766677655640}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7287,7 +7288,7 @@ RectTransform:
   m_Children:
   - {fileID: 224550013530230968}
   m_Father: {fileID: 224577064658853266}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}

@@ -47,6 +47,7 @@ public class CollectBonus : MonoBehaviour
     private void Collect()
     {
         Bonus.Instance.AddBonus_01();
+        ScoreLEVEL.Instance.BGShake(1);
         isCollected = true;
         if (!isDestroy)
         {
