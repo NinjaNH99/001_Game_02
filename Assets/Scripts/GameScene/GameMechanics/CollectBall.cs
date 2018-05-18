@@ -57,8 +57,7 @@ public class CollectBall : MonoBehaviour
             Destroy(go, 2f);
 
             GetComponentInParent<Container>().AddInListFreeConts();
-            ScoreLEVEL.Instance.BGShake(1);
-            //GetComponentInParent<Row>().nrSpace++;
+
             StartFalling();
             if (isDestroy)
             {

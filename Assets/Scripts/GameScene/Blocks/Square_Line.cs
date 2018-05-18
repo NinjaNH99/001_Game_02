@@ -7,7 +7,7 @@ public class Square_Line : MonoBehaviour
 {
     public GameObject Line;
     public GameObject Square_Img;
-    public GameObject Square_01EFX;
+    //public GameObject Square_01EFX;
     public GameObject Laser;
 
     public Image Img1, Img2, Img3;
@@ -77,12 +77,12 @@ public class Square_Line : MonoBehaviour
         //LevelManager.Instance.CheckTeleportsNull();
         //LevelManager.Instance.listSquareLine.Remove(this);
         EventManager.EvDeSpawnM -= Despawn;
-        GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
+        //GameObject goEFX = Instantiate(Square_01EFX, gameObject.transform) as GameObject;
         //Debug.Log("LiserDied.RowID[" + GetComponentInParent<Row>().rowID + "]");
         //GetComponentInParent<Row>().nrSpace++;
         Destroy(Square_Img);
-        Destroy(goEFX, 1f);
-        Destroy(gameObject, 1f);
+        //Destroy(goEFX, 1f);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

@@ -70,7 +70,7 @@ public class ScoreLEVEL : MonoSingleton<ScoreLEVEL>
         }
     }
 
-    public void BGShake(int op)
+    public void BGShake(int op )
     {
         if(op == 0)
             anim.SetTrigger("Shake0");

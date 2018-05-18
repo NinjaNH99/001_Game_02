@@ -80,7 +80,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
 
-            if (listRows.Count > 6 && listRows.Count < 11)
+            if (listRows.Count > 6 && listRows.Count < 12)
             {
                 EventManager.StartEvSpawn();
             }

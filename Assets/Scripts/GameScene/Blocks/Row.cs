@@ -7,7 +7,6 @@ public class Row : MonoBehaviour
 
     public Container[] containers = new Container[9];
     public ObjInfo[] rowMapOrg = new ObjInfo[9];
-    //public ObjInfo[] rowMapTemp = new ObjInfo[9];
 
     public delegate void EvDeSpawnContainer();
     public event EvDeSpawnContainer evDeSpawnContainer;
@@ -15,28 +14,11 @@ public class Row : MonoBehaviour
     private void Awake()
     {
         containers = GetComponentsInChildren<Container>();
-        //rowMapTemp = new ObjInfo[9];
+
         rowMapOrg = new ObjInfo[9];
         // Random sort containers by Fisher-Yates algorithm
         //new System.Random().Shuffle(containers);
     }
-
-    //private void Start()
-    //{
-    //    EventManager.EvUpdateDataM += UpdateData;
-    //}
-
-    //private void UpdateData()
-    //{
-    //    for (int i = 0; i < 9; i++)
-    //        rowMapOrg[i] = rowMapTemp[i];
-    //}
-
-    //private void LoadData()
-    //{
-    //    for (int i = 0; i < 9; i++)
-    //        rowMapTemp[i] = rowMapOrg[i];
-    //}
 
     // Spawn containters from rowMap
     public void SpawnCont(int rowIDP, ObjInfo[] rowMapP, int rowHP)
@@ -80,8 +62,6 @@ public class Row : MonoBehaviour
             }
 
         }
-        //LoadData();
-        //UpdateData();
 
     }
 
@@ -89,7 +69,6 @@ public class Row : MonoBehaviour
     {
         evDeSpawnContainer();
         //Debug.LogWarning("DeSpawnRow[" + rowID + "]");
-        //EventManager.EvUpdateDataM -= UpdateData;
         LevelManager.Instance.listRows.Remove(this.gameObject);
         GameData.nrRows--;
         GameData.levelMap.Dequeue();
