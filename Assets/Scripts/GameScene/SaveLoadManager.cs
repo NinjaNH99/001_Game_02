@@ -112,10 +112,10 @@ public class GameDataForFile
     {
         data[0,0] = SetData(-1, 1, -1, -1, 1);
         data[0,1] = SetData(-1, 1, -1, -1, 1); 
-        if (GameData.maxScore > GameData.score_Rows)
-            data[0, 2] = SetData(-1, GameData.maxScore, -1, -1, 1);
+        if (GameData.maxScoreOrg > GameData.score_RowsOrg)
+            data[0, 2] = SetData(-1, GameData.maxScoreOrg, -1, -1, 1);
         else
-            data[0, 2] = SetData(-1, GameData.score_Rows, -1, -1, 1);
+            data[0, 2] = SetData(-1, GameData.score_RowsOrg, -1, -1, 1);
         data[0, 3] = SetData(-1, 0, -1, -1, 1);
         data[0, 4] = SetData(-1, Bonus.Instance.Bonus_01, -1, -1, 1);
         data[0, 5] = SetData(-1, 0, -1, -1, 1);
@@ -127,26 +127,26 @@ public class GameDataForFile
 
     public GameDataForFile CloseApp()
     {
-        data[0, 0] = SetData(-1, GameData.amountBalls, -1, -1, 1);
+        data[0, 0] = SetData(-1, GameData.amountBallsOrg, -1, -1, 1);
 
-        if (GameData.score_Rows > data[0, 1].saveData)
+        if (GameData.score_RowsOrg > data[0, 1].saveData)
 
-            data[0, 1] = SetData(-1, GameData.score_Rows, -1, -1, 1);
+            data[0, 1] = SetData(-1, GameData.score_RowsOrg, -1, -1, 1);
 
-        if (GameData.maxScore > data[0, 2].saveData)
-            data[0, 2] = SetData(-1, GameData.maxScore, -1, -1, 1);
+        if (GameData.maxScoreOrg > data[0, 2].saveData)
+            data[0, 2] = SetData(-1, GameData.maxScoreOrg, -1, -1, 1);
 
-        data[0, 3] = SetData(-1, GameData.nrRows, -1, -1, 1);
-        data[0, 4] = SetData(-1, GameData.maxBonus_01, -1, -1, 1);
-        data[0, 5] = SetData(-1, GameData.ballBomb, -1, -1, 1);
-        data[0, 6] = SetData(-1, GameData.posXBall, -1, -1, 1);
+        data[0, 3] = SetData(-1, GameData.nrRowsOrg, -1, -1, 1);
+        data[0, 4] = SetData(-1, GameData.maxBonus_01Org, -1, -1, 1);
+        data[0, 5] = SetData(-1, GameData.ballBombOrg, -1, -1, 1);
+        data[0, 6] = SetData(-1, GameData.posXBallOrg, -1, -1, 1);
         data[0, 7] = SetData(-1, 1, -1, -1, 1);
 
-        for (int i = 1; i <= GameData.nrRows; i++)
+        for (int i = 0; i < GameData.nrRowsOrg; i++)
         {
-            ObjInfo[] temp = GameData.levelMap.ElementAt(i - 1);
+            ObjInfo[] temp = GameData.levelMapOrg.ElementAt(i);
             for (int j = 0; j < 9; j++)
-                data[i, j] = temp[j];
+                data[i + 1, j] = temp[j];
         }
 
         return this;
@@ -156,10 +156,10 @@ public class GameDataForFile
     {
         data[0, 0] = SetData(-1, 1, -1, -1, 1);
         data[0, 1] = SetData(-1, 1, -1, -1, 1);
-        if (GameData.maxScore > GameData.score_Rows)
-            data[0, 2] = SetData(-1, GameData.maxScore, -1, -1, 1);
+        if (GameData.maxScoreOrg > GameData.score_RowsOrg)
+            data[0, 2] = SetData(-1, GameData.maxScoreOrg, -1, -1, 1);
         else
-            data[0, 2] = SetData(-1, GameData.score_Rows, -1, -1, 1);
+            data[0, 2] = SetData(-1, GameData.score_RowsOrg, -1, -1, 1);
         data[0, 3] = SetData(-1, 0, -1, -1, 1);
         data[0, 4] = SetData(-1, Bonus.Instance.Bonus_01, -1, -1, 1);
         data[0, 5] = SetData(-1, 0, -1, -1, 1);
@@ -202,9 +202,9 @@ public class GameDataForFile
 [Serializable]
 public struct ObjInfo
 {
-    public int type { get; set; }
-    public float saveData { get; set; }
-    public int hp { get; set; }
-    public int shield { get; set; }
-    public int shieldON { get; set; }
+    public int type;
+    public float saveData;
+    public int hp;
+    public int shield;
+    public int shieldON;
 }

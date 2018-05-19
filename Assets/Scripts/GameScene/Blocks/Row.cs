@@ -23,8 +23,8 @@ public class Row : MonoBehaviour
     // Spawn containters from rowMap
     public void SpawnCont(int rowIDP, ObjInfo[] rowMapP, int rowHP)
     {
-        rowID = rowIDP;
-        rowMapOrg = rowMapP;
+        this.rowID = rowIDP;
+        this.rowMapOrg = rowMapP;
 
         this.rowHP = rowHP;
 
@@ -45,7 +45,7 @@ public class Row : MonoBehaviour
                 case 9:
                     {
                         containers[i].SpawnType((BlType)rowMapOrg[i].type);
-                        LevelManager.Instance.spawnBoss = false;
+                        LevelManager.Instance.timerBoss = true;
                         break;
                     }
                 case 10:

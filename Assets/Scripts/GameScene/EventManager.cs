@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
@@ -8,9 +6,9 @@ public class EventManager : MonoBehaviour
     public delegate void EvLevelMove();
     public static event EvLevelMove EvMoveDownM = null;
 
-    //// Update data
-    //public delegate void EvUpdateData();
-    //public static event EvUpdateData EvUpdateDataM = null;
+    //// Update data saved
+    public delegate void EvUpdateDataSaved();
+    public static event EvUpdateDataSaved EvUpdateDataSavedM = null;
 
     // Despawn Liser and Teleport
     public delegate void EvDeSpawn();
@@ -25,7 +23,7 @@ public class EventManager : MonoBehaviour
         EvMoveDownM = null;
         EvSpawnRandomM = null;
         EvDeSpawnM = null;
-        //EvUpdateDataM = null;
+        EvUpdateDataSavedM = null;
     }
 
     public static void StartEvMoveDown()
@@ -34,11 +32,11 @@ public class EventManager : MonoBehaviour
             EvMoveDownM();
     }
 
-    //public static void StartEvUpdateData()
-    //{
-    //    if (EvUpdateDataM != null)
-    //        EvUpdateDataM();
-    //}
+    public static void StartEvUpdateData()
+    {
+        if (EvUpdateDataSavedM != null)
+            EvUpdateDataSavedM();
+    }
 
     public static void StartEvDeSpawn()
     {

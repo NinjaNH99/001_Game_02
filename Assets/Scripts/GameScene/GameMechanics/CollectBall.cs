@@ -112,13 +112,14 @@ public class CollectBall : MonoBehaviour
             GetComponent<Image>().SetTransparency(0.1f);
 
             GameObject go = Instantiate(despawnEFX, rectPos) as GameObject;
+            go.transform.SetParent(Space2D.transform);
             Destroy(go, 1f);
 
             rectPos.position = new Vector2(rectPos.position.x, BallInit.Instance.ballOrgYPos);
 
             //transform.position = new Vector2(transform.position.x, transform.position.y);
 
-            Destroy(this.gameObject, 1f);
+            Destroy(this.gameObject);
         }
     }
 

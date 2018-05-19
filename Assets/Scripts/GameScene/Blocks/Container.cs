@@ -43,19 +43,19 @@ public class Container : MonoBehaviour
 
     public ObjInfo LoadData()
     {
-        return GetComponentInParent<Row>().rowMapOrg[visualIndex];
+        return GetComponentInParent<Row>().rowMapOrg[this.visualIndex];
     }
 
-    public void UpdateData(int newType, int newHP = -1, int newShield = -1, int shieldON = 1)
+    public void UpdateData(int newType, int newHP = -1, int newShield = -1, int newShieldON = 1)
     {
         ObjInfo objInfo = new ObjInfo
         {
             type = newType,
             hp = newHP,
             shield = newShield,
-            shieldON = shieldON
+            shieldON = newShieldON
         };
-        GetComponentInParent<Row>().rowMapOrg[visualIndex] = objInfo;
+        GetComponentInParent<Row>().rowMapOrg[this.visualIndex] = objInfo;
     }
 
     public void AddInListFreeConts()
@@ -66,18 +66,17 @@ public class Container : MonoBehaviour
 
     public void RemoveContInLFC()
     {
-        //if (levelManager.listFreeConts.Contains(this))
-            levelManager.listFreeConts.Remove(this);
+        levelManager.listFreeConts.Remove(this);
     }
 
     public void DeSpawnBlock()
     {
         RemoveContInLFC();
         GetComponentInParent<Row>().evDeSpawnContainer -= DeSpawnBlock;
-        if (visualIndex == 8)
-        {
-            EventManager.StartEvSpawn();
-        }
+        //if (visualIndex == 8)
+        //{
+        //    EventManager.StartEvSpawn();
+        //}
     }
 
     public void ApplySquare_Bonus()

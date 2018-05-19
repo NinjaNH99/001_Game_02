@@ -42,7 +42,9 @@ public class Block_Boss : MonoBehaviour
         }
 
         animBoss = GetComponent<Animator>();
-        EventManager.EvMoveDownM += UpdateStats;
+        EventManager.EvUpdateDataSavedM += UpdateStats;
+
+        UpdateStats();
     }
 
     private void LoadHP()
@@ -51,23 +53,23 @@ public class Block_Boss : MonoBehaviour
         int shieldON1 = GetComponentInParent<Container>().LoadData().shieldON;
 
         if (newHP <= 0)
-            hpBoss = GetComponentInParent<Row>().rowHP * 2;
+            this.hpBoss = GetComponentInParent<Row>().rowHP * 2;
         else
-            hpBoss = newHP;
+            this.hpBoss = newHP;
 
         if (shieldON1 == 0)
             //hpShield = hpShieldReset = GetComponentInParent<Row>().rowID;
-            shieldOn = false;
+            this.shieldOn = false;
         else if (shieldON1 == 1)
         {
-            hpShield = hpShieldReset = GetComponentInParent<Row>().rowHP;
+            this.hpShield = this.hpShieldReset = GetComponentInParent<Row>().rowHP;
             //hpShield = hpShieldReset = newHPShiel;
-            shieldOn = true;
+            this.shieldOn = true;
         }
         else if (shieldON1 == 2)
         {
             //int newHPShiel = GetComponentInParent<Container>().LoadData().shield;
-            hpShield = hpShieldReset = GetComponentInParent<Container>().LoadData().shield;
+            this.hpShield = this.hpShieldReset = GetComponentInParent<Container>().LoadData().shield;
             shieldOn = true;
         }
         hpBossText.text = hpBoss.ToString();
@@ -105,7 +107,7 @@ public class Block_Boss : MonoBehaviour
 
             GetComponentInParent<Container>().AddInListFreeConts();
 
-            EventManager.EvMoveDownM -= UpdateStats;
+            EventManager.EvUpdateDataSavedM -= UpdateStats;
 
             Destroy(go, 1f);
             Destroy(gameObject, 3);

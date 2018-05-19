@@ -85,14 +85,14 @@ public class BallInit : MonoSingleton<BallInit>
                 lineRend.enabled = true;
                 if (MobileInputs.Instance.release)
                 {
-                    GameData.loadData = false;
-                    SaveLoadManager.SaveDataCloseApp();
-                    GameController.Instance.tutorialContainer.SetActive(false);
-                    GameController.Instance.isBreakingStuff = GameController.Instance.onBoostSpeed = true;
-                    GameController.Instance.updateInputs = false;
-                    MobileInputs.Instance.Reset();
-                    //if (bonus_02IsReady)
-                        //GenerateBalls(true);
+                    //GameData.loadData = false;
+                    //GameController.Instance.tutorialContainer.SetActive(false);
+                    //GameController.Instance.isBreakingStuff = GameController.Instance.onBoostSpeed = true;
+                    //GameController.Instance.updateInputs = false;
+                    //MobileInputs.Instance.Reset();
+
+                    GameController.Instance.isShoot = true;
+
                     lineRend.enabled = false;
                     ballLaser.gameObject.SetActive(false);
                     shootDir = sd.normalized;

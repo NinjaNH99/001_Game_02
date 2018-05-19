@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class Square_01Teleport : MonoBehaviour
 {
+    public const float speed = 20f;
+
     public Material portalMaterial;
     public GameObject teleportImage;
 
@@ -24,7 +23,7 @@ public class Square_01Teleport : MonoBehaviour
 
     private void Update()
     {
-        rectTransform.Rotate(new Vector3(0,0, rotateDir) * Time.deltaTime * 20f);
+        rectTransform.Rotate(new Vector3(0, 0, rotateDir) * Time.deltaTime * 20f);
     }
 
 }

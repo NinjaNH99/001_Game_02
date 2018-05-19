@@ -15,7 +15,7 @@ public class BallOrg : Ball
     {
         base.TouchFloor();
         circleAnim.GetComponent<Animator>().SetTrigger("isFell");
-        GameController.Instance.FirstBallLanded(gameObject.GetComponent<RectTransform>().position);
+        GameController.Instance.BallLanded(gameObject.GetComponent<RectTransform>().position);
 
         GameController.Instance.IsAllBallLanded();
         speed = BallInit.Instance.ballSpeedGet;

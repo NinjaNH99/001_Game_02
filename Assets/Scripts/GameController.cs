@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 public class GameController : MonoSingleton<GameController>
 {
-    private const float DEADZONE = 60.0f;
-    private const float MAXIMUM_PULL = 200.0f;
     private const float TIMEWAITBOOSTSPEED = 2f; // 1.5
 
     public Transform Canvas1, Space2D;
@@ -18,7 +16,7 @@ public class GameController : MonoSingleton<GameController>
     public Color[] blockColor;
 
     [HideInInspector]
-    public bool isBreakingStuff = false, updateInputs = true, allBallLanded = false, firstBallLanded = false, onBoostSpeed = false;
+    public bool isBreakingStuff = false, updateInputs = true, allBallLanded = false, onBoostSpeed = false, isShoot = false;
     [HideInInspector]
     public int amountBallsLeft = 0, amountCollectBallsLeft = 0, AddBallUI = 0;
 
@@ -32,13 +30,11 @@ public class GameController : MonoSingleton<GameController>
 
     private void Awake()
     {
-        //Application.targetFrameRate = 60;
-
         ballInit = ballInitObj.GetComponent<BallInit>();
 
         amountBallsLeft = GameData.amountBalls;
         amountBallsBack = amountCollectBallsLeft = 0;
-        isBreakingStuff = allBallLanded = firstBallLanded = false;
+        isBreakingStuff = allBallLanded = isShoot = false;
         ballInit.showsABExit = true;
         updateInputs = true;
         AddBallUI = 0;
@@ -59,20 +55,17 @@ public class GameController : MonoSingleton<GameController>
         {
             if (!isBreakingStuff)
                 ballInit.PoolInput();
-            if (allBallLanded)
+            if(isShoot)
             {
-                Time.timeScale = 1f;
-                ballInit.GenerateBalls();
-                GameData.score_Rows++;
-                IncreaseMaxScore();
-                onBoostSpeed = false;
-                timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
-                BoostSpeedButtonAnim(true);
-                //UpdateUIText();
-                ballInit.ShowAmBallsExitText(GameData.amountBalls);
-                allBallLanded = false;
-                LevelManager.Instance.GenerateMapNewGame();
+                //GameData.loadData = false;
+                tutorialContainer.SetActive(false);
+
+                updateInputs = false;
+                MobileInputs.Instance.Reset();
+                isBreakingStuff = onBoostSpeed = true;
+                isShoot = false;
             }
+
             if (onBoostSpeed)
             {
                 timeWaitBoostSpeed -= Time.deltaTime;
@@ -95,44 +88,51 @@ public class GameController : MonoSingleton<GameController>
         UpdateUIText();
     }
 
-    public void FirstBallLanded(Vector2 ballPosX)
+    public void BallLanded(Vector2 ballPosX)
     {
-        if (!firstBallLanded)
-        {
-            GameData.posXBall = ballPosX.x;
-            posBallFolled = ballPosX;
-            ballInit.targetBallPosLanded = ballPosX;
-        }
-        firstBallLanded = true;
+        GameData.posXBall = ballPosX.x;
+        posBallFolled = ballPosX;
+        ballInit.targetBallPosLanded = ballPosX;
     }
 
     public void IsAllBallLanded()
     {
         ballInit.ShowAmBallsEnterText(++amountBallsBack);
         amountBallsLeft--;
-        if (amountBallsLeft <= 0)
+        if (amountBallsLeft <= 0 && amountCollectBallsLeft <= 0)
         {
-            if (amountCollectBallsLeft <= 0)
-                AllBallLanded();
+            AllBallLanded();
         }
     }
 
     private void AllBallLanded()
     {
         Time.timeScale = 1f;
-        isBreakingStuff = false;
-        firstBallLanded = false;
+        isBreakingStuff = onBoostSpeed = false;
+
+        EventManager.StartEvDeSpawn();
+
         ballInit.targetBallPosLanded = ballInit.shootBallPos = posBallFolled;
-        //GameData.posXBall = ballInit.targetBallPosLanded.x;
+
         amountBallsLeft = GameData.amountBalls;
         ballInit.nrBallINeed = AddBallUI;
-        AddBallUI = 0;
-        amountBallsBack = amountCollectBallsLeft = 0;
+
+        amountBallsBack = amountCollectBallsLeft = AddBallUI = 0;
         ballInit.targetBallPosLanded = ballInit.ballOr.transform.position;
         ScoreLEVEL.Instance.ResetSetting();
         Bonus.Instance.ActivateButton(true);
-        ballInit.showsABExit = true;
-        allBallLanded = updateInputs = true;
+
+        allBallLanded = updateInputs = ballInit.showsABExit = true;
+
+        ballInit.GenerateBalls();
+        GameData.score_Rows++;
+        IncreaseMaxScore();
+
+        timeWaitBoostSpeed = TIMEWAITBOOSTSPEED;
+        BoostSpeedButtonAnim(true);
+        ballInit.ShowAmBallsExitText(GameData.amountBalls);
+        //EventManager.StartEvUpdateData();
+        LevelManager.Instance.GenerateMapNewGame();
     }
     
     public void UpdateUIText()

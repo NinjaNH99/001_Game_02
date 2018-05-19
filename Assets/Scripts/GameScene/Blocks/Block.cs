@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
     private TextMeshProUGUI hpText;
     private Animator anim;
     private bool isDestroy, isApplBonus;
-    private int visualIndexCont, rowHP;
+    private int visualIndexCont, rowHP, rowID;
 
     private void Awake()
     {
@@ -29,8 +29,9 @@ public class Block : MonoBehaviour
     private void Start()
     {
         rowHP = GetComponentInParent<Row>().rowHP - 1;
+        rowID = GetComponentInParent<Row>().rowID - 1;
         hpText = goHpText.GetComponent<TextMeshProUGUI>();
-        EventManager.EvMoveDownM += UpdateHP;
+        EventManager.EvUpdateDataSavedM += UpdateHP;
         LoadHP();
         
         isDestroy = isApplBonus = true;
@@ -48,27 +49,27 @@ public class Block : MonoBehaviour
     {
         int newHP = GetComponentInParent<Container>().LoadData().hp;
         if (newHP <= 0)
-            hp = (rowHP + 1) * hpx2;
+            this.hp = (rowHP + 1) * hpx2;
         else
-            hp = newHP;
-        hpText.text = hp.ToString();
+            this.hp = newHP;
+        hpText.text = this.hp.ToString();
     }
 
     private void UpdateHP()
     {
         if (isBonus)
-            GetComponentInParent<Container>().UpdateData(6, hp);
+            GetComponentInParent<Container>().UpdateData(6, this.hp);
         else
-            GetComponentInParent<Container>().UpdateData(1, hp);
+            GetComponentInParent<Container>().UpdateData(1, this.hp);
     }
 
     public void ReceiveHit(bool hitBlBon)
     {
         if (hitBlBon)
-            hp = 0;
+            this.hp = 0;
         else
-            hp--;
-        if (hp > 0)
+            this.hp--;
+        if (this.hp > 0)
         {
             if (isBonus)
                 anim.SetBool("IsBonus", true);
@@ -94,7 +95,7 @@ public class Block : MonoBehaviour
 
             if (!isBonus)
                 GetComponentInParent<Container>().AddInListFreeConts();
-            EventManager.EvMoveDownM -= UpdateHP;
+            EventManager.EvUpdateDataSavedM -= UpdateHP;
             Destroy(go, 1f);
             Destroy(gameObject, 1f);
             if (isDestroy)
@@ -115,9 +116,9 @@ public class Block : MonoBehaviour
 
     public void ReciveHitByBonus()
     {
-        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowHP - 1);
-        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowHP);
-        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowHP + 1);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID - 1);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID);
+        LevelManager.Instance.ApplyBallBonus(visualIndexCont, rowID + 1);
     }
 
     private void OnCollisionEnter2D(Collision2D coll)

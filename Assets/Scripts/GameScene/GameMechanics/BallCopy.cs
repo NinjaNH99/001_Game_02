@@ -6,6 +6,8 @@ public class BallCopy : Ball
 {
     public GameObject despawnEFX;
 
+    private GameObject Space2D;
+
     protected override void Awake()
     {
         base.Awake();
@@ -14,6 +16,7 @@ public class BallCopy : Ball
         //speed = BallInit.Instance.ballSpeedGet;
 
         rectPos.position = BallInit.Instance.shootBallPos;
+        Space2D = GameObject.FindGameObjectWithTag(Tags.Space2D);
         Start();
     }
 
@@ -42,9 +45,11 @@ public class BallCopy : Ball
         GameController.Instance.IsAllBallLanded();
 
         GameObject go = Instantiate(despawnEFX, this.rectPos) as GameObject;
+        go.transform.SetParent(Space2D.transform);
         Destroy(go, 1f);
 
-        animator.SetTrigger("Despawn");
+        Despawn();
+        //animator.SetTrigger("Despawn");
     }
 
 }

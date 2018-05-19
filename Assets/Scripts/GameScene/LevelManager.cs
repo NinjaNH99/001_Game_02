@@ -20,7 +20,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     // List of free containers
     public List<Container> listFreeConts = new List<Container>();
 
-    public bool spawnRows = true, spawnBoss = false;
+    public bool spawnRows = true, spawnBoss = false, timerBoss = false;
     [HideInInspector]
     public int LBLMAX = 3, LBNMAX = 0, SQBON = 3;
 
@@ -40,6 +40,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         desiredPosition = -130.0f;
         spawnRows = true;
         spawnBoss = false;
+        timerBoss = false;
         EventManager.EvSpawnRandomM += SpawnRandom;
     }
 
@@ -61,7 +62,6 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void GenerateMapNewGame()
     {
-        EventManager.StartEvDeSpawn();
         EventManager.StartEvMoveDown();
 
         if (CheckData())
@@ -80,20 +80,23 @@ public class LevelManager : MonoSingleton<LevelManager>
             go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
             curPosY -= DISTANCE_BETWEEN_BLOCKS;
 
-            if (listRows.Count > 6 && listRows.Count < 12)
-            {
-                EventManager.StartEvSpawn();
-            }
+            //if (listRows.Count > 6 && listRows.Count < 12)
+            //{
+            //    EventManager.StartEvSpawn();
+            //}
 
             GameData.nrRows++;
-
-            GameData.loadData = true;
-            
         }
+
+        EventManager.StartEvUpdateData();
+
+        StartCoroutine(UpdataData());
     }
 
     private void GenerateMapContGame(int index, int rowID)
     {
+        SpawnBossTimer();
+
         ObjInfo[] rowMap = new ObjInfo[9];
 
         rowMap = GameData.levelMap.ElementAt(index);
@@ -107,9 +110,8 @@ public class LevelManager : MonoSingleton<LevelManager>
         go_row.GetComponent<RectTransform>().anchoredPosition = Vector2.down * curPosY;
         curPosY -= DISTANCE_BETWEEN_BLOCKS;
 
-        if (listRows.Count > 6 && listRows.Count < 12 && index == GameData.nrRows - 1)
-            EventManager.StartEvSpawn();
-
+        if (listRows.Count > 6 && listFreeConts.Count > 10 && index == GameData.nrRows - 1)
+            EventManager.StartEvSpawn();        
     }
 
     private ObjInfo[] GenerateRowMap()
@@ -236,7 +238,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public void ApplyBallBonus(int contID, int rowID)
     {
         //Debug.LogWarning("contID: " + contID + " rowID: " + rowID);
-        Container[] conts;
+        Container[] conts = new Container[9];
         try
         {
             var row = listRows.FindIndex(x => x.GetComponent<Row>().rowID == rowID);
@@ -363,26 +365,44 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
         }
 
-        if(spawnBoss)
-        {
-            resBoss++;
-            if(resBoss >= 1)
-            {
-                spawnRows = true;
-                resBoss = 0;
-            }
-        }
+        SpawnBossTimer();
 
         if ((GameData.score_Rows) % 10 == 0)
         {
             spawnBoss = true;
             spawnRows = false;
+            timerBoss = true;
         }
 
         if (bossObj != null)
             bossObj.ResetShield();
 
         return true;
+    }
+
+    private void SpawnBossTimer()
+    {
+        if (timerBoss)
+        {
+            resBoss++;
+            if (resBoss > 1)
+            {
+                spawnRows = true;
+                timerBoss = false;
+                resBoss = 0;
+                return;
+            }
+            spawnRows = false;
+            spawnBoss = false;
+        }
+    }
+
+    private IEnumerator UpdataData()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GameData.UpdateData();
+        if(listRows.Count > 6 && listFreeConts.Count > 10)
+            EventManager.StartEvSpawn();
     }
 
 }
